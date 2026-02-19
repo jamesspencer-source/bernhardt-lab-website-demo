@@ -28,6 +28,7 @@ body {
   font-family: "Manrope", sans-serif;
   color: var(--text);
   line-height: 1.58;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 8% -10%, rgba(14, 117, 125, 0.09), transparent 30%),
     radial-gradient(circle at 94% 1%, rgba(165, 28, 48, 0.07), transparent 33%),
@@ -38,8 +39,10 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: url("hhmi-microtexture-light.png") right -160px top -120px / min(36vw, 420px) no-repeat;
-  opacity: 0.08;
+  background:
+    radial-gradient(circle at 88% 7%, rgba(143, 210, 215, 0.12), transparent 26%),
+    radial-gradient(circle at 84% 18%, rgba(14, 117, 125, 0.08), transparent 24%);
+  opacity: 1;
   pointer-events: none;
   z-index: -1;
 }
@@ -155,8 +158,11 @@ p {
   top: -1.2rem;
   width: min(30vw, 300px);
   height: min(30vw, 300px);
-  background: url("hhmi-circle-light.png") right top / contain no-repeat;
-  opacity: 0.34;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 42% 36%, rgba(143, 210, 215, 0.32), rgba(14, 117, 125, 0.12) 54%, rgba(245, 240, 230, 0) 74%),
+    radial-gradient(circle at 62% 64%, rgba(165, 28, 48, 0.16), rgba(245, 240, 230, 0) 68%);
+  opacity: 0.54;
   pointer-events: none;
   animation: float-orb 18s ease-in-out infinite alternate;
 }
@@ -220,6 +226,7 @@ p {
   justify-content: center;
   border-radius: 999px;
   padding: 0.6rem 1rem;
+  min-height: 2.45rem;
   font-size: 0.84rem;
   font-weight: 800;
   text-decoration: none;
@@ -240,6 +247,17 @@ p {
   color: #2a3e61;
   border: 1px solid var(--line);
   background: #fff;
+}
+
+.linkedin-button {
+  color: #0a66c2;
+  border-color: rgba(10, 102, 194, 0.35);
+  background: rgba(10, 102, 194, 0.06);
+}
+
+.linkedin-button:hover,
+.linkedin-button:focus-visible {
+  border-color: rgba(10, 102, 194, 0.65);
 }
 
 .profile-photo-wrap {
@@ -341,6 +359,12 @@ p {
 }
 
 @media (max-width: 980px) {
+  .topbar-inner,
+  .main,
+  .site-footer p {
+    width: min(1220px, calc(100% - 1.8rem));
+  }
+
   .profile-hero {
     grid-template-columns: 1fr;
   }
@@ -348,6 +372,11 @@ p {
   .profile-photo-wrap {
     border-left: 0;
     border-top: 1px solid var(--line);
+  }
+
+  .profile-photo {
+    min-height: 300px;
+    max-height: 420px;
   }
 
   .profile-grid {
@@ -361,15 +390,103 @@ p {
 }
 
 @media (max-width: 760px) {
+  .topbar-inner {
+    width: min(1220px, calc(100% - 1.2rem));
+    min-height: auto;
+    padding: 0.72rem 0 0.54rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.64rem;
+  }
+
+  .brand {
+    width: 100%;
+  }
+
+  .brand-text strong {
+    font-size: 0.93rem;
+  }
+
+  .brand-text small {
+    font-size: 0.66rem;
+    line-height: 1.25;
+  }
+
   .top-links {
-    display: none;
+    width: 100%;
+    gap: 0.75rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 0.18rem;
+  }
+
+  .top-links a {
+    flex: 0 0 auto;
+    font-size: 0.82rem;
   }
 
   .main {
-    margin: 1.3rem auto;
+    width: min(1220px, calc(100% - 1.2rem));
+    margin: 1rem auto 1.3rem;
+  }
+
+  .main::before {
+    width: min(50vw, 240px);
+    height: min(50vw, 240px);
+    right: -1.4rem;
+    top: -0.8rem;
+    opacity: 0.22;
   }
 
   .profile-copy {
-    padding: 1.1rem;
+    padding: 1.05rem;
+  }
+
+  .profile-copy h1 {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
+
+  .profile-copy .bio {
+    font-size: 0.92rem;
+  }
+
+  .actions {
+    gap: 0.52rem;
+  }
+
+  .actions .button {
+    flex: 1 1 11rem;
+    font-size: 0.8rem;
+  }
+
+  .profile-photo-wrap {
+    padding: 0.72rem;
+  }
+
+  .profile-photo {
+    min-height: 260px;
+    max-height: 360px;
+  }
+
+  .profile-panel {
+    padding: 0.84rem;
+  }
+
+  .profile-panel h2 {
+    font-size: 1.08rem;
+  }
+
+  .site-footer p {
+    width: min(1220px, calc(100% - 1.2rem));
+  }
+}
+
+@media (max-width: 520px) {
+  .actions .button {
+    width: 100%;
+  }
+
+  .site-footer p {
+    font-size: 0.78rem;
   }
 }

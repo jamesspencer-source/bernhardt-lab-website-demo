@@ -139,7 +139,7 @@ const rawAlumni =
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "Lab director of the Paulson lab, Harvard Medical School",
+      "current_role" : "Assistant Research Professor, Department of Biological Sciences, Vanderbilt University (Bordenstein Lab)",
       "name" : "Anastasiya Yakhnina",
       "role_in_lab" : "postdoctoral fellow",
       "source" : "Bernhardt Lab alumni page"
@@ -151,7 +151,7 @@ const rawAlumni =
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "CPEP Medical Microbiology and Public Health Postdoctoral Fellow, Children’s Hospital Los Angeles/University of Southern California",
+      "current_role" : "Assistant Professor, Department of Bacteriology, University of Wisconsin-Madison",
       "name" : "Thao Truong",
       "role_in_lab" : "graduate student",
       "source" : "Bernhardt Lab alumni page"
@@ -183,13 +183,13 @@ const rawAlumni =
    {
       "current_role" : "Senior Scientist at Evolved by Nature",
       "name" : "Marios Sardis",
-      "role_in_lab" : "",
+      "role_in_lab" : "postdoctoral fellow",
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "graduate student at University of Minnesota",
+      "current_role" : "PhD candidate, MICaB Graduate Program, University of Minnesota (Fixen Lab)",
       "name" : "Nicole Marquez Reyes",
-      "role_in_lab" : "",
+      "role_in_lab" : "post-baccalaureate student",
       "source" : "Bernhardt Lab alumni page"
    },
    {
@@ -199,9 +199,9 @@ const rawAlumni =
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "",
+      "current_role" : "Undergraduate researcher, Harvard University (Barczak Lab)",
       "name" : "Triet Doan",
-      "role_in_lab" : "undergraduate student at Harvard University",
+      "role_in_lab" : "undergraduate researcher",
       "source" : "Bernhardt Lab alumni page"
    },
    {
@@ -211,9 +211,9 @@ const rawAlumni =
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "PhD Student in Collet lab at Institut de Duve, UCLouvain, Belgium",
+      "current_role" : "PhD student, Institut de Duve (Jean-Francois Collet Lab), UCLouvain, Belgium",
       "name" : "Alix Dachsbeck",
-      "role_in_lab" : "",
+      "role_in_lab" : "visiting master's student",
       "source" : "Bernhardt Lab alumni page"
    },
    {
@@ -247,9 +247,9 @@ const rawAlumni =
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "graduate student at John Hopkins University",
-      "name" : "Matt Seibel",
-      "role_in_lab" : "research tecnician",
+      "current_role" : "ScM graduate, Department of Molecular Microbiology and Immunology, Johns Hopkins Bloomberg School of Public Health",
+      "name" : "Matt Siebel",
+      "role_in_lab" : "research staff alumni",
       "source" : "Bernhardt Lab alumni page"
    },
    {
@@ -283,7 +283,7 @@ const rawAlumni =
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "postdoctoral research fellow at MIT, Cambridge, MA",
+      "current_role" : "Jane Coffin Childs Postdoctoral Fellow, Massachusetts Institute of Technology",
       "name" : "Elayne Fivenson",
       "role_in_lab" : "graduate student",
       "source" : "Bernhardt Lab alumni page"
@@ -301,9 +301,9 @@ const rawAlumni =
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "Imperial College London",
+      "current_role" : "Professor of Molecular Microbiology, Imperial College London",
       "name" : "Angelika Grundling",
-      "role_in_lab" : "visiting professor on sabbatical",
+      "role_in_lab" : "professor visiting on sabbatical",
       "source" : "Bernhardt Lab alumni page"
    },
    {
@@ -317,6 +317,12 @@ const rawAlumni =
       "name" : "Amelia McKitterick",
       "role_in_lab" : "postdoctoral fellow",
       "source" : "Bernhardt Lab alumni page"
+   },
+   {
+      "current_role" : "",
+      "name" : "Laurent Dubois",
+      "role_in_lab" : "graduate student",
+      "source" : "Bernhardt Lab records"
    }
 ]
 ;
@@ -377,5 +383,45 @@ const verifiedAlumniProfiles = {
   "Derek Lau": {
     url: "https://www.emmanuel.edu/faculty-and-staff/derek-lau",
     source: "Emmanuel College"
+  },
+  "Alix Dachsbeck": {
+    url: "https://www.deduveinstitute.be/research-group/jean-francois-collet",
+    source: "Institut de Duve, UCLouvain"
+  },
+  "Nicole Marquez Reyes": {
+    url: "https://www.fixenlab.org/team",
+    source: "Fixen Lab, University of Minnesota"
+  },
+  "Triet Doan": {
+    url: "https://www.barczaklab.org/meet-the-lab",
+    source: "Barczak Lab, Harvard/Brigham"
+  },
+  "Matt Siebel": {
+    url: "https://publichealth.jhu.edu/departments/molecular-microbiology-and-immunology/people/students-and-alumni",
+    source: "Johns Hopkins Bloomberg School of Public Health"
+  },
+  "Angelika Grundling": {
+    url: "https://www.imperial.ac.uk/microbiology/research/molecular-microbiology/grondling/",
+    source: "Imperial College London"
+  },
+  "Hongbaek Cho": {
+    url: "https://biophysics.skku.edu/biophysics/faculty.do?mode=view&perId=LZStrrttM%2BquExYN5F0CFg%3D%3D",
+    source: "Sungkyunkwan University"
+  },
+  "Anastasiya Yakhnina": {
+    url: "https://www.bordensteinlab.com/people",
+    source: "Bordenstein Lab, Vanderbilt University"
+  },
+  "Thao Truong": {
+    url: "https://microbiology.wisc.edu/staff/truong-thao/",
+    source: "University of Wisconsin-Madison"
+  },
+  "Elayne Fivenson": {
+    url: "https://www.jccfund.org/fellow/elayne-fivenson/",
+    source: "Jane Coffin Childs Fund"
+  },
+  "Camilla Jensen": {
+    url: "https://www.biology.ku.dk/english/staff/?pure=en/persons/200910",
+    source: "University of Copenhagen"
   }
 };

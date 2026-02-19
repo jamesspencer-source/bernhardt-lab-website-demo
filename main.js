@@ -393,7 +393,7 @@ const rawPeople = [
    {
       "email" : "ksuarez{at}g.harvard.edu",
       "name" : "Kathy Suarez",
-      "role" : "BBS Graduate Student",
+      "role" : "BBS Graduate Student | NIH F31 Fellow",
       "bio" : "I am interested in examining the function of cell wall synthesis in E. coli.",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1598381898156-68II3HUTKXY1OF4U3R8C/kathy.jpg",
       "profile" : "/kathy-suarez"
@@ -401,25 +401,17 @@ const rawPeople = [
    {
       "profile" : "/betsy-hart",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1598383045751-ABC6TUB51HNGRQ2CUAJZ/betsy.jpg",
-      "role" : "Postdoctoral fellow",
+      "role" : "Postdoctoral Fellow | NIH K99/R00 Fellow | Former HHWF Fellow",
       "bio" : "I am interested in cell envelope biogenesis in Corynebacterium glutamicum.",
       "email" : "Elizabeth_Hart{at}hms.harvard.edu",
       "name" : "Betsy Hart"
-   },
-   {
-      "email" : "laurent_dubois{at}g.harvard.edu",
-      "name" : "Laurent Dubois",
-      "profile" : "/laurent-dubois",
-      "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1598445312589-9VD4C326R73FUVCBHD2G/laurent.jpg",
-      "role" : "BBS Graduate Student",
-      "bio" : "The general goal of my research is to understand the mechanisms that regulate cell division and cell wall remodeling in E. coli."
    },
    {
       "name" : "Johnathan Kepple",
       "email" : "johnathankepple{at}g.harvard.edu",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1630526847138-E1T99QXT1Q4VOQUWKO0I/IMG_0508.jpg",
       "bio" : "The general aim of my research is to understand the regulation of cell wall synthesis in the gram negative bacteria pseudomonas aeruginosa.",
-      "role" : "BPH Graduate Student",
+      "role" : "BPH Graduate Student | NIH F31 Fellow",
       "profile" : "/johnathan-kepple"
    },
    {
@@ -432,7 +424,7 @@ const rawPeople = [
    },
    {
       "bio" : "I am interested in understanding the role mannosylation plays in the membrane of Corynebacterium glutamicum.",
-      "role" : "Howard Hughes Medical Institute",
+      "role" : "Postdoctoral Fellow, Harvard Medical School | NIH K99/R00 Fellow",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1649110154642-G16R9VNOZ9VHWXFZXU6K/Screen+Shot+2022-04-04+at+6.00.55+PM.png",
       "profile" : "/anastacia-parks",
       "email" : "Anastacia_Parks{at}hms.harvard.edu",
@@ -481,7 +473,7 @@ const rawPeople = [
    {
       "name" : "Shailab Shrestha",
       "email" : "shailab_shrestha{at}hms.harvard.edu",
-      "role" : "Postdoctoral fellow",
+      "role" : "Postdoctoral Fellow, Howard Hughes Medical Institute | Life Sciences Research Foundation Fellow",
       "bio" : "I am interested in the biogenesis and maintenance of the Gram-negative cell envelope.",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1718134932686-SJ49CRIK1AN94PN32VQQ/Screenshot+2024-06-11+at+3.42.00%E2%80%AFPM.png",
       "profile" : "/shailab-shrestha"
@@ -499,7 +491,7 @@ const rawPeople = [
       "email" : "nazgul_sakenova{at}hms.harvard.edu",
       "profile" : "/nazgulsakenova",
       "bio" : "I am interested in special protein localization and factors that determine it in Escherichia coli.",
-      "role" : "Postdoctoral Research Fellow",
+      "role" : "Postdoctoral Fellow, Howard Hughes Medical Institute | HHWF Fellow",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1739559794418-P4JOP8A7Y1DMWJK4G658/IMG_3956.jpeg"
    },
    {
@@ -550,7 +542,6 @@ const focusByName = {
   "James Spencer": { x: 0.519332627118644, y: 0.3333333333333333 },
   "Kathy Suarez": { x: 0.564329954954955, y: 0.46258503401360546 },
   "Betsy Hart": { x: 0.5192849099099099, y: 0.4557823129251701 },
-  "Laurent Dubois": { x: 0.5069444444444444, y: 0.4013605442176871 },
   "Johnathan Kepple": { x: 0.5515463917525774, y: 0.41496598639455784 },
   "Wanassa Beroual": { x: 0.4559487951807229, y: 0.41496598639455784 },
   "Anastacia Parks": { x: 0.536697247706422, y: 0.54421768707483 },
@@ -1054,6 +1045,13 @@ function renderAlumni() {
 }
 
 function setupNavigation() {
+  if (!navToggle || !nav) return;
+
+  const closeNav = () => {
+    nav.classList.remove("open");
+    navToggle.setAttribute("aria-expanded", "false");
+  };
+
   navToggle.addEventListener("click", () => {
     const open = nav.classList.toggle("open");
     navToggle.setAttribute("aria-expanded", String(open));
@@ -1061,9 +1059,22 @@ function setupNavigation() {
 
   nav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
-      nav.classList.remove("open");
-      navToggle.setAttribute("aria-expanded", "false");
+      closeNav();
     });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!nav.classList.contains("open")) return;
+    if (event.target === navToggle || navToggle.contains(event.target) || nav.contains(event.target)) return;
+    closeNav();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeNav();
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 760) closeNav();
   });
 }
 

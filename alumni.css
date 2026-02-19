@@ -23,6 +23,7 @@ body {
   margin: 0;
   font-family: "Manrope", sans-serif;
   color: var(--text);
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 10% -8%, rgba(14, 117, 125, 0.1), transparent 32%),
     radial-gradient(circle at 96% 0%, rgba(165, 28, 48, 0.08), transparent 34%),
@@ -133,8 +134,11 @@ p {
   top: -2rem;
   width: min(42vw, 460px);
   height: min(42vw, 460px);
-  background: url("hhmi-circle-light.png") right top / contain no-repeat;
-  opacity: 0.32;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 42% 36%, rgba(143, 210, 215, 0.28), rgba(14, 117, 125, 0.1) 56%, rgba(246, 242, 233, 0) 74%),
+    radial-gradient(circle at 68% 66%, rgba(165, 28, 48, 0.14), rgba(246, 242, 233, 0) 70%);
+  opacity: 0.6;
   pointer-events: none;
 }
 
@@ -355,21 +359,100 @@ p {
 }
 
 @media (max-width: 900px) {
+  .container {
+    width: min(1220px, calc(100% - 1.8rem));
+  }
+
   .hero-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 760px) {
+  .container {
+    width: min(1220px, calc(100% - 1.2rem));
+  }
+
+  .header-inner {
+    min-height: auto;
+    padding: 0.72rem 0 0.54rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.64rem;
+  }
+
+  .brand {
+    width: 100%;
+  }
+
+  .brand strong {
+    font-size: 0.93rem;
+  }
+
+  .brand small {
+    font-size: 0.66rem;
+    line-height: 1.25;
+  }
+
   .site-nav {
-    display: none;
+    width: 100%;
+    gap: 0.76rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 0.18rem;
+  }
+
+  .site-nav a {
+    flex: 0 0 auto;
+    font-size: 0.82rem;
   }
 
   .hero {
-    padding-top: 2.5rem;
+    padding: 2.5rem 0 1.65rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.74rem, 9vw, 2.5rem);
+  }
+
+  .hero p {
+    font-size: 0.93rem;
+  }
+
+  .meta-strip {
+    padding: 0.82rem;
+  }
+
+  .controls {
+    margin-top: 0.8rem;
+  }
+
+  .search-wrap input {
+    font-size: 0.88rem;
   }
 
   .alumni-grid {
     grid-template-columns: 1fr;
+  }
+
+  .alumni-card {
+    padding: 0.82rem;
+  }
+
+  .alumni-top {
+    flex-wrap: wrap;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .alumni-link {
+    width: 100%;
+    text-align: center;
   }
 }

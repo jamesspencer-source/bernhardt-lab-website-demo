@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="profile.css?v=20260219" />
+    <link rel="stylesheet" href="profile.css?v=20260221" />
   </head>
   <body>
     <div class="page">
@@ -40,6 +40,7 @@
               <div class="actions">
                 <a class="button button-primary" href="index.html#team">Back to team directory</a>
                 <a class="button button-secondary" href="index.html#contact">Contact the lab</a>
+                <a class="button button-secondary linkedin-button" data-linkedin="" href="" target="_blank" rel="noreferrer">LinkedIn</a>
               </div>
             </div>
             <figure class="profile-photo-wrap">
@@ -81,5 +82,17 @@
         <p>Thomas Bernhardt Lab | Harvard Medical School Department of Microbiology | Howard Hughes Medical Institute</p>
       </footer>
     </div>
-  </body>
+    <script id="profile-linkedin-init">
+    (function () {
+      const button = document.querySelector(".linkedin-button");
+      if (!button) return;
+      const link = (button.dataset.linkedin || "").trim();
+      if (!link) {
+        button.remove();
+        return;
+      }
+      button.href = link;
+    })();
+  </script>
+</body>
 </html>
