@@ -502,7 +502,7 @@ const rawPeople = [
    },
    {
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1753711015525-A3BB6YM2L2XPTQZ31MH4/IMG_2325.jpg",
-      "role" : "Graduate Student",
+      "role" : "BBS Graduate Student",
       "bio" : "I am interested in mycolic acid transport and regulation in Corynebacterium glutamicum.",
       "profile" : "/ophelialee",
       "email" : "ophelia_lee{at}fas.harvard.edu",
@@ -651,6 +651,20 @@ function prettifyRole(role, name) {
   return role;
 }
 
+function landingTileRole(name, group, role) {
+  if (name === "Thomas Bernhardt") {
+    return "Professor, Department of Microbiology | Howard Hughes Medical Institute";
+  }
+  if (name === "James Spencer") {
+    return "Laboratory Manager | Howard Hughes Medical Institute";
+  }
+  if (group === "Postdoctoral Fellows") return "Postdoctoral Fellow";
+  if (group === "Graduate Students") return cleanText(String(role || "").split("|")[0] || "Graduate Student");
+  if (group === "Undergraduate Researchers") return "Undergraduate Researcher";
+  if (group === "Research Staff") return "Research Staff";
+  return role;
+}
+
 function normalizeBio(name, bio) {
   if (name === "Thomas Bernhardt") {
     return "Professor in the Department of Microbiology at Harvard Medical School and affiliated with the Howard Hughes Medical Institute. The lab studies bacterial cell wall assembly, growth, and division to inform antibiotic discovery.";
@@ -666,13 +680,15 @@ function normalizeBio(name, bio) {
 const people = rawPeople.map((person) => {
   const name = cleanText(person.name || "");
   const role = cleanText(prettifyRole(person.role || "", name));
+  const group = classifyGroup(role, name);
   const focus = focusByName[name] || { x: 0.5, y: 0.46 };
   const sourceProfile = toAbsoluteProfile(cleanText(person.profile || ""));
   const slug = profileSlug(sourceProfile, name);
   return {
     name,
     role,
-    group: classifyGroup(role, name),
+    group,
+    tileRole: landingTileRole(name, group, role),
     bio: normalizeBio(name, person.bio || ""),
     email: cleanText(person.email || "").replace(/\{at\}/gi, "@"),
     profile: `${slug}.html`,
@@ -943,7 +959,7 @@ function renderPeople() {
           <img class="person-photo" src="${escapeHtml(person.image)}" alt="${escapeHtml(person.name)}" style="--focus-x:${escapeHtml(person.focusX)};--focus-y:${escapeHtml(person.focusY)};" loading="lazy" />
         </div>
         <div class="person-body">
-          <p class="person-role">${escapeHtml(person.role)}</p>
+          <p class="person-role">${escapeHtml(person.tileRole || person.role)}</p>
           <h3>${escapeHtml(person.name)}</h3>
           <p class="person-bio">${escapeHtml(person.bio)}</p>
           <div class="person-links">
