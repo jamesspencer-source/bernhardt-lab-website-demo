@@ -121,23 +121,23 @@ const mediaHighlights = [
     title: "Division-site architecture during constriction",
     text: "Division-site fluorescence architecture.",
     image: "nmicro2022-divisome-fluorescence.jpg",
-    sourceLabel: "Nature Microbiology 2022 (open access)",
-    sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/"
+    sourceLabel: "Nature Microbiology 2022 (PubMed)",
+    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36097171/"
   },
   {
     title: "Time-lapse envelope insertion series",
     text: "Time-lapse envelope insertion sequence.",
     image: "nmicro2022-timelapse-rods.jpg",
-    sourceLabel: "Nature Microbiology 2022 supplementary movies",
-    sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/#Sec42",
+    sourceLabel: "Nature Microbiology 2022 (PubMed)",
+    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36097171/",
     format: "Movie"
   },
   {
     title: "Cryo-ET and cryo-FIB workflow for envelope ultrastructure",
     text: "Cryo-ET and cryo-FIB pipeline views.",
     image: "nmicro2022-cryo-tomography.jpg",
-    sourceLabel: "Nature Microbiology 2022 extended data",
-    sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/"
+    sourceLabel: "Nature Microbiology 2022 (PubMed)",
+    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36097171/"
   },
   {
     title: "Transmission electron microscopy of Pseudomonas aeruginosa",
@@ -164,22 +164,22 @@ const mediaHighlights = [
     title: "FacZ and peptidoglycan spatial patterning in S. aureus",
     text: "S. aureus microscopy panel.",
     image: "mbio2023saur-facz-pg.jpg",
-    sourceLabel: "mBio 2023 (open access)",
-    sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
+    sourceLabel: "mBio 2023 (PubMed)",
+    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37162900/"
   },
   {
     title: "PcdA localization across division states",
     text: "PcdA localization states.",
     image: "mbio2023-pcda-localization.jpg",
-    sourceLabel: "mBio 2023 (open access)",
-    sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
+    sourceLabel: "mBio 2023 (PubMed)",
+    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37886572/"
   },
   {
     title: "Divisome-associated localization maps",
     text: "Divisome localization maps.",
     image: "mbio2023-division-maps.jpg",
-    sourceLabel: "mBio 2023 (open access)",
-    sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
+    sourceLabel: "mBio 2023 (PubMed)",
+    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37886572/"
   },
   {
     title: "Envelope phenotypes across bacterial species",
