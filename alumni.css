@@ -319,6 +319,12 @@ p {
   font-weight: 700;
 }
 
+.alumni-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.44rem;
+}
+
 .alumni-link:hover,
 .alumni-link:focus-visible {
   border-color: rgba(165, 28, 48, 0.56);

@@ -29,7 +29,7 @@ const researchThemes = [
   }
 ];
 
-const publications = [
+const staticPublications = [
   {
     title:
       "Coupling constraints between the DNA translocase FtsK and septal peptidoglycan synthesis shape the architecture of bacterial division sites",
@@ -111,8 +111,7 @@ const publications = [
 const mediaHighlights = [
   {
     title: "Live-cell movie: MreB-associated envelope dynamics",
-    text:
-      "TrackMate time-lapse showing dynamic motion of MreB-associated structures during envelope growth in E. coli.",
+    text: "Live-cell envelope dynamics.",
     image: "mreb-trackmate.gif",
     sourceLabel: "In-lab movie asset",
     sourceUrl: "research-library.html#mreb-trackmate",
@@ -120,16 +119,14 @@ const mediaHighlights = [
   },
   {
     title: "Division-site architecture during constriction",
-    text:
-      "Fluorescence microscopy panels highlighting divisome-linked envelope remodeling in E. coli division mutants.",
+    text: "Division-site fluorescence architecture.",
     image: "nmicro2022-divisome-fluorescence.jpg",
     sourceLabel: "Nature Microbiology 2022 (open access)",
     sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/"
   },
   {
     title: "Time-lapse envelope insertion series",
-    text:
-      "Frame series from live-cell experiments tracking sidewall and septal envelope incorporation during cell division.",
+    text: "Time-lapse envelope insertion sequence.",
     image: "nmicro2022-timelapse-rods.jpg",
     sourceLabel: "Nature Microbiology 2022 supplementary movies",
     sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/#Sec42",
@@ -137,72 +134,63 @@ const mediaHighlights = [
   },
   {
     title: "Cryo-ET and cryo-FIB workflow for envelope ultrastructure",
-    text:
-      "Cryo-electron tomography workflow and representative lamella imaging used to resolve nanoscale division architecture.",
+    text: "Cryo-ET and cryo-FIB pipeline views.",
     image: "nmicro2022-cryo-tomography.jpg",
     sourceLabel: "Nature Microbiology 2022 extended data",
     sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/"
   },
   {
     title: "Transmission electron microscopy of Pseudomonas aeruginosa",
-    text:
-      "Electron micrograph highlighting envelope ultrastructure in a Gram-negative model central to the lab's work.",
+    text: "Transmission electron microscopy view.",
     image: "pseudomonas-tem.jpg",
     sourceLabel: "In-lab microscopy asset",
     sourceUrl: "research-library.html#pseudomonas-tem"
   },
   {
     title: "Fluorescence pulse-labeling in Corynebacterium glutamicum",
-    text:
-      "Fluorescent D-amino acid labeling used to visualize envelope growth patterns in Corynebacterium.",
+    text: "Fluorescent D-amino acid pulse labeling.",
     image: "coryfdaa.png",
     sourceLabel: "In-lab microscopy asset",
     sourceUrl: "research-library.html#coryfdaa"
   },
   {
     title: "Corynebacterium-phage plaque morphology",
-    text:
-      "Representative plaque morphology image from Corynebacterium systems used to probe envelope assembly and vulnerability.",
+    text: "Phage plaque morphology.",
     image: "corynebacterium-phage.jpg",
     sourceLabel: "In-lab imaging asset",
     sourceUrl: "research-library.html#corynebacterium-phage"
   },
   {
     title: "FacZ and peptidoglycan spatial patterning in S. aureus",
-    text:
-      "Fluorescence microscopy showing septal and peripheral membrane patterning linked to division-site architecture.",
+    text: "S. aureus microscopy panel.",
     image: "mbio2023saur-facz-pg.jpg",
     sourceLabel: "mBio 2023 (open access)",
     sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
   },
   {
     title: "PcdA localization across division states",
-    text:
-      "Microscopy panels tracking PcdA localization and membrane-associated organization through multiple division stages.",
+    text: "PcdA localization states.",
     image: "mbio2023-pcda-localization.jpg",
     sourceLabel: "mBio 2023 (open access)",
     sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
   },
   {
     title: "Divisome-associated localization maps",
-    text:
-      "Imaging-based localization maps connecting protein position to bacterial septation geometry.",
+    text: "Divisome localization maps.",
     image: "mbio2023-division-maps.jpg",
     sourceLabel: "mBio 2023 (open access)",
     sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
   },
   {
     title: "Envelope phenotypes across bacterial species",
-    text:
-      "Comparative microscopy panel spanning multiple morphologies used in the lab's species-diverse envelope studies.",
+    text: "Comparative envelope phenotypes.",
     image: "species-envelope.png",
     sourceLabel: "In-lab microscopy asset",
     sourceUrl: "research-library.html#species-envelope"
   },
   {
     title: "Mosaic colony phenotypes in plasmid-loss screens",
-    text:
-      "Colony imaging used in genetic screens to reveal envelope-linked phenotypes under selection.",
+    text: "Colony phenotypes from genetics screens.",
     image: "fluorescence-envelope.jpg",
     sourceLabel: "In-lab research image",
     sourceUrl: "research-library.html#fluorescence-envelope"
@@ -272,7 +260,7 @@ const galleryItems = [
   }
 ];
 
-const featuredAlumni = [
+const featuredAlumniFallback = [
   {
     name: "Catherine Paradis-Bleau",
     roleInLab: "Former postdoctoral fellow",
@@ -373,6 +361,8 @@ const featuredAlumni = [
   }
 ];
 
+const featuredAlumni = buildFeaturedAlumni();
+
 const rawPeople = [
    {
       "profile" : "/thomas-bernhardt",
@@ -416,7 +406,7 @@ const rawPeople = [
    },
    {
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1675970682144-0PYVM1YRSI7X2YIC934I/55E89D77-D21C-419F-9D17-4DA257564722.jpg",
-      "role" : "Postdoctoral fellow, HHMI",
+      "role" : "Postdoctoral Fellow",
       "bio" : "I am interested in cell wall biogenesis in Corynebacterium glutamicum.",
       "profile" : "/wanassa",
       "name" : "Wanassa Beroual",
@@ -424,7 +414,7 @@ const rawPeople = [
    },
    {
       "bio" : "I am interested in understanding the role mannosylation plays in the membrane of Corynebacterium glutamicum.",
-      "role" : "Postdoctoral Fellow, Harvard Medical School | NIH K99/R00 Fellow",
+      "role" : "Postdoctoral Fellow | NIH K99/R00 Fellow",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1649110154642-G16R9VNOZ9VHWXFZXU6K/Screen+Shot+2022-04-04+at+6.00.55+PM.png",
       "profile" : "/anastacia-parks",
       "email" : "Anastacia_Parks{at}hms.harvard.edu",
@@ -473,7 +463,7 @@ const rawPeople = [
    {
       "name" : "Shailab Shrestha",
       "email" : "shailab_shrestha{at}hms.harvard.edu",
-      "role" : "Postdoctoral Fellow, Howard Hughes Medical Institute | Life Sciences Research Foundation Fellow",
+      "role" : "Postdoctoral Fellow | Life Sciences Research Foundation Fellow",
       "bio" : "I am interested in the biogenesis and maintenance of the Gram-negative cell envelope.",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1718134932686-SJ49CRIK1AN94PN32VQQ/Screenshot+2024-06-11+at+3.42.00%E2%80%AFPM.png",
       "profile" : "/shailab-shrestha"
@@ -491,7 +481,7 @@ const rawPeople = [
       "email" : "nazgul_sakenova{at}hms.harvard.edu",
       "profile" : "/nazgulsakenova",
       "bio" : "I am interested in special protein localization and factors that determine it in Escherichia coli.",
-      "role" : "Postdoctoral Fellow, Howard Hughes Medical Institute | HHWF Fellow",
+      "role" : "Postdoctoral Fellow | HHWF Fellow",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1739559794418-P4JOP8A7Y1DMWJK4G658/IMG_3956.jpeg"
    },
    {
@@ -585,6 +575,55 @@ function profileSlug(url = "", name = "") {
   return slug || slugifyName(name) || "member";
 }
 
+function alumniProfilePath(slug) {
+  return `alumni-${slug}.html`;
+}
+
+function buildFeaturedAlumni() {
+  if (typeof rawAlumni === "undefined" || typeof verifiedAlumniProfiles === "undefined") {
+    return featuredAlumniFallback;
+  }
+
+  const byName = new Map();
+
+  rawAlumni.forEach((entry) => {
+    const name = cleanText(entry.name || "");
+    if (!name) return;
+
+    const existing = byName.get(name) || {};
+    const roleInLab = cleanText(entry.role_in_lab || existing.roleInLab || "");
+    const currentRole = cleanText(entry.current_role || existing.currentRole || "");
+    const sourceLabel = cleanText(entry.source || existing.sourceLabel || "Bernhardt Lab alumni records");
+
+    byName.set(name, {
+      name,
+      roleInLab,
+      currentRole,
+      sourceLabel
+    });
+  });
+
+  const featured = Array.from(byName.values())
+    .map((entry) => {
+      const verified = verifiedAlumniProfiles[entry.name];
+      if (!verified || !verified.url) return null;
+      const roleLabel = cleanText(entry.roleInLab || "Former lab member");
+      const currentLabel = cleanText(entry.currentRole || "Current role updated via public profile");
+      return {
+        name: entry.name,
+        roleInLab: roleLabel.charAt(0).toUpperCase() + roleLabel.slice(1),
+        currentRole: currentLabel,
+        source: verified.url,
+        sourceLabel: cleanText(verified.source || entry.sourceLabel || "Verified profile"),
+        profile: alumniProfilePath(slugifyName(entry.name))
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  return featured.length ? featured : featuredAlumniFallback;
+}
+
 function classifyGroup(role, name) {
   const label = `${role} ${name}`.toLowerCase();
   if (label.includes("professor") || label.includes("investigator") || label.includes("principal investigator")) {
@@ -671,7 +710,9 @@ const state = {
   query: "",
   galleryIndex: 0,
   alumniIndex: 0,
-  showAllPublications: false
+  showAllPublications: false,
+  publications: [...staticPublications],
+  publicationsSource: "Curated selection"
 };
 
 const navToggle = document.querySelector(".nav-toggle");
@@ -685,6 +726,7 @@ const galleryRoot = document.getElementById("gallery-grid");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const lightboxCaption = document.getElementById("lightbox-caption");
+const publicationSourceNote = document.getElementById("publications-source-note");
 let galleryTimer = null;
 let alumniTimer = null;
 let revealObserver = null;
@@ -756,7 +798,8 @@ function renderResearch() {
 function renderPublications() {
   const root = document.getElementById("publication-list");
   const previewCount = 6;
-  const items = state.showAllPublications ? publications : publications.slice(0, previewCount);
+  const publicationItems = state.publications.length ? state.publications : staticPublications;
+  const items = state.showAllPublications ? publicationItems : publicationItems.slice(0, previewCount);
 
   root.innerHTML = items
     .map(
@@ -767,7 +810,7 @@ function renderPublications() {
           <span>${escapeHtml(item.journal)}</span>
           <span>${escapeHtml(item.year)}</span>
         </div>
-        <p>${escapeHtml(item.takeaway)}</p>
+        ${item.takeaway ? `<p>${escapeHtml(item.takeaway)}</p>` : ""}
       </article>
     `
     )
@@ -777,12 +820,16 @@ function renderPublications() {
   const toggle = document.getElementById("publications-toggle");
   if (!toggle) return;
 
-  const hasOverflow = publications.length > previewCount;
+  const hasOverflow = publicationItems.length > previewCount;
   toggle.hidden = !hasOverflow;
   toggle.setAttribute("aria-expanded", String(state.showAllPublications));
   toggle.textContent = state.showAllPublications
     ? "Collapse publication list"
-    : `Expand publication list (${publications.length - previewCount} more)`;
+    : `Expand publication list (${publicationItems.length - previewCount} more)`;
+
+  if (publicationSourceNote) {
+    publicationSourceNote.textContent = state.publicationsSource;
+  }
 }
 
 function setupPublicationToggle() {
@@ -792,6 +839,56 @@ function setupPublicationToggle() {
     state.showAllPublications = !state.showAllPublications;
     renderPublications();
   });
+}
+
+function parsePublicationYear(value = "") {
+  const match = String(value).match(/(19|20)\d{2}/);
+  return match ? match[0] : "";
+}
+
+async function fetchPubmedPublications() {
+  const term = encodeURIComponent("Bernhardt TG[Author]");
+  const searchUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=18&sort=pub+date&term=${term}`;
+  const searchResponse = await fetch(searchUrl, { headers: { Accept: "application/json" } });
+  if (!searchResponse.ok) throw new Error(`PubMed search failed: ${searchResponse.status}`);
+
+  const searchJson = await searchResponse.json();
+  const ids = (searchJson?.esearchresult?.idlist || []).filter(Boolean).slice(0, 18);
+  if (ids.length === 0) return [];
+
+  const summaryUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=${ids.join(",")}`;
+  const summaryResponse = await fetch(summaryUrl, { headers: { Accept: "application/json" } });
+  if (!summaryResponse.ok) throw new Error(`PubMed summary failed: ${summaryResponse.status}`);
+
+  const summaryJson = await summaryResponse.json();
+  return ids
+    .map((id) => summaryJson?.result?.[id])
+    .filter(Boolean)
+    .map((item) => {
+      const title = cleanText(item.title || "");
+      return {
+        title: title.replace(/\.$/, ""),
+        journal: cleanText(item.fulljournalname || item.source || "PubMed"),
+        year: parsePublicationYear(item.pubdate || item.sortpubdate || ""),
+        takeaway: "",
+        url: `https://pubmed.ncbi.nlm.nih.gov/${item.uid || item.articleids?.[0]?.value || ""}/`
+      };
+    })
+    .filter((item) => item.title && item.url.includes("pubmed.ncbi.nlm.nih.gov/"));
+}
+
+async function refreshPublicationsFromPubMed() {
+  try {
+    const items = await fetchPubmedPublications();
+    if (!items.length) return;
+    state.publications = items;
+    state.publicationsSource = "Auto-updated from PubMed (Bernhardt TG author feed)";
+    renderPublications();
+  } catch (error) {
+    state.publications = [...staticPublications];
+    state.publicationsSource = "Curated selection (auto-refresh unavailable in this browser session)";
+    renderPublications();
+  }
 }
 
 function renderRoleFilters() {
@@ -853,7 +950,11 @@ function renderPeople() {
           <div class="person-links">
             ${person.profile ? `<a class="person-link" href="${escapeHtml(person.profile)}" target="_blank" rel="noreferrer">Profile page</a>` : ""}
           </div>
-          ${person.email ? `<p class="person-email">${escapeHtml(person.email)}</p>` : ""}
+          ${
+            person.email
+              ? `<p class="person-email">${escapeHtml(person.email.replace(/\{at\}/gi, "@"))}</p>`
+              : ""
+          }
         </div>
       </article>
     `
@@ -965,7 +1066,16 @@ function renderGallery() {
 
 function renderAlumni() {
   const root = document.getElementById("alumni-grid");
-  if (!root || featuredAlumni.length === 0) return;
+  if (!root) return;
+
+  const alumniItems = featuredAlumni
+    .map((item) => ({
+      ...item,
+      profile: cleanText(item.profile || alumniProfilePath(slugifyName(item.name || "")))
+    }))
+    .filter((item) => item.name);
+
+  if (alumniItems.length === 0) return;
 
   root.innerHTML = `
     <div class="alumni-rotator reveal">
@@ -985,14 +1095,14 @@ function renderAlumni() {
   const prev = document.getElementById("alumni-prev");
   const next = document.getElementById("alumni-next");
 
-  dots.innerHTML = featuredAlumni
+  dots.innerHTML = alumniItems
     .map((_, index) => `<button class="alumni-dot" type="button" data-index="${index}" aria-label="Show alumni profile ${index + 1}"></button>`)
     .join("");
 
   const setAlumni = (nextIndex) => {
-    const total = featuredAlumni.length;
+    const total = alumniItems.length;
     state.alumniIndex = (nextIndex + total) % total;
-    const item = featuredAlumni[state.alumniIndex];
+    const item = alumniItems[state.alumniIndex];
 
     stage.innerHTML = `
       <article class="alumni-item">
@@ -1000,7 +1110,14 @@ function renderAlumni() {
         <h3>${escapeHtml(item.name)}</h3>
         <p class="alumni-current">${escapeHtml(item.currentRole)}</p>
         <p class="alumni-source">Source: ${escapeHtml(item.sourceLabel || "Institutional profile")}</p>
-        ${item.source ? `<a href="${escapeHtml(item.source)}" target="_blank" rel="noreferrer">View profile</a>` : ""}
+        <div class="alumni-link-row">
+          ${item.profile ? `<a href="${escapeHtml(item.profile)}">Open alumni profile</a>` : ""}
+          ${
+            item.source
+              ? `<a href="${escapeHtml(item.source)}" target="_blank" rel="noreferrer">Verified institutional profile</a>`
+              : ""
+          }
+        </div>
       </article>
     `;
 
@@ -1163,16 +1280,21 @@ function setupHeroSlideshow() {
   heroTimer = setInterval(advance, 6500);
 }
 
-renderResearch();
-renderMedia();
-renderPublications();
-setupPublicationToggle();
-renderRoleFilters();
-renderPeople();
-renderGallery();
-renderAlumni();
-setupNavigation();
-setupSearch();
-setupRevealObserver();
-setupScrollDynamics();
-setupHeroSlideshow();
+async function initializePage() {
+  renderResearch();
+  renderMedia();
+  renderPublications();
+  setupPublicationToggle();
+  renderRoleFilters();
+  renderPeople();
+  renderGallery();
+  renderAlumni();
+  setupNavigation();
+  setupSearch();
+  setupRevealObserver();
+  setupScrollDynamics();
+  setupHeroSlideshow();
+  await refreshPublicationsFromPubMed();
+}
+
+initializePage();

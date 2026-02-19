@@ -35,12 +35,15 @@
             <div class="profile-copy">
               <p class="eyebrow">Team Profile</p>
               <h1>Anastacia Parks</h1>
-              <p class="role">Postdoctoral Fellow, Harvard Medical School | NIH K99/R00 Fellow</p>
+              <p class="role">Postdoctoral Fellow | NIH K99/R00 Fellow</p>
               <p class="bio">I am interested in understanding the role mannosylation plays in the membrane of Corynebacterium glutamicum.</p>
               <div class="actions">
                 <a class="button button-primary" href="index.html#team">Back to team directory</a>
-                <a class="button button-secondary" href="index.html#contact">Contact the lab</a>
-                <a class="button button-secondary linkedin-button" data-linkedin="" href="" target="_blank" rel="noreferrer">LinkedIn</a>
+                <a class="button button-secondary profile-email-button" href="#">Email</a>
+                <a class="button button-secondary linkedin-button optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">LinkedIn</a>
+                <a class="button button-secondary optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">ORCID</a>
+                <a class="button button-secondary optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">PubMed</a>
+                <a class="button button-secondary optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">GitHub</a>
               </div>
             </div>
             <figure class="profile-photo-wrap">
@@ -64,7 +67,7 @@
 
             <article class="profile-panel">
               <h2>Contact</h2>
-              <p><strong>Email:</strong> Anastacia_Parks{at}hms.harvard.edu</p>
+              <p><strong>Email:</strong> Anastacia_Parks@hms.harvard.edu</p>
               <a class="profile-link" href="index.html#contact">Visit the lab contact page</a>
             </article>
 
@@ -82,16 +85,38 @@
         <p>Thomas Bernhardt Lab | Harvard Medical School Department of Microbiology | Howard Hughes Medical Institute</p>
       </footer>
     </div>
-    <script id="profile-linkedin-init">
+    <script id="profile-links-init">
     (function () {
-      const button = document.querySelector(".linkedin-button");
-      if (!button) return;
-      const link = (button.dataset.linkedin || "").trim();
-      if (!link) {
-        button.remove();
-        return;
+      const emailLine = Array.from(document.querySelectorAll(".profile-panel p")).find((p) =>
+        p.textContent.toLowerCase().includes("email:")
+      );
+
+      let email = "";
+      if (emailLine) {
+        const raw = emailLine.textContent.split(":").slice(1).join(":").trim();
+        email = raw.replace(/\{at\}/gi, "@").replace(/\s+/g, "");
+        emailLine.innerHTML = "<strong>Email:</strong> " + email;
       }
-      button.href = link;
+
+      const emailButton = document.querySelector(".profile-email-button");
+      if (emailButton) {
+        if (email) {
+          emailButton.href = "mailto:" + email;
+          const firstName = ((document.querySelector("h1") || {}).textContent || "Member").trim().split(" ")[0];
+          emailButton.textContent = "Email " + firstName;
+        } else {
+          emailButton.remove();
+        }
+      }
+
+      document.querySelectorAll(".optional-link-button").forEach((button) => {
+        const link = (button.dataset.url || "").trim();
+        if (!link) {
+          button.remove();
+          return;
+        }
+        button.href = link;
+      });
     })();
   </script>
 </body>

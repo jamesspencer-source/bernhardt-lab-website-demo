@@ -26,6 +26,19 @@ function roleBucket(role = "") {
   return "Other Alumni";
 }
 
+function slugify(value = "") {
+  return clean(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function localProfileHref(slug) {
+  const path = (window.location.pathname || "").toLowerCase();
+  const isNestedAlumniPage = path.includes("/alumni/");
+  return isNestedAlumniPage ? `../alumni-profiles/${slug}.html` : `alumni-${slug}.html`;
+}
+
 const deduped = (() => {
   const map = new Map();
 
@@ -62,10 +75,12 @@ const deduped = (() => {
       const verified = verifiedAlumniProfiles[entry.name];
       return {
         ...entry,
+        slug: slugify(entry.name),
         bucket: roleBucket(entry.roleInLab),
         verified: Boolean(verified),
         profileUrl: verified?.url || "",
-        verifiedSource: verified?.source || ""
+        verifiedSource: verified?.source || "",
+        localProfileUrl: localProfileHref(slugify(entry.name))
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -139,7 +154,10 @@ function renderAlumniDirectory() {
         <p class="alumni-role"><strong>Role in lab:</strong> ${entry.roleInLab || "Former lab member"}</p>
         <p class="alumni-current"><strong>Current / latest role:</strong> ${entry.currentRole || "Role update pending"}</p>
         <p class="alumni-source">${entry.verified ? `Source: ${entry.verifiedSource}` : `Source: ${entry.sourceLabel}`}</p>
-        ${entry.profileUrl ? `<a class="alumni-link" href="${entry.profileUrl}" target="_blank" rel="noreferrer">View current institutional profile</a>` : ""}
+        <div class="alumni-links">
+          <a class="alumni-link" href="${entry.localProfileUrl}">Open alumni profile</a>
+          ${entry.profileUrl ? `<a class="alumni-link" href="${entry.profileUrl}" target="_blank" rel="noreferrer">View current institutional profile</a>` : ""}
+        </div>
       </article>
     `
     )

@@ -39,8 +39,11 @@
               <p class="bio">I am interested in using phages to learn more about their bacterial hosts. I also lead the Community Phages program (phages.hms.harvard.edu)!</p>
               <div class="actions">
                 <a class="button button-primary" href="index.html#team">Back to team directory</a>
-                <a class="button button-secondary" href="index.html#contact">Contact the lab</a>
-                <a class="button button-secondary linkedin-button" data-linkedin="" href="" target="_blank" rel="noreferrer">LinkedIn</a>
+                <a class="button button-secondary profile-email-button" href="#">Email</a>
+                <a class="button button-secondary linkedin-button optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">LinkedIn</a>
+                <a class="button button-secondary optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">ORCID</a>
+                <a class="button button-secondary optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">PubMed</a>
+                <a class="button button-secondary optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">GitHub</a>
               </div>
             </div>
             <figure class="profile-photo-wrap">
@@ -59,12 +62,12 @@
               <h2>Affiliation</h2>
               <p><strong>Lab:</strong> Thomas Bernhardt Lab</p>
               <p><strong>Department:</strong> Microbiology, Harvard Medical School</p>
-              <p><strong>Institute:</strong> Howard Hughes Medical Institute</p>
+              <p><strong>Institution:</strong> Harvard Medical School</p>
             </article>
 
             <article class="profile-panel">
               <h2>Contact</h2>
-              <p><strong>Email:</strong> eleanor_rand{at}fas.harvard.edu</p>
+              <p><strong>Email:</strong> eleanor_rand@fas.harvard.edu</p>
               <a class="profile-link" href="index.html#contact">Visit the lab contact page</a>
             </article>
 
@@ -82,16 +85,38 @@
         <p>Thomas Bernhardt Lab | Harvard Medical School Department of Microbiology | Howard Hughes Medical Institute</p>
       </footer>
     </div>
-    <script id="profile-linkedin-init">
+    <script id="profile-links-init">
     (function () {
-      const button = document.querySelector(".linkedin-button");
-      if (!button) return;
-      const link = (button.dataset.linkedin || "").trim();
-      if (!link) {
-        button.remove();
-        return;
+      const emailLine = Array.from(document.querySelectorAll(".profile-panel p")).find((p) =>
+        p.textContent.toLowerCase().includes("email:")
+      );
+
+      let email = "";
+      if (emailLine) {
+        const raw = emailLine.textContent.split(":").slice(1).join(":").trim();
+        email = raw.replace(/\{at\}/gi, "@").replace(/\s+/g, "");
+        emailLine.innerHTML = "<strong>Email:</strong> " + email;
       }
-      button.href = link;
+
+      const emailButton = document.querySelector(".profile-email-button");
+      if (emailButton) {
+        if (email) {
+          emailButton.href = "mailto:" + email;
+          const firstName = ((document.querySelector("h1") || {}).textContent || "Member").trim().split(" ")[0];
+          emailButton.textContent = "Email " + firstName;
+        } else {
+          emailButton.remove();
+        }
+      }
+
+      document.querySelectorAll(".optional-link-button").forEach((button) => {
+        const link = (button.dataset.url || "").trim();
+        if (!link) {
+          button.remove();
+          return;
+        }
+        button.href = link;
+      });
     })();
   </script>
 </body>

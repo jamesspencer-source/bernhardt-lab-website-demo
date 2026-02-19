@@ -33,8 +33,9 @@ body {
   line-height: 1.55;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 12% -8%, rgba(14, 117, 125, 0.08), transparent 30%),
-    radial-gradient(circle at 94% 2%, rgba(165, 28, 48, 0.07), transparent 30%),
+    radial-gradient(circle at 8% -12%, rgba(14, 117, 125, 0.14), transparent 32%),
+    radial-gradient(circle at 96% 2%, rgba(165, 28, 48, 0.11), transparent 34%),
+    radial-gradient(circle at 72% 96%, rgba(26, 69, 112, 0.08), transparent 44%),
     var(--paper);
 }
 
@@ -72,9 +73,9 @@ p {
 
 .section-light {
   background:
-    radial-gradient(circle at 8% 5%, rgba(165, 28, 48, 0.08), transparent 45%),
-    radial-gradient(circle at 95% 18%, rgba(14, 117, 125, 0.08), transparent 42%),
-    linear-gradient(180deg, #fbf9f3 0%, #f6f2e9 100%);
+    radial-gradient(circle at 8% 5%, rgba(165, 28, 48, 0.12), transparent 45%),
+    radial-gradient(circle at 95% 18%, rgba(14, 117, 125, 0.12), transparent 42%),
+    linear-gradient(180deg, #f9f4ea 0%, #f3ecdf 100%);
 }
 
 .section-light::after {
@@ -104,7 +105,9 @@ p {
 
 .section-people {
   background:
-    linear-gradient(120deg, rgba(165, 28, 48, 0.09), rgba(15, 32, 56, 0.03) 35%, rgba(14, 117, 125, 0.07)),
+    radial-gradient(circle at 10% 16%, rgba(14, 117, 125, 0.1), transparent 40%),
+    radial-gradient(circle at 90% 84%, rgba(165, 28, 48, 0.09), transparent 42%),
+    linear-gradient(120deg, rgba(165, 28, 48, 0.11), rgba(15, 32, 56, 0.04) 35%, rgba(14, 117, 125, 0.1)),
     var(--cloud);
 }
 
@@ -348,11 +351,13 @@ body.is-scrolled .site-header {
 
 .hero h1 {
   font-size: clamp(2.2rem, 5.2vw, 4.1rem);
+  text-shadow: 0 4px 20px rgba(5, 14, 28, 0.42);
 }
 
 .hero-copy p {
   max-width: 46rem;
   color: rgba(243, 247, 255, 0.95);
+  text-shadow: 0 1px 10px rgba(5, 14, 28, 0.35);
 }
 
 .hero-actions {
@@ -500,15 +505,16 @@ body.is-scrolled .site-header {
 
 .program-card {
   margin-top: 0.85rem;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(14, 117, 125, 0.24);
   border-radius: var(--radius-md);
   background:
-    radial-gradient(circle at 90% 10%, rgba(14, 117, 125, 0.12), transparent 42%),
-    #fff;
+    radial-gradient(circle at 92% 12%, rgba(14, 117, 125, 0.16), transparent 42%),
+    radial-gradient(circle at 8% 82%, rgba(165, 28, 48, 0.11), transparent 40%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(244, 237, 225, 0.95));
   padding: 0.98rem;
   display: grid;
   gap: 0.7rem;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 16px 30px rgba(12, 24, 43, 0.1);
 }
 
 .program-card h3 {
@@ -801,6 +807,12 @@ body.is-scrolled .site-header {
   font-weight: 700;
 }
 
+#publications-source-note {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  color: #6a768b;
+}
+
 .directory-controls {
   display: grid;
   gap: 0.95rem;
@@ -948,16 +960,22 @@ body.is-scrolled .site-header {
 }
 
 .person-toggle {
-  border: 1px solid rgba(165, 28, 48, 0.25);
-  background: rgba(165, 28, 48, 0.06);
-  color: var(--crimson-deep);
+  border: 1px solid rgba(15, 32, 56, 0.16);
+  background: rgba(15, 32, 56, 0.04);
+  color: var(--midnight-soft);
   border-radius: 999px;
-  padding: 0.28rem 0.62rem;
+  padding: 0.22rem 0.56rem;
   text-align: left;
   width: fit-content;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.74rem;
+  font-weight: 600;
   cursor: pointer;
+}
+
+.person-toggle:hover,
+.person-toggle:focus-visible {
+  border-color: rgba(15, 32, 56, 0.28);
+  background: rgba(15, 32, 56, 0.07);
 }
 
 .people-count {
@@ -1120,6 +1138,12 @@ body.is-scrolled .site-header {
   text-decoration: none;
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.alumni-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .alumni-item a:hover,
