@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alumni Directory | Thomas Bernhardt Lab</title>
+    <meta
+      name="description"
+      content="Comprehensive alumni directory for the Thomas Bernhardt Lab at Harvard Medical School and Howard Hughes Medical Institute."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="alumni.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="brand" aria-label="Thomas Bernhardt Lab home">
+          <span class="brand-lockup" aria-hidden="true"></span>
+          <span class="brand-text">
+            <strong>Thomas Bernhardt Lab</strong>
+            <small>Howard Hughes Medical Institute + Harvard Medical School</small>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="index.html#about">About</a>
+          <a href="index.html#research">Research</a>
+          <a href="index.html#team">Team</a>
+          <a href="index.html#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Alumni Directory</p>
+            <h1>Complete Bernhardt Lab alumni directory.</h1>
+            <p>
+              This page compiles the full alumni directory and highlights entries with verified current institutional
+              profiles.
+            </p>
+
+            <div class="meta-strip">
+              <p><strong>Primary source:</strong> Publicly listed alumni records</p>
+              <p><strong>Verification method:</strong> Public institutional profile pages where available</p>
+              <p><strong>Updated:</strong> February 18, 2026</p>
+            </div>
+          </div>
+
+          <div class="controls">
+            <label class="search-wrap" for="alumni-search">
+              <span>Search by name, training role, or current role</span>
+              <input id="alumni-search" type="search" placeholder="Search alumni" autocomplete="off" />
+            </label>
+            <div id="alumni-filters" class="alumni-filters" role="tablist" aria-label="Filter alumni"></div>
+            <p id="alumni-count" class="alumni-count" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="directory">
+        <div class="container">
+          <div id="alumni-directory" class="alumni-grid" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>Thomas Bernhardt Lab | Howard Hughes Medical Institute + Harvard Medical School</p>
+        <a href="index.html">Back to main site</a>
+      </div>
+    </footer>
+
+    <script src="alumni-data.js"></script>
+    <script src="alumni.js"></script>
+  </body>
+</html>
