@@ -39,11 +39,12 @@
               <p class="bio">I am interested in elucidating the regulatory mechanisms of PG hydrolyses required for separation in Eschericia coli. My larger goals are to better understand the spatiotemporal coordination of the bacterial cell envelope for cell division</p>
               <div class="actions">
                 <a class="button button-primary" href="index.html#team">Back to team directory</a>
-                <a class="button button-secondary profile-email-button" href="#">Email</a>
+                <a class="button button-secondary profile-email-button" href="#">Contact</a>
+                <a class="button button-secondary profile-lab-button" href="mailto:thomas_bernhardt@hms.harvard.edu">Contact The Lab</a>
                 <a class="button button-secondary linkedin-button optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">LinkedIn</a>
-                <a class="button button-secondary optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">ORCID</a>
-                <a class="button button-secondary optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">PubMed</a>
-                <a class="button button-secondary optional-link-button" data-url="" href="" target="_blank" rel="noreferrer">GitHub</a>
+                <a class="button button-secondary optional-link-button" data-url="https://orcid.org/orcid-search/search?searchQuery=Tien+Nguyen" href="" target="_blank" rel="noreferrer">ORCID</a>
+                <a class="button button-secondary optional-link-button" data-url="https://pubmed.ncbi.nlm.nih.gov/?term=%22Tien+Nguyen%22%5BAuthor%5D" href="" target="_blank" rel="noreferrer">PubMed</a>
+                <a class="button button-secondary optional-link-button" data-url="https://github.com/search?q=Tien+Nguyen&amp;type=users" href="" target="_blank" rel="noreferrer">GitHub</a>
               </div>
             </div>
             <figure class="profile-photo-wrap">
@@ -103,7 +104,7 @@
         if (email) {
           emailButton.href = "mailto:" + email;
           const firstName = ((document.querySelector("h1") || {}).textContent || "Member").trim().split(" ")[0];
-          emailButton.textContent = "Email " + firstName;
+          emailButton.textContent = "Contact " + firstName;
         } else {
           emailButton.remove();
         }

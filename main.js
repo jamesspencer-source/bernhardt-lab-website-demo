@@ -674,7 +674,7 @@ const people = rawPeople.map((person) => {
     role,
     group: classifyGroup(role, name),
     bio: normalizeBio(name, person.bio || ""),
-    email: cleanText(person.email || ""),
+    email: cleanText(person.email || "").replace(/\{at\}/gi, "@"),
     profile: `${slug}.html`,
     profileSource: sourceProfile,
     slug,
@@ -945,8 +945,7 @@ function renderPeople() {
         <div class="person-body">
           <p class="person-role">${escapeHtml(person.role)}</p>
           <h3>${escapeHtml(person.name)}</h3>
-          <p class="person-bio clamped">${escapeHtml(person.bio)}</p>
-          <button class="person-toggle" type="button">Expand</button>
+          <p class="person-bio">${escapeHtml(person.bio)}</p>
           <div class="person-links">
             ${person.profile ? `<a class="person-link" href="${escapeHtml(person.profile)}" target="_blank" rel="noreferrer">Profile page</a>` : ""}
           </div>
@@ -962,24 +961,6 @@ function renderPeople() {
     .join("");
 
   peopleCount.textContent = `${matches.length} people shown`;
-
-  peopleGrid.querySelectorAll(".person-card").forEach((card) => {
-    const bio = card.querySelector(".person-bio");
-    const toggle = card.querySelector(".person-toggle");
-
-    if (!bio || !toggle) return;
-
-    if (bio.textContent.length < 190) {
-      toggle.style.display = "none";
-      bio.classList.remove("clamped");
-      return;
-    }
-
-    toggle.addEventListener("click", () => {
-      const isClamped = bio.classList.toggle("clamped");
-      toggle.textContent = isClamped ? "Expand" : "Collapse";
-    });
-  });
 }
 
 function renderGallery() {
