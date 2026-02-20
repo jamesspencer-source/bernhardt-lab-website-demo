@@ -108,68 +108,74 @@ const staticPublications = [
   }
 ];
 
-const mediaHighlights = [
+const bigQuestions = [
   {
-    title: "Live-cell movie: MreB-associated envelope dynamics",
-    text: "Live-cell envelope dynamics.",
-    image: "mreb-trackmate.gif",
-    sourceLabel: "In-lab movie asset",
-    sourceUrl: "research-library.html#mreb-trackmate",
-    format: "Movie"
+    title: "How is septal cell wall synthesis precisely turned on and off?",
+    detail:
+      "Define the timing logic that couples divisome activation to local peptidoglycan insertion and remodeling."
   },
   {
+    title: "How do synthesis and hydrolysis stay balanced during constriction?",
+    detail:
+      "Resolve how envelope-building and -cleaving enzymes avoid both stalled cytokinesis and catastrophic rupture."
+  },
+  {
+    title: "Which stress-response circuits preserve membrane integrity?",
+    detail:
+      "Map the envelope stress pathways that reprogram lipid and wall biogenesis when cells are challenged."
+  },
+  {
+    title: "What principles generalize across diverse bacterial species?",
+    detail:
+      "Compare conserved vs species-specific envelope programs in both model organisms and high-priority pathogens."
+  },
+  {
+    title: "Which vulnerable nodes are most tractable for antibiotic strategy?",
+    detail:
+      "Connect molecular mechanism to experimentally actionable targets that can be exploited therapeutically."
+  }
+];
+
+const mediaHighlights = [
+  {
     title: "Division-site architecture during constriction",
-    text: "Division-site fluorescence architecture.",
+    text: "Fluorescence map of division geometry.",
     image: "nmicro2022-divisome-fluorescence.jpg",
     sourceLabel: "Nature Microbiology 2022 (PubMed)",
     sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36097171/"
   },
   {
     title: "Time-lapse envelope insertion series",
-    text: "Time-lapse envelope insertion sequence.",
+    text: "Dynamic envelope insertion over time.",
     image: "nmicro2022-timelapse-rods.jpg",
     sourceLabel: "Nature Microbiology 2022 (PubMed)",
     sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36097171/",
     format: "Movie"
   },
   {
-    title: "Cryo-ET and cryo-FIB workflow for envelope ultrastructure",
-    text: "Cryo-ET and cryo-FIB pipeline views.",
+    title: "Cryo-ET and cryo-FIB envelope ultrastructure",
+    text: "Cryo workflow and ultrastructure view.",
     image: "nmicro2022-cryo-tomography.jpg",
     sourceLabel: "Nature Microbiology 2022 (PubMed)",
     sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36097171/"
   },
   {
-    title: "Transmission electron microscopy of Pseudomonas aeruginosa",
-    text: "Transmission electron microscopy view.",
-    image: "pseudomonas-tem.jpg",
-    sourceLabel: "In-lab microscopy asset",
-    sourceUrl: "research-library.html#pseudomonas-tem"
-  },
-  {
-    title: "Fluorescence pulse-labeling in Corynebacterium glutamicum",
-    text: "Fluorescent D-amino acid pulse labeling.",
-    image: "coryfdaa.png",
-    sourceLabel: "In-lab microscopy asset",
-    sourceUrl: "research-library.html#coryfdaa"
-  },
-  {
-    title: "Corynebacterium-phage plaque morphology",
-    text: "Phage plaque morphology.",
-    image: "corynebacterium-phage.jpg",
-    sourceLabel: "In-lab imaging asset",
-    sourceUrl: "research-library.html#corynebacterium-phage"
-  },
-  {
-    title: "FacZ and peptidoglycan spatial patterning in S. aureus",
-    text: "S. aureus microscopy panel.",
+    title: "FacZ and peptidoglycan spatial patterning",
+    text: "S. aureus envelope patterning.",
     image: "mbio2023saur-facz-pg.jpg",
     sourceLabel: "mBio 2023 (PubMed)",
     sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37162900/"
   },
   {
-    title: "PcdA localization across division states",
-    text: "PcdA localization states.",
+    title: "S. aureus envelope architecture states",
+    text: "Envelope architecture across stages.",
+    image: "mbio2023saur-envelope-architecture.jpg",
+    sourceLabel: "mBio 2023 (PubMed)",
+    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37162900/"
+  },
+  {
+    title: "PcdA localization across division stages",
+    text: "Localization across division states.",
     image: "mbio2023-pcda-localization.jpg",
     sourceLabel: "mBio 2023 (PubMed)",
     sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37886572/"
@@ -182,18 +188,11 @@ const mediaHighlights = [
     sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37886572/"
   },
   {
-    title: "Envelope phenotypes across bacterial species",
-    text: "Comparative envelope phenotypes.",
-    image: "species-envelope.png",
-    sourceLabel: "In-lab microscopy asset",
-    sourceUrl: "research-library.html#species-envelope"
-  },
-  {
-    title: "Mosaic colony phenotypes in plasmid-loss screens",
-    text: "Colony phenotypes from genetics screens.",
-    image: "fluorescence-envelope.jpg",
-    sourceLabel: "In-lab research image",
-    sourceUrl: "research-library.html#fluorescence-envelope"
+    title: "Salt-stress genetic screen phenotype panel",
+    text: "Envelope stress phenotypes from screen.",
+    image: "ncomms2022-salt-stress-screen.jpg",
+    sourceLabel: "Nature Communications 2022 (PubMed)",
+    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/35851384/"
   }
 ];
 
@@ -327,8 +326,8 @@ const featuredAlumniFallback = [
   {
     name: "Nick Peters",
     roleInLab: "Former postdoctoral fellow",
-    currentRole: "Assistant Professor, Interdepartmental Microbiology Graduate Program, Iowa State University",
-    source: "https://www.micrograd.iastate.edu/people/nicholas-peters",
+    currentRole: "Associate Professor, Microbiology Undergraduate Program, Iowa State University",
+    source: "https://www.micro.iastate.edu/people/nicholas-peters",
     sourceLabel: "Iowa State University"
   },
   {
@@ -342,21 +341,21 @@ const featuredAlumniFallback = [
     name: "Chris Lok-To Sham",
     roleInLab: "Former graduate student",
     currentRole: "Assistant Professor, Department of Microbiology and Immunology, National University of Singapore",
-    source: "https://nusgs.nus.edu.sg/thesis-advisors/miclts/",
+    source: "https://nusgs.nus.edu.sg/thesis-advisors/miclts",
     sourceLabel: "National University of Singapore"
   },
   {
     name: "Neil Greene",
     roleInLab: "Former postdoctoral fellow",
     currentRole: "Clinical Associate Professor and Program Director, University of Rhode Island",
-    source: "https://web.uri.edu/mls/meet/neil-greene/",
+    source: "https://web.uri.edu/cmb/meet/neil-greene/",
     sourceLabel: "University of Rhode Island"
   },
   {
     name: "Derek Lau",
     roleInLab: "Former postdoctoral fellow",
     currentRole: "Lecturer in Residence, Department of Biology, Emmanuel College",
-    source: "https://www.emmanuel.edu/faculty-and-staff/derek-lau",
+    source: "https://www.emmanuel.edu/derek-lau",
     sourceLabel: "Emmanuel College"
   }
 ];
@@ -712,7 +711,7 @@ const heroSlides = [
     position: "center center"
   },
   {
-    image: "species-envelope.png",
+    image: "coryfdaa.png",
     position: "center center"
   },
   {
@@ -726,6 +725,7 @@ const state = {
   query: "",
   galleryIndex: 0,
   alumniIndex: 0,
+  questionIndex: 0,
   showAllPublications: false,
   publications: [...staticPublications],
   publicationsSource: "Curated selection"
@@ -745,8 +745,11 @@ const lightboxCaption = document.getElementById("lightbox-caption");
 const publicationSourceNote = document.getElementById("publications-source-note");
 let galleryTimer = null;
 let alumniTimer = null;
+let questionTimer = null;
 let revealObserver = null;
 let heroTimer = null;
+const prefersReducedMotion =
+  typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function escapeHtml(value) {
   return String(value)
@@ -809,6 +812,120 @@ function renderResearch() {
     )
     .join("");
   observeRevealTargets(root);
+}
+
+function renderBigQuestions() {
+  const root = document.getElementById("question-grid");
+  if (!root || !bigQuestions.length) return;
+
+  root.innerHTML = bigQuestions
+    .map(
+      (item, index) => `
+      <article class="question-card${index === state.questionIndex ? " is-active" : ""}" data-index="${index}" tabindex="0" role="button" aria-label="Highlight question ${index + 1}">
+        <p class="question-index">Q${index + 1}</p>
+        <h4>${escapeHtml(item.title)}</h4>
+        <p>${escapeHtml(item.detail)}</p>
+      </article>
+    `
+    )
+    .join("");
+
+  const prevButton = document.getElementById("question-prev");
+  const nextButton = document.getElementById("question-next");
+  const toggleButton = document.getElementById("question-toggle");
+  let autoRotate = !prefersReducedMotion;
+
+  const setQuestion = (nextIndex) => {
+    const total = bigQuestions.length;
+    state.questionIndex = (nextIndex + total) % total;
+    root.querySelectorAll(".question-card").forEach((card, index) => {
+      card.classList.toggle("is-active", index === state.questionIndex);
+    });
+  };
+
+  const stopRotation = () => {
+    if (questionTimer) {
+      clearInterval(questionTimer);
+      questionTimer = null;
+    }
+  };
+
+  const startRotation = () => {
+    stopRotation();
+    if (!autoRotate || prefersReducedMotion || bigQuestions.length < 2) return;
+    questionTimer = setInterval(() => setQuestion(state.questionIndex + 1), 6200);
+  };
+
+  const updateToggle = () => {
+    if (!toggleButton) return;
+    if (prefersReducedMotion) {
+      toggleButton.disabled = true;
+      toggleButton.setAttribute("aria-pressed", "true");
+      toggleButton.textContent = "Motion off";
+      toggleButton.setAttribute(
+        "aria-label",
+        "Question rotation is off because reduced-motion is enabled in your system settings"
+      );
+      return;
+    }
+    const paused = !autoRotate;
+    toggleButton.textContent = paused ? "Resume" : "Pause";
+    toggleButton.setAttribute("aria-pressed", String(paused));
+    toggleButton.setAttribute("aria-label", paused ? "Resume question rotation" : "Pause question rotation");
+  };
+
+  if (prevButton) {
+    prevButton.addEventListener("click", () => {
+      setQuestion(state.questionIndex - 1);
+      if (autoRotate) startRotation();
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener("click", () => {
+      setQuestion(state.questionIndex + 1);
+      if (autoRotate) startRotation();
+    });
+  }
+
+  if (toggleButton && !prefersReducedMotion) {
+    toggleButton.addEventListener("click", () => {
+      autoRotate = !autoRotate;
+      updateToggle();
+      if (autoRotate) {
+        startRotation();
+      } else {
+        stopRotation();
+      }
+    });
+  }
+
+  root.querySelectorAll(".question-card").forEach((card) => {
+    const index = Number(card.dataset.index || 0);
+    const activate = () => {
+      setQuestion(index);
+      if (autoRotate) startRotation();
+    };
+    card.addEventListener("click", activate);
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activate();
+      }
+    });
+  });
+
+  root.addEventListener("mouseenter", stopRotation);
+  root.addEventListener("mouseleave", startRotation);
+  root.addEventListener("focusin", stopRotation);
+  root.addEventListener("focusout", (event) => {
+    if (root.contains(event.relatedTarget)) return;
+    startRotation();
+  });
+
+  updateToggle();
+  setQuestion(state.questionIndex);
+  startRotation();
 }
 
 function renderPublications() {
@@ -963,7 +1080,7 @@ function renderPeople() {
           <h3>${escapeHtml(person.name)}</h3>
           <p class="person-bio">${escapeHtml(person.bio)}</p>
           <div class="person-links">
-            ${person.profile ? `<a class="person-link" href="${escapeHtml(person.profile)}" target="_blank" rel="noreferrer">Profile page</a>` : ""}
+            ${person.profile ? `<a class="person-link" href="${escapeHtml(person.profile)}">Profile page</a>` : ""}
           </div>
           ${
             person.email
@@ -984,7 +1101,15 @@ function renderGallery() {
 
   galleryRoot.innerHTML = `
     <div class="gallery-stage">
-      <img id="gallery-active-image" src="" alt="" loading="lazy" />
+      <img
+        id="gallery-active-image"
+        src=""
+        alt=""
+        loading="lazy"
+        tabindex="0"
+        role="button"
+        aria-label="Open gallery image in full view"
+      />
       <div class="gallery-caption"><p id="gallery-active-caption"></p></div>
     </div>
     <div class="gallery-controls">
@@ -1016,6 +1141,7 @@ function renderGallery() {
     activeCaption.textContent = item.title;
     activeImage.dataset.image = item.image;
     activeImage.dataset.title = item.title;
+    activeImage.setAttribute("aria-label", `Open ${item.title} in full view`);
 
     dots.querySelectorAll(".gallery-dot").forEach((dot, index) => {
       dot.classList.toggle("active", index === state.galleryIndex);
@@ -1030,6 +1156,7 @@ function renderGallery() {
   };
 
   const startAutoRotate = () => {
+    if (prefersReducedMotion) return;
     stopAutoRotate();
     galleryTimer = setInterval(() => setSlide(state.galleryIndex + 1), 6000);
   };
@@ -1055,8 +1182,17 @@ function renderGallery() {
     openLightbox(activeImage.dataset.image, activeImage.dataset.title);
   });
 
+  activeImage.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openLightbox(activeImage.dataset.image, activeImage.dataset.title);
+    }
+  });
+
   galleryRoot.addEventListener("mouseenter", stopAutoRotate);
   galleryRoot.addEventListener("mouseleave", startAutoRotate);
+  galleryRoot.addEventListener("focusin", stopAutoRotate);
+  galleryRoot.addEventListener("focusout", startAutoRotate);
   setSlide(0);
   startAutoRotate();
 }
@@ -1131,6 +1267,7 @@ function renderAlumni() {
   };
 
   const startAutoRotate = () => {
+    if (prefersReducedMotion) return;
     stopAutoRotate();
     alumniTimer = setInterval(() => setAlumni(state.alumniIndex + 1), 7000);
   };
@@ -1200,6 +1337,11 @@ function setupSearch() {
 }
 
 function setupRevealObserver() {
+  if (prefersReducedMotion) {
+    document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
+    return;
+  }
+
   revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -1222,27 +1364,72 @@ function observeRevealTargets(root = document) {
 
 function setupScrollDynamics() {
   const root = document.documentElement;
-  let ticking = false;
-
-  const update = () => {
-    const scrollTop = window.scrollY || window.pageYOffset || 0;
-    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
-    const progress = Math.min(100, Math.max(0, (scrollTop / maxScroll) * 100));
+  const getScrollTop = () => window.scrollY || window.pageYOffset || 0;
+  const getMaxScroll = () => Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+  const applyValues = (scrollValue, velocity = 0) => {
+    const maxScroll = getMaxScroll();
+    const progress = Math.min(100, Math.max(0, (scrollValue / maxScroll) * 100));
     root.style.setProperty("--scroll-progress", `${progress}%`);
-    root.style.setProperty("--hero-shift", `${Math.min(32, scrollTop * 0.06).toFixed(1)}px`);
-    document.body.classList.toggle("is-scrolled", scrollTop > 16);
-    ticking = false;
+    root.style.setProperty("--scroll-px", `${scrollValue.toFixed(1)}px`);
+    root.style.setProperty("--scroll-velocity", `${velocity.toFixed(3)}`);
+    root.style.setProperty("--hero-shift", `${Math.min(44, scrollValue * 0.07).toFixed(1)}px`);
+    document.body.classList.toggle("is-scrolled", scrollValue > 16);
+  };
+
+  if (prefersReducedMotion) {
+    const updateStatic = () => {
+      const scrollTop = getScrollTop();
+      const maxScroll = getMaxScroll();
+      const progress = Math.min(100, Math.max(0, (scrollTop / maxScroll) * 100));
+      root.style.setProperty("--scroll-progress", `${progress}%`);
+      root.style.setProperty("--scroll-px", `${scrollTop.toFixed(1)}px`);
+      root.style.setProperty("--scroll-velocity", "0");
+      root.style.setProperty("--hero-shift", "0px");
+      document.body.classList.toggle("is-scrolled", scrollTop > 16);
+    };
+
+    updateStatic();
+    window.addEventListener("scroll", updateStatic, { passive: true });
+    window.addEventListener("resize", updateStatic);
+    return;
+  }
+
+  let targetScroll = getScrollTop();
+  let easedScroll = targetScroll;
+  let rafId = null;
+
+  const renderFrame = () => {
+    const delta = targetScroll - easedScroll;
+    easedScroll += delta * 0.12;
+    if (Math.abs(delta) < 0.1) easedScroll = targetScroll;
+
+    applyValues(easedScroll, delta);
+
+    if (Math.abs(targetScroll - easedScroll) > 0.1) {
+      rafId = window.requestAnimationFrame(renderFrame);
+    } else {
+      rafId = null;
+    }
+  };
+
+  const requestFrame = () => {
+    if (rafId !== null) return;
+    rafId = window.requestAnimationFrame(renderFrame);
   };
 
   const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    window.requestAnimationFrame(update);
+    targetScroll = getScrollTop();
+    requestFrame();
   };
 
-  update();
+  const onResize = () => {
+    targetScroll = getScrollTop();
+    requestFrame();
+  };
+
+  applyValues(targetScroll, 0);
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
+  window.addEventListener("resize", onResize);
 }
 
 function setupHeroSlideshow() {
@@ -1251,33 +1438,114 @@ function setupHeroSlideshow() {
 
   const layers = hero.querySelectorAll(".hero-slide");
   if (layers.length < 2 || heroSlides.length === 0) return;
+  const prevButton = document.getElementById("hero-prev");
+  const nextButton = document.getElementById("hero-next");
+  const toggleButton = document.getElementById("hero-toggle");
 
   let activeLayer = 0;
   let activeIndex = 0;
+  let autoplayEnabled = !prefersReducedMotion;
 
   const applySlide = (layer, slideIndex) => {
-    const slide = heroSlides[slideIndex % heroSlides.length];
+    const total = heroSlides.length;
+    const normalized = ((slideIndex % total) + total) % total;
+    const slide = heroSlides[normalized];
     layer.style.backgroundImage = `url("${slide.image}")`;
     layer.style.backgroundPosition = slide.position || "center center";
   };
 
-  applySlide(layers[0], activeIndex);
-  applySlide(layers[1], activeIndex + 1);
-
-  const advance = () => {
+  const setSlide = (slideIndex) => {
+    const total = heroSlides.length;
+    const normalized = ((slideIndex % total) + total) % total;
+    if (normalized === activeIndex) return;
     const nextLayer = (activeLayer + 1) % layers.length;
-    activeIndex = (activeIndex + 1) % heroSlides.length;
-    applySlide(layers[nextLayer], activeIndex);
+    applySlide(layers[nextLayer], normalized);
     layers[nextLayer].classList.add("is-active");
     layers[activeLayer].classList.remove("is-active");
     activeLayer = nextLayer;
+    activeIndex = normalized;
   };
 
-  if (heroTimer) clearInterval(heroTimer);
-  heroTimer = setInterval(advance, 6500);
+  const stopAuto = () => {
+    if (!heroTimer) return;
+    clearInterval(heroTimer);
+    heroTimer = null;
+  };
+
+  const startAuto = () => {
+    stopAuto();
+    if (!autoplayEnabled || prefersReducedMotion || heroSlides.length < 2) return;
+    heroTimer = setInterval(() => setSlide(activeIndex + 1), 6500);
+  };
+
+  const updateToggle = () => {
+    if (!toggleButton) return;
+    if (prefersReducedMotion) {
+      toggleButton.disabled = true;
+      toggleButton.setAttribute("aria-pressed", "true");
+      toggleButton.textContent = "Motion off";
+      toggleButton.setAttribute(
+        "aria-label",
+        "Background image rotation is off because reduced-motion is enabled in your system settings"
+      );
+      return;
+    }
+    const paused = !autoplayEnabled;
+    toggleButton.setAttribute("aria-pressed", String(paused));
+    toggleButton.textContent = paused ? "Resume motion" : "Pause motion";
+    toggleButton.setAttribute(
+      "aria-label",
+      paused ? "Resume background image rotation" : "Pause background image rotation"
+    );
+  };
+
+  applySlide(layers[0], activeIndex);
+  layers[0].classList.add("is-active");
+  applySlide(layers[1], activeIndex + 1);
+  layers[1].classList.remove("is-active");
+
+  if (prevButton) {
+    prevButton.addEventListener("click", () => {
+      setSlide(activeIndex - 1);
+      if (autoplayEnabled) startAuto();
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener("click", () => {
+      setSlide(activeIndex + 1);
+      if (autoplayEnabled) startAuto();
+    });
+  }
+
+  if (toggleButton) {
+    if (!prefersReducedMotion) {
+      toggleButton.addEventListener("click", () => {
+        autoplayEnabled = !autoplayEnabled;
+        updateToggle();
+        if (autoplayEnabled) {
+          startAuto();
+        } else {
+          stopAuto();
+        }
+      });
+    }
+  }
+
+  hero.addEventListener("mouseenter", stopAuto);
+  hero.addEventListener("mouseleave", startAuto);
+  hero.addEventListener("focusin", stopAuto);
+  hero.addEventListener("focusout", (event) => {
+    if (hero.contains(event.relatedTarget)) return;
+    startAuto();
+  });
+
+  updateToggle();
+  startAuto();
 }
 
 async function initializePage() {
+  renderBigQuestions();
   renderResearch();
   renderMedia();
   renderPublications();

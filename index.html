@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="scroll-meter" aria-hidden="true"></div>
     <header class="site-header" id="top">
       <div class="container header-inner">
@@ -42,7 +43,7 @@
       </div>
     </header>
 
-    <main>
+    <main id="main-content">
       <section id="home" class="hero">
         <div class="hero-slideshow" aria-hidden="true">
           <div class="hero-slide is-active"></div>
@@ -55,7 +56,8 @@
             <h1>Deciphering the molecular mechanisms of bacterial growth.</h1>
             <p>
               The Bernhardt Lab studies how bacteria build and remodel their cell envelopes during growth and division,
-              with the goal of enabling new antibiotic strategies against increasingly drug-resistant infections.
+              with the goal of enabling new antibiotic strategies against the global threat of increasingly
+              drug-resistant infections.
             </p>
             <div class="hero-actions">
               <a class="button button-primary" href="#research">Explore Research</a>
@@ -63,6 +65,23 @@
               <a class="button button-ghost" href="https://phages.hms.harvard.edu" target="_blank" rel="noreferrer"
                 >Community Phages</a
               >
+            </div>
+            <div class="hero-slideshow-controls" role="group" aria-label="Hero background image controls">
+              <button class="hero-control" id="hero-prev" type="button" aria-label="Show previous hero image">
+                Previous image
+              </button>
+              <button
+                class="hero-control"
+                id="hero-toggle"
+                type="button"
+                aria-pressed="false"
+                aria-label="Pause background image rotation"
+              >
+                Pause motion
+              </button>
+              <button class="hero-control" id="hero-next" type="button" aria-label="Show next hero image">
+                Next image
+              </button>
             </div>
           </div>
 
@@ -176,6 +195,55 @@
             We integrate bacterial genetics with structure and imaging to define how envelope growth is executed and
             where it can be disrupted therapeutically.
           </p>
+          <div class="research-marquee reveal" aria-label="Core methods and themes">
+            <div class="research-marquee-track">
+              <span>Microbial genetics</span>
+              <span>Division-site architecture</span>
+              <span>Peptidoglycan synthesis</span>
+              <span>Live-cell microscopy</span>
+              <span>Cryo-EM + Cryo-ET</span>
+              <span>Envelope stress signaling</span>
+              <span>Antibiotic mechanism</span>
+              <span>High-priority pathogens</span>
+            </div>
+            <div class="research-marquee-track" aria-hidden="true">
+              <span>Microbial genetics</span>
+              <span>Division-site architecture</span>
+              <span>Peptidoglycan synthesis</span>
+              <span>Live-cell microscopy</span>
+              <span>Cryo-EM + Cryo-ET</span>
+              <span>Envelope stress signaling</span>
+              <span>Antibiotic mechanism</span>
+              <span>High-priority pathogens</span>
+            </div>
+          </div>
+          <section class="question-shell reveal" aria-labelledby="question-shell-title">
+            <div class="question-shell-head">
+              <p class="eyebrow">Big Questions</p>
+              <h3 id="question-shell-title">Questions currently driving the research program.</h3>
+              <p class="section-intro section-intro-ink">
+                A rotating view of active conceptual questions across the Bernhardt Lab portfolio.
+              </p>
+              <div class="question-controls" role="group" aria-label="Question carousel controls">
+                <button class="question-control" id="question-prev" type="button" aria-label="Show previous question">
+                  Previous
+                </button>
+                <button
+                  class="question-control"
+                  id="question-toggle"
+                  type="button"
+                  aria-pressed="false"
+                  aria-label="Pause question rotation"
+                >
+                  Pause
+                </button>
+                <button class="question-control" id="question-next" type="button" aria-label="Show next question">
+                  Next
+                </button>
+              </div>
+            </div>
+            <div id="question-grid" class="question-grid" aria-live="polite"></div>
+          </section>
           <div id="research-grid" class="research-grid" aria-live="polite"></div>
           <div class="research-media-block">
             <div class="section-head reveal">
@@ -183,9 +251,39 @@
               <h3>Microscopy-first views of bacterial envelope biology.</h3>
             </div>
             <p class="section-intro reveal">
-              Live-cell movies, fluorescence microscopy, and cryo-electron imaging show how envelope programs execute
-              growth, division, and stress adaptation in real time across diverse bacterial systems.
+              Video and publication-derived imaging highlight envelope growth, division, and stress adaptation in real
+              time.
             </p>
+            <article class="research-video-feature reveal" aria-labelledby="lab-video-title">
+              <div class="research-video-embed">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/RxHTaTmPlwQ?cc_load_policy=1&amp;rel=0"
+                  title="Thomas Bernhardt Lab research video"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div class="research-video-copy">
+                <p class="eyebrow">Featured Video</p>
+                <h4 id="lab-video-title">Inside the Bernhardt Lab research program</h4>
+                <p>
+                  A short video overview of how the lab studies bacterial envelope growth and division, and why these
+                  mechanisms matter for antimicrobial strategy.
+                </p>
+                <p class="video-access-note">
+                  Captions are enabled in the player. A transcript is available on the YouTube watch page.
+                </p>
+                <a
+                  class="media-source"
+                  href="https://www.youtube.com/watch?v=RxHTaTmPlwQ"
+                  target="_blank"
+                  rel="noreferrer"
+                  >Watch on YouTube</a
+                >
+              </div>
+            </article>
             <div class="media-tags reveal" aria-label="Imaging modes">
               <span>Live-cell dynamics</span>
               <span>Fluorescence architecture</span>
@@ -291,9 +389,9 @@
                 class="map-frame"
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-                src="https://www.google.com/maps?q=77+Avenue+Louis+Pasteur%2C+Boston%2C+MA+02115&amp;output=embed"
+                src="https://www.google.com/maps?q=Harvard+Medical+School%2C+77+Avenue+Louis+Pasteur%2C+Boston%2C+MA+02115&amp;z=15&amp;output=embed"
               ></iframe>
-              <p class="map-note">Approximate marker: 77 Avenue Louis Pasteur, Boston.</p>
+              <p class="map-note">Harvard Medical School, 77 Avenue Louis Pasteur, Boston.</p>
             </div>
           </article>
 
@@ -338,7 +436,10 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <p>Thomas Bernhardt Lab | Howard Hughes Medical Institute + Harvard Medical School</p>
-        <a href="#top">Back to top</a>
+        <div class="footer-links">
+          <a href="accessibility.html">Accessibility</a>
+          <a href="#top">Back to top</a>
+        </div>
       </div>
     </footer>
 

@@ -56,6 +56,32 @@ a {
   color: inherit;
 }
 
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3.2rem;
+  z-index: 300;
+  padding: 0.58rem 0.82rem;
+  border-radius: 10px;
+  background: #102746;
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 12px 22px rgba(9, 20, 38, 0.22);
+  transition: top 160ms ease;
+}
+
+.skip-link:focus-visible {
+  top: 0.9rem;
+  outline: 3px solid #8fd2d7;
+  outline-offset: 2px;
+}
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid rgba(14, 117, 125, 0.66);
+  outline-offset: 2px;
+}
+
 h1,
 h2,
 h3 {
@@ -236,6 +262,7 @@ p {
 .button:hover,
 .button:focus-visible {
   transform: translateY(-1px);
+  outline-offset: 3px;
 }
 
 .button-primary {
@@ -344,6 +371,17 @@ p {
   margin: 0 auto;
   color: var(--muted);
   font-size: 0.84rem;
+}
+
+.site-footer a {
+  color: var(--midnight-soft);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  text-decoration: underline;
 }
 
 @keyframes float-orb {
@@ -488,5 +526,19 @@ p {
 
   .site-footer p {
     font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

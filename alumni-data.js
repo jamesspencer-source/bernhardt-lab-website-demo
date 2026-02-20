@@ -31,7 +31,7 @@ const rawAlumni =
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "Assistant professor, Iowa St. University",
+      "current_role" : "Associate Professor, Iowa State University",
       "name" : "Nick Peters",
       "role_in_lab" : "postdoctoral fellow",
       "source" : "Bernhardt Lab alumni page"
@@ -151,7 +151,7 @@ const rawAlumni =
       "source" : "Bernhardt Lab alumni page"
    },
    {
-      "current_role" : "Assistant Professor, Department of Bacteriology, University of Wisconsin-Madison",
+      "current_role" : "Assistant Professor, Department of Laboratory Medicine and Pathology, University of Washington",
       "name" : "Thao Truong",
       "role_in_lab" : "graduate student",
       "source" : "Bernhardt Lab alumni page"
@@ -365,7 +365,7 @@ const verifiedAlumniProfiles = {
     source: "University of Lausanne"
   },
   "Nick Peters": {
-    url: "https://www.micrograd.iastate.edu/people/nicholas-peters",
+    url: "https://www.micro.iastate.edu/people/nicholas-peters",
     source: "Iowa State University"
   },
   "Andrew Fenton": {
@@ -373,15 +373,15 @@ const verifiedAlumniProfiles = {
     source: "University of Sheffield"
   },
   "Chris Lok-To Sham": {
-    url: "https://nusgs.nus.edu.sg/thesis-advisors/miclts/",
+    url: "https://nusgs.nus.edu.sg/thesis-advisors/miclts",
     source: "National University of Singapore"
   },
   "Neil Greene": {
-    url: "https://web.uri.edu/mls/meet/neil-greene/",
+    url: "https://web.uri.edu/cmb/meet/neil-greene/",
     source: "University of Rhode Island"
   },
   "Derek Lau": {
-    url: "https://www.emmanuel.edu/faculty-and-staff/derek-lau",
+    url: "https://www.emmanuel.edu/derek-lau",
     source: "Emmanuel College"
   },
   "Alix Dachsbeck": {
@@ -389,7 +389,7 @@ const verifiedAlumniProfiles = {
     source: "Institut de Duve, UCLouvain"
   },
   "Nicole Marquez Reyes": {
-    url: "https://www.fixenlab.org/team",
+    url: "https://www.fixenlab.com/people",
     source: "Fixen Lab, University of Minnesota"
   },
   "Triet Doan": {
@@ -397,11 +397,11 @@ const verifiedAlumniProfiles = {
     source: "Barczak Lab, Harvard/Brigham"
   },
   "Matt Siebel": {
-    url: "https://publichealth.jhu.edu/departments/molecular-microbiology-and-immunology/people/students-and-alumni",
+    url: "https://publichealth.jhu.edu/departments/molecular-microbiology-and-immunology/people",
     source: "Johns Hopkins Bloomberg School of Public Health"
   },
   "Angelika Grundling": {
-    url: "https://www.imperial.ac.uk/microbiology/research/molecular-microbiology/grondling/",
+    url: "https://www.imperial.ac.uk/infectious-disease/research/molecular-microbiology/",
     source: "Imperial College London"
   },
   "Hongbaek Cho": {
@@ -409,15 +409,15 @@ const verifiedAlumniProfiles = {
     source: "Sungkyunkwan University"
   },
   "Anastasiya Yakhnina": {
-    url: "https://www.bordensteinlab.com/people",
+    url: "https://bordensteinlab.com/people/",
     source: "Bordenstein Lab, Vanderbilt University"
   },
   "Thao Truong": {
-    url: "https://microbiology.wisc.edu/staff/truong-thao/",
-    source: "University of Wisconsin-Madison"
+    url: "https://dlmp.uw.edu/faculty/truong-thao",
+    source: "University of Washington"
   },
   "Elayne Fivenson": {
-    url: "https://www.jccfund.org/fellow/elayne-fivenson/",
+    url: "https://www.jccfund.org/fellows/current/",
     source: "Jane Coffin Childs Fund"
   },
   "Camilla Jensen": {
