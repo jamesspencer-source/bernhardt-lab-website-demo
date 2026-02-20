@@ -240,6 +240,55 @@
   font-size: 0.92rem;
 }
 
+.envelope-model-picker {
+  width: min(24rem, 100%);
+  display: grid;
+  gap: 0.42rem;
+  margin-top: 0.2rem;
+  padding: 0.62rem;
+  border-radius: 12px;
+  border: 1px solid rgba(143, 210, 215, 0.28);
+  background:
+    linear-gradient(160deg, rgba(177, 238, 246, 0.08), rgba(177, 238, 246, 0) 46%),
+    rgba(5, 17, 32, 0.54);
+}
+
+.envelope-model-picker label {
+  margin: 0;
+  text-align: left;
+  color: rgba(210, 241, 252, 0.92);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.envelope-model-picker select {
+  appearance: none;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(143, 210, 215, 0.44);
+  background: rgba(8, 24, 42, 0.78);
+  color: #edf9ff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  min-height: 2.3rem;
+  padding: 0.38rem 0.72rem;
+}
+
+.envelope-model-picker select:focus-visible {
+  outline: 3px solid rgba(143, 210, 215, 0.74);
+  outline-offset: 2px;
+}
+
+.envelope-model-picker p {
+  margin: 0;
+  font-size: 0.8rem;
+  text-align: left;
+  color: rgba(168, 231, 238, 0.9);
+}
+
 .envelope-hud {
   position: relative;
   z-index: 1;
@@ -293,6 +342,126 @@
   margin: 0;
   color: rgba(213, 235, 247, 0.9);
   font-size: 0.82rem;
+}
+
+.envelope-leaderboard {
+  border: 1px solid rgba(143, 210, 215, 0.28);
+  border-radius: 14px;
+  padding: 0.72rem;
+  background:
+    linear-gradient(155deg, rgba(177, 238, 246, 0.1), rgba(177, 238, 246, 0) 44%),
+    linear-gradient(180deg, rgba(8, 23, 41, 0.56), rgba(8, 23, 41, 0.32));
+  display: grid;
+  gap: 0.55rem;
+}
+
+.envelope-leaderboard-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.envelope-leaderboard-head h3 {
+  margin: 0;
+  color: rgba(228, 249, 255, 0.96);
+  font-size: 0.96rem;
+  font-family: "Manrope", sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.envelope-leaderboard-head p {
+  margin: 0;
+  font-size: 0.72rem;
+  color: rgba(177, 230, 237, 0.78);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.envelope-leaderboard-head p.is-global {
+  color: rgba(160, 255, 199, 0.92);
+}
+
+.envelope-leaderboard-head p.is-fallback {
+  color: rgba(255, 214, 171, 0.9);
+}
+
+.envelope-leaderboard-list {
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  display: grid;
+  gap: 0.32rem;
+  max-height: 12.2rem;
+  overflow: auto;
+}
+
+.envelope-leaderboard-list li {
+  color: rgba(224, 244, 252, 0.92);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  padding-right: 0.25rem;
+}
+
+.envelope-leaderboard-list li.is-empty {
+  color: rgba(191, 223, 235, 0.44);
+}
+
+.envelope-leaderboard-list strong {
+  color: #f2fbff;
+}
+
+.envelope-name-form {
+  display: grid;
+  gap: 0.42rem;
+  border-top: 1px solid rgba(143, 210, 215, 0.22);
+  padding-top: 0.56rem;
+}
+
+.envelope-name-form label {
+  color: rgba(200, 237, 248, 0.9);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.envelope-name-feedback {
+  margin: 0;
+  min-height: 1.05rem;
+  color: rgba(255, 205, 175, 0.9);
+  font-size: 0.76rem;
+}
+
+.envelope-name-row {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.envelope-name-row input {
+  min-width: 12rem;
+  flex: 1 1 12rem;
+  min-height: 2.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(143, 210, 215, 0.42);
+  background: rgba(8, 24, 42, 0.72);
+  color: #ebf9ff;
+  padding: 0.38rem 0.82rem;
+  font: inherit;
+  font-size: 0.86rem;
+}
+
+.envelope-name-row input::placeholder {
+  color: rgba(201, 235, 247, 0.55);
+}
+
+.envelope-name-row input:focus-visible {
+  outline: 3px solid rgba(143, 210, 215, 0.74);
+  outline-offset: 2px;
+}
+
+.envelope-name-row .envelope-action,
+.envelope-name-row .envelope-secondary {
+  min-height: 2.2rem;
 }
 
 @keyframes envelope-aurora {

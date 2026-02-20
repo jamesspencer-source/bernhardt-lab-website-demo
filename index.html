@@ -478,6 +478,16 @@
               Guide a bacterium through phage pressure and antibiotic pulses. Collect envelope-building precursors to
               maintain integrity.
             </p>
+            <div class="envelope-model-picker">
+              <label for="envelope-model-select">Choose a model bacterium</label>
+              <select id="envelope-model-select" name="envelope-model">
+                <option value="ecoli">Escherichia coli</option>
+                <option value="kpneumoniae">Klebsiella pneumoniae</option>
+                <option value="abaumannii">Acinetobacter baumannii</option>
+                <option value="saureus">Staphylococcus aureus</option>
+              </select>
+              <p id="envelope-model-note"></p>
+            </div>
             <button id="envelope-start" class="envelope-action" type="button">Start Simulation</button>
           </div>
         </div>
@@ -507,6 +517,29 @@
             <button id="envelope-restart" class="envelope-secondary" type="button">Restart</button>
           </div>
           <p>Controls: WASD or arrow keys, or drag/touch inside the arena.</p>
+          <section class="envelope-leaderboard" aria-labelledby="envelope-leaderboard-title">
+            <div class="envelope-leaderboard-head">
+              <h3 id="envelope-leaderboard-title">Top 10 Lab Scores</h3>
+              <p id="envelope-leaderboard-meta">Stored in this browser</p>
+            </div>
+            <ol id="envelope-leaderboard-list" class="envelope-leaderboard-list"></ol>
+            <form id="envelope-name-form" class="envelope-name-form" hidden>
+              <label for="envelope-name-input" id="envelope-name-label">New high score: add your name</label>
+              <p id="envelope-name-feedback" class="envelope-name-feedback" hidden></p>
+              <div class="envelope-name-row">
+                <input
+                  id="envelope-name-input"
+                  name="envelope-name"
+                  type="text"
+                  maxlength="24"
+                  autocomplete="nickname"
+                  placeholder="Name"
+                />
+                <button type="submit" class="envelope-action">Save</button>
+                <button id="envelope-name-skip" type="button" class="envelope-secondary">Skip</button>
+              </div>
+            </form>
+          </section>
         </div>
       </div>
     </dialog>
@@ -521,6 +554,7 @@
 
     <script src="alumni-data.js"></script>
     <script src="main.js"></script>
+    <script src="envelope-escape-config.js"></script>
     <script src="envelope-escape.js"></script>
   </body>
 </html>
