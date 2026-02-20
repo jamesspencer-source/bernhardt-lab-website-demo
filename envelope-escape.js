@@ -23,6 +23,10 @@
   const shieldEl = document.getElementById("envelope-shield");
   const leaderboardListEl = document.getElementById("envelope-leaderboard-list");
   const leaderboardMetaEl = document.getElementById("envelope-leaderboard-meta");
+  const adminToggleEl = document.getElementById("envelope-admin-toggle");
+  const adminFormEl = document.getElementById("envelope-admin-form");
+  const adminCodeEl = document.getElementById("envelope-admin-code");
+  const adminFeedbackEl = document.getElementById("envelope-admin-feedback");
   const nameFormEl = document.getElementById("envelope-name-form");
   const nameInputEl = document.getElementById("envelope-name-input");
   const nameLabelEl = document.getElementById("envelope-name-label");
@@ -39,6 +43,8 @@
   const MODEL_KEY = "bernhardt-envelope-escape-model";
   const LEADERBOARD_SIZE = 10;
   const GLOBAL_LEADERBOARD_URL = String(window.ENVELOPE_LEADERBOARD_URL || "").trim();
+  const ADMIN_SESSION_TOKEN_KEY = "bernhardt_admin_token";
+  const ADMIN_SESSION_ENDPOINT_KEY = "bernhardt_admin_endpoint";
 
   const BACTERIA_MODELS = {
     ecoli: {
@@ -289,6 +295,67 @@
       return;
     }
     leaderboardMetaEl.textContent = "Stored in this browser";
+  }
+
+  function setAdminFeedback(message = "") {
+    if (!adminFeedbackEl) return;
+    adminFeedbackEl.textContent = message;
+    adminFeedbackEl.hidden = !message;
+  }
+
+  function hideAdminForm() {
+    if (adminFormEl) adminFormEl.hidden = true;
+    if (adminCodeEl) adminCodeEl.value = "";
+    setAdminFeedback("");
+  }
+
+  function normalizeAdminEndpoint(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "";
+    try {
+      const url = new URL(raw, window.location.origin);
+      const path = url.pathname.replace(/\/+$/, "");
+      if (/\/(api\/)?admin\/leaderboard$/i.test(path)) {
+        url.pathname = path;
+      } else if (/\/(api\/)?leaderboard$/i.test(path)) {
+        url.pathname = path.replace(/\/(api\/)?leaderboard$/i, "/admin/leaderboard");
+      } else {
+        url.pathname = `${path}/admin/leaderboard`.replace(/\/{2,}/g, "/");
+      }
+      url.search = "";
+      url.hash = "";
+      return url.toString();
+    } catch {
+      return "";
+    }
+  }
+
+  async function verifyAdminCode(code) {
+    const adminEndpoint = normalizeAdminEndpoint(GLOBAL_LEADERBOARD_URL);
+    if (!adminEndpoint) {
+      throw new Error("Global leaderboard is not enabled.");
+    }
+
+    const verifyUrl = new URL(adminEndpoint);
+    verifyUrl.searchParams.set("limit", "1");
+
+    const response = await fetch(verifyUrl.toString(), {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "x-admin-token": code
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Code not recognized.");
+    }
+
+    return adminEndpoint;
+  }
+
+  function getAdminPageUrl() {
+    return new URL("admin-leaderboard.html", window.location.href).toString();
   }
 
   async function fetchGlobalLeaderboard() {
@@ -658,6 +725,7 @@
     resizeCanvas();
     resetSimulation();
     hideNameForm();
+    hideAdminForm();
     state.running = false;
     state.paused = false;
     pauseButton.textContent = "Pause";
@@ -687,6 +755,7 @@
     state.paused = false;
     pointer.active = false;
     hideNameForm();
+    hideAdminForm();
 
     if (rafId !== null) {
       window.cancelAnimationFrame(rafId);
@@ -697,6 +766,7 @@
   function startSimulation() {
     resetSimulation();
     hideNameForm();
+    hideAdminForm();
     state.running = true;
     state.paused = false;
     pauseButton.textContent = "Pause";
@@ -1867,6 +1937,42 @@
     });
   }
 
+  if (adminToggleEl) {
+    adminToggleEl.addEventListener("click", () => {
+      if (!GLOBAL_LEADERBOARD_URL) {
+        setAdminFeedback("Global board not configured yet.");
+        if (adminFormEl) adminFormEl.hidden = false;
+        return;
+      }
+      const nowHidden = adminFormEl ? !adminFormEl.hidden : true;
+      if (adminFormEl) adminFormEl.hidden = nowHidden;
+      if (!nowHidden && adminCodeEl) adminCodeEl.focus({ preventScroll: true });
+      if (nowHidden) setAdminFeedback("");
+    });
+  }
+
+  if (adminFormEl) {
+    adminFormEl.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const code = String(adminCodeEl ? adminCodeEl.value : "").trim();
+      if (!code) {
+        setAdminFeedback("Enter code.");
+        return;
+      }
+
+      try {
+        setAdminFeedback("Verifying...");
+        const adminEndpoint = await verifyAdminCode(code);
+        sessionStorage.setItem(ADMIN_SESSION_TOKEN_KEY, code);
+        sessionStorage.setItem(ADMIN_SESSION_ENDPOINT_KEY, adminEndpoint);
+        setAdminFeedback("Opening controls...");
+        window.location.href = getAdminPageUrl();
+      } catch (error) {
+        setAdminFeedback(error.message || "Code not recognized.");
+      }
+    });
+  }
+
   if (modelSelectEl) {
     modelSelectEl.addEventListener("change", () => {
       setModel(modelSelectEl.value, true);
@@ -1919,6 +2025,7 @@
 
   setModel(state.modelId, false);
   hideNameForm();
+  hideAdminForm();
   setLeaderboardMeta(state.leaderboardMode === "global" ? "global" : "local");
   renderLeaderboard();
   refreshLeaderboardFromSource();

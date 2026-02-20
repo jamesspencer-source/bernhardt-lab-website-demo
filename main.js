@@ -198,6 +198,14 @@ const mediaHighlights = [
 
 const galleryItems = [
   {
+    title: "Tom Bernhardt mentoring during HMS Community Phages",
+    image: "community-phages-tom-2023-049.jpg"
+  },
+  {
+    title: "Hands-on instruction during Community Phages",
+    image: "community-phages-tom-2023-050.jpg"
+  },
+  {
     title: "2017 Halloween Pumpkin",
     image:
       "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1519156145666-U4H8RCA93NWXYOOV7QL9/IMG_20171027_163243.jpg"
@@ -367,13 +375,13 @@ const rawPeople = [
       "profile" : "/thomas-bernhardt",
       "bio" : "The Bernhardt lab studies molecular mechanisms of bacterial growth and cell wall assembly to inform antibiotic discovery.",
       "role" : "Professor, Department of Microbiology | Investigator, Howard Hughes Medical Institute",
-      "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1484845930851-CZKAGRIPRLNCPA9IF43Q/DSC_0104.JPG",
+      "image" : "thomas-bernhardt-hhmi-2025.png",
       "email" : "",
       "name" : "Thomas Bernhardt"
    },
    {
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1553173916977-5MWVESOJ7KKQ89GK4ORT/James_spencer.jpg",
-      "bio" : "As the lab manager, I am responsible for managing every aspect of lab operations, capital projects, and administration for a dynamic team of research technicians, graduate students,  postdoctoral trainees, and visiting scholars.",
+      "bio" : "Research operations lead for the Bernhardt and Abraham HHMI labs at HMS, overseeing finance, hiring, procurement, compliance, and lab infrastructure, and supporting HMS Community Phages.",
       "role" : "Howard Hughes Medical Institute",
       "profile" : "/james",
       "name" : "James Spencer",

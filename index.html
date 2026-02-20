@@ -520,9 +520,26 @@
           <section class="envelope-leaderboard" aria-labelledby="envelope-leaderboard-title">
             <div class="envelope-leaderboard-head">
               <h3 id="envelope-leaderboard-title">Top 10 Lab Scores</h3>
-              <p id="envelope-leaderboard-meta">Stored in this browser</p>
+              <div class="envelope-leaderboard-meta-wrap">
+                <p id="envelope-leaderboard-meta">Stored in this browser</p>
+                <button id="envelope-admin-toggle" class="envelope-admin-toggle" type="button">Controls</button>
+              </div>
             </div>
             <ol id="envelope-leaderboard-list" class="envelope-leaderboard-list"></ol>
+            <form id="envelope-admin-form" class="envelope-admin-form" hidden>
+              <label for="envelope-admin-code">Access code</label>
+              <div class="envelope-admin-row">
+                <input
+                  id="envelope-admin-code"
+                  name="envelope-admin-code"
+                  type="password"
+                  autocomplete="off"
+                  placeholder="Enter code"
+                />
+                <button type="submit" class="envelope-secondary">Open</button>
+              </div>
+              <p id="envelope-admin-feedback" hidden></p>
+            </form>
             <form id="envelope-name-form" class="envelope-name-form" hidden>
               <label for="envelope-name-input" id="envelope-name-label">New high score: add your name</label>
               <p id="envelope-name-feedback" class="envelope-name-feedback" hidden></p>

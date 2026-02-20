@@ -1,0 +1,223 @@
+:root {
+  --admin-bg: #0d1830;
+  --admin-bg-soft: #13274a;
+  --admin-card: rgba(16, 34, 61, 0.9);
+  --admin-line: rgba(145, 213, 221, 0.28);
+  --admin-text: #ebf7ff;
+  --admin-muted: #a9c4d9;
+  --admin-accent: #8fd2d7;
+  --admin-ok: #95f0c2;
+  --admin-warn: #ffd8a8;
+  --admin-danger: #ff9bb9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.admin-body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Manrope", sans-serif;
+  color: var(--admin-text);
+  background:
+    radial-gradient(circle at 10% 12%, rgba(143, 210, 215, 0.14), transparent 42%),
+    radial-gradient(circle at 88% 88%, rgba(165, 28, 48, 0.14), transparent 42%),
+    linear-gradient(170deg, var(--admin-bg), var(--admin-bg-soft));
+}
+
+.admin-shell {
+  width: min(1120px, calc(100% - 1.6rem));
+  margin: 1rem auto 2rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.admin-card {
+  border: 1px solid var(--admin-line);
+  border-radius: 16px;
+  background:
+    linear-gradient(160deg, rgba(145, 213, 221, 0.08), rgba(145, 213, 221, 0) 40%),
+    var(--admin-card);
+  padding: 1rem;
+  box-shadow: 0 20px 40px rgba(2, 10, 20, 0.34);
+}
+
+.admin-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-family: "Fraunces", serif;
+  font-size: clamp(1.25rem, 3.6vw, 2rem);
+}
+
+.admin-header p {
+  margin: 0.3rem 0 0;
+  color: var(--admin-muted);
+  font-size: 0.88rem;
+}
+
+.admin-back {
+  color: var(--admin-text);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.admin-field {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.admin-field label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(192, 228, 237, 0.9);
+  font-weight: 700;
+}
+
+.admin-field input {
+  min-height: 2.4rem;
+  border-radius: 12px;
+  border: 1px solid rgba(145, 213, 221, 0.4);
+  background: rgba(9, 24, 44, 0.72);
+  color: var(--admin-text);
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+}
+
+.admin-field input:focus-visible,
+.admin-btn:focus-visible {
+  outline: 3px solid rgba(143, 210, 215, 0.76);
+  outline-offset: 2px;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(143, 210, 215, 0.4);
+  background: rgba(9, 24, 44, 0.7);
+  color: var(--admin-text);
+  min-height: 2.2rem;
+  padding: 0.38rem 0.85rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-btn.primary {
+  background: linear-gradient(130deg, #0e757d, #1a9ba4);
+  border-color: rgba(182, 243, 247, 0.62);
+}
+
+.admin-btn.warn {
+  border-color: rgba(255, 216, 168, 0.48);
+  color: #ffe5c2;
+}
+
+.admin-btn.danger {
+  border-color: rgba(255, 155, 185, 0.52);
+  color: #ffd1e1;
+}
+
+.admin-status {
+  min-height: 1.1rem;
+  margin: 0;
+  color: var(--admin-muted);
+  font-size: 0.84rem;
+}
+
+.admin-status.ok {
+  color: var(--admin-ok);
+}
+
+.admin-status.warn {
+  color: var(--admin-warn);
+}
+
+.admin-status.error {
+  color: var(--admin-danger);
+}
+
+.admin-table-wrap {
+  overflow: auto;
+  border: 1px solid rgba(145, 213, 221, 0.24);
+  border-radius: 12px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+  font-size: 0.84rem;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.52rem 0.62rem;
+  border-bottom: 1px solid rgba(145, 213, 221, 0.14);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.admin-table th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(181, 228, 235, 0.9);
+  font-weight: 700;
+  background: rgba(11, 30, 54, 0.7);
+  position: sticky;
+  top: 0;
+}
+
+.admin-table td {
+  color: rgba(227, 245, 255, 0.95);
+}
+
+.admin-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.admin-empty {
+  margin: 0;
+  color: var(--admin-muted);
+  font-size: 0.86rem;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 820px) {
+  .admin-shell {
+    width: min(1120px, calc(100% - 0.9rem));
+  }
+
+  .admin-card {
+    padding: 0.72rem;
+  }
+}
