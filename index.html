@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="envelope-escape.css" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -438,10 +439,76 @@
         <p>Thomas Bernhardt Lab | Howard Hughes Medical Institute + Harvard Medical School</p>
         <div class="footer-links">
           <a href="accessibility.html">Accessibility</a>
+          <button
+            id="envelope-trigger"
+            class="footer-secret-trigger"
+            type="button"
+            aria-label="Open hidden lab console game"
+            title="Open hidden lab console"
+          >
+            Lab Console
+          </button>
           <a href="#top">Back to top</a>
         </div>
       </div>
     </footer>
+
+    <dialog id="envelope-modal" class="envelope-modal" aria-labelledby="envelope-title">
+      <div class="envelope-shell">
+        <header class="envelope-header">
+          <div>
+            <p class="envelope-eyebrow">Hidden Experiment</p>
+            <h2 id="envelope-title">Envelope Escape</h2>
+          </div>
+          <button id="envelope-close" class="envelope-close" type="button" aria-label="Close game">Close</button>
+        </header>
+
+        <div class="envelope-stage-wrap">
+          <canvas
+            id="envelope-canvas"
+            class="envelope-canvas"
+            width="960"
+            height="540"
+            aria-label="Envelope Escape game canvas"
+          ></canvas>
+          <div id="envelope-overlay" class="envelope-overlay">
+            <h3 id="envelope-overlay-title">Run a hidden Bernhardt Lab simulation.</h3>
+            <p id="envelope-overlay-copy">
+              Guide a bacterium through phage pressure and antibiotic pulses. Collect envelope-building precursors to
+              maintain integrity.
+            </p>
+            <button id="envelope-start" class="envelope-action" type="button">Start Simulation</button>
+          </div>
+        </div>
+
+        <div class="envelope-hud" aria-live="polite">
+          <article>
+            <span>Score</span>
+            <strong id="envelope-score">0</strong>
+          </article>
+          <article>
+            <span>Best</span>
+            <strong id="envelope-best">0</strong>
+          </article>
+          <article>
+            <span>Envelope Integrity</span>
+            <strong id="envelope-integrity">100%</strong>
+          </article>
+          <article>
+            <span>Shield</span>
+            <strong id="envelope-shield">0%</strong>
+          </article>
+        </div>
+
+        <div class="envelope-controls">
+          <div class="envelope-buttons">
+            <button id="envelope-pause" class="envelope-secondary" type="button">Pause</button>
+            <button id="envelope-restart" class="envelope-secondary" type="button">Restart</button>
+          </div>
+          <p>Controls: WASD or arrow keys, or drag/touch inside the arena.</p>
+        </div>
+      </div>
+    </dialog>
 
     <dialog id="lightbox" class="lightbox">
       <form method="dialog">
@@ -453,5 +520,6 @@
 
     <script src="alumni-data.js"></script>
     <script src="main.js"></script>
+    <script src="envelope-escape.js"></script>
   </body>
 </html>
