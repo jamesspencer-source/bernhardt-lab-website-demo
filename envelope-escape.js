@@ -50,6 +50,7 @@
     resources: [],
     bursts: [],
     floaters: [],
+    trails: [],
     player: {
       x: 0,
       y: 0,
@@ -77,6 +78,8 @@
   let rafId = null;
   let lastFrame = 0;
   let overlayMode = "start";
+  let triggerClicks = 0;
+  let triggerTimer = null;
 
   function readBestScore() {
     try {
@@ -155,6 +158,7 @@
     state.resources = [];
     state.bursts = [];
     state.floaters = [];
+    state.trails = [];
     buildAmbientParticles();
     placePlayerCenter();
     updateHud();
@@ -467,6 +471,20 @@
     state.shield = Math.max(0, state.shield - dt * 1.8);
 
     updatePlayer(dt);
+    state.trails.push({
+      x: state.player.x,
+      y: state.player.y,
+      angle: state.player.angle,
+      life: 0.5,
+      maxLife: 0.5
+    });
+    if (state.trails.length > 28) state.trails.shift();
+
+    for (let i = state.trails.length - 1; i >= 0; i -= 1) {
+      const trail = state.trails[i];
+      trail.life -= dt;
+      if (trail.life <= 0) state.trails.splice(i, 1);
+    }
 
     const difficulty = 1 + state.elapsed / 52;
 
@@ -585,16 +603,34 @@
   }
 
   function drawBackground(time) {
+    const t = time * 0.001;
     const gradient = ctx.createLinearGradient(0, 0, state.width, state.height);
-    gradient.addColorStop(0, "#040d1c");
-    gradient.addColorStop(0.45, "#08233d");
-    gradient.addColorStop(1, "#0c324e");
+    gradient.addColorStop(0, "#040c18");
+    gradient.addColorStop(0.42, "#08243d");
+    gradient.addColorStop(1, "#0e3958");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, state.width, state.height);
 
+    const bloomFields = [
+      { x: 0.18, y: 0.2, r: 0.46, c0: "rgba(94, 199, 215, 0.21)", c1: "rgba(94, 199, 215, 0)" },
+      { x: 0.78, y: 0.28, r: 0.38, c0: "rgba(90, 130, 255, 0.17)", c1: "rgba(90, 130, 255, 0)" },
+      { x: 0.66, y: 0.78, r: 0.44, c0: "rgba(113, 246, 196, 0.13)", c1: "rgba(113, 246, 196, 0)" }
+    ];
+
+    bloomFields.forEach((field, index) => {
+      const px = state.width * field.x + Math.cos(t * (0.12 + index * 0.05)) * 26;
+      const py = state.height * field.y + Math.sin(t * (0.16 + index * 0.03)) * 22;
+      const radius = Math.max(state.width, state.height) * field.r;
+      const bloom = ctx.createRadialGradient(px, py, radius * 0.06, px, py, radius);
+      bloom.addColorStop(0, field.c0);
+      bloom.addColorStop(1, field.c1);
+      ctx.fillStyle = bloom;
+      ctx.fillRect(0, 0, state.width, state.height);
+    });
+
     ctx.save();
-    ctx.globalAlpha = 0.26;
-    ctx.strokeStyle = "rgba(129, 196, 207, 0.2)";
+    ctx.globalAlpha = 0.21;
+    ctx.strokeStyle = "rgba(132, 204, 213, 0.2)";
     ctx.lineWidth = 1;
 
     const spacing = 32;
@@ -602,11 +638,11 @@
     for (let x = -spacing; x < state.width + spacing; x += spacing) {
       ctx.beginPath();
       ctx.moveTo(x + offset, 0);
-      ctx.lineTo(x + offset, state.height);
+      ctx.lineTo(x + offset + state.height * 0.08, state.height);
       ctx.stroke();
     }
 
-    ctx.globalAlpha = 0.2;
+    ctx.globalAlpha = 0.16;
     const yOffset = (time * 0.008) % spacing;
     for (let y = -spacing; y < state.height + spacing; y += spacing) {
       ctx.beginPath();
@@ -618,23 +654,39 @@
 
     state.particles.forEach((particle) => {
       const alpha = 0.12 + 0.16 * (0.5 + 0.5 * Math.sin(particle.twinkle));
-      ctx.fillStyle = `rgba(150, 227, 233, ${alpha.toFixed(3)})`;
+      const glow = ctx.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.r * 3.4);
+      glow.addColorStop(0, `rgba(188, 244, 248, ${(alpha * 0.9).toFixed(3)})`);
+      glow.addColorStop(1, "rgba(188, 244, 248, 0)");
+      ctx.fillStyle = glow;
       ctx.beginPath();
-      ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+      ctx.arc(particle.x, particle.y, particle.r * 3.4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(150, 227, 233, ${(alpha + 0.08).toFixed(3)})`;
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, Math.max(0.8, particle.r * 0.62), 0, Math.PI * 2);
       ctx.fill();
     });
   }
 
   function drawPulse(pulse) {
     const ringAlpha = clamp(0.5 - pulse.r / (pulse.maxR * 1.2), 0.08, 0.44);
-    ctx.strokeStyle = `rgba(255, 133, 167, ${ringAlpha.toFixed(3)})`;
-    ctx.lineWidth = pulse.thickness;
+    const bloom = ctx.createRadialGradient(pulse.x, pulse.y, pulse.r * 0.75, pulse.x, pulse.y, pulse.r + pulse.thickness * 3);
+    bloom.addColorStop(0, "rgba(255, 135, 175, 0)");
+    bloom.addColorStop(1, `rgba(255, 144, 184, ${(ringAlpha * 0.34).toFixed(3)})`);
+    ctx.fillStyle = bloom;
+    ctx.beginPath();
+    ctx.arc(pulse.x, pulse.y, pulse.r + pulse.thickness * 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = `rgba(255, 133, 167, ${(ringAlpha * 1.05).toFixed(3)})`;
+    ctx.lineWidth = pulse.thickness * 1.05;
     ctx.beginPath();
     ctx.arc(pulse.x, pulse.y, pulse.r, 0, Math.PI * 2);
     ctx.stroke();
 
-    ctx.strokeStyle = `rgba(148, 216, 255, ${(ringAlpha * 0.8).toFixed(3)})`;
-    ctx.lineWidth = Math.max(2, pulse.thickness * 0.35);
+    ctx.strokeStyle = `rgba(168, 228, 255, ${(ringAlpha * 0.9).toFixed(3)})`;
+    ctx.lineWidth = Math.max(2, pulse.thickness * 0.34);
     ctx.beginPath();
     ctx.arc(pulse.x, pulse.y, pulse.r, 0, Math.PI * 2);
     ctx.stroke();
@@ -645,9 +697,17 @@
     ctx.translate(phage.x, phage.y);
     ctx.rotate(phage.rot);
 
+    const glow = ctx.createRadialGradient(0, 0, phage.r * 0.2, 0, 0, phage.r * 2.6);
+    glow.addColorStop(0, "rgba(162, 247, 255, 0.42)");
+    glow.addColorStop(1, "rgba(162, 247, 255, 0)");
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(0, 0, phage.r * 2.6, 0, Math.PI * 2);
+    ctx.fill();
+
     const headGradient = ctx.createRadialGradient(-2, -2, 2, 0, 0, phage.r);
-    headGradient.addColorStop(0, "rgba(176, 242, 255, 0.95)");
-    headGradient.addColorStop(1, "rgba(66, 159, 188, 0.95)");
+    headGradient.addColorStop(0, "rgba(193, 248, 255, 0.96)");
+    headGradient.addColorStop(1, "rgba(72, 165, 194, 0.94)");
     ctx.fillStyle = headGradient;
     ctx.beginPath();
     for (let i = 0; i < 6; i += 1) {
@@ -660,21 +720,49 @@
     ctx.closePath();
     ctx.fill();
 
+    ctx.strokeStyle = "rgba(198, 251, 255, 0.92)";
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(143, 230, 241, 0.58)";
+    ctx.lineWidth = 1.05;
+    for (let i = 0; i < 3; i += 1) {
+      const angle = (Math.PI / 3) * i;
+      ctx.beginPath();
+      ctx.moveTo(Math.cos(angle) * phage.r * 0.2, Math.sin(angle) * phage.r * 0.2);
+      ctx.lineTo(Math.cos(angle) * phage.r * 0.78, Math.sin(angle) * phage.r * 0.78);
+      ctx.stroke();
+    }
+
+    const tailBase = phage.r + phage.r * 0.18;
+    const tailY = phage.r + phage.r * 1.72;
     ctx.strokeStyle = "rgba(188, 248, 255, 0.86)";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(0, phage.r);
-    ctx.lineTo(0, phage.r + phage.r * 1.7);
+    ctx.moveTo(0, tailBase);
+    ctx.lineTo(0, tailY);
     ctx.stroke();
 
     ctx.strokeStyle = "rgba(144, 233, 246, 0.8)";
-    ctx.lineWidth = 1.5;
-    const tailY = phage.r + phage.r * 1.7;
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    ctx.moveTo(-phage.r * 0.42, tailBase + phage.r * 0.22);
+    ctx.lineTo(phage.r * 0.42, tailBase + phage.r * 0.22);
+    ctx.moveTo(-phage.r * 0.3, tailBase + phage.r * 0.55);
+    ctx.lineTo(phage.r * 0.3, tailBase + phage.r * 0.55);
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(162, 244, 255, 0.82)";
+    ctx.lineWidth = 1.4;
     ctx.beginPath();
     ctx.moveTo(0, tailY);
-    ctx.lineTo(-phage.r * 0.95, tailY + phage.r * 0.9);
+    ctx.lineTo(-phage.r * 1.02, tailY + phage.r * 0.92);
     ctx.moveTo(0, tailY);
-    ctx.lineTo(phage.r * 0.95, tailY + phage.r * 0.9);
+    ctx.lineTo(phage.r * 1.02, tailY + phage.r * 0.92);
+    ctx.moveTo(-phage.r * 0.18, tailY + phage.r * 0.2);
+    ctx.lineTo(-phage.r * 1.06, tailY + phage.r * 0.78);
+    ctx.moveTo(phage.r * 0.18, tailY + phage.r * 0.2);
+    ctx.lineTo(phage.r * 1.06, tailY + phage.r * 0.78);
     ctx.stroke();
 
     ctx.restore();
@@ -705,6 +793,11 @@
       ctx.moveTo(0, -resource.r * 0.55);
       ctx.lineTo(0, resource.r * 0.55);
       ctx.stroke();
+      ctx.strokeStyle = "rgba(182, 252, 255, 0.72)";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.arc(0, 0, resource.r * 0.58, 0, Math.PI * 2);
+      ctx.stroke();
     } else {
       const glow = ctx.createRadialGradient(0, 0, 1, 0, 0, resource.r * 2.2);
       glow.addColorStop(0, "rgba(175, 255, 214, 0.86)");
@@ -729,9 +822,34 @@
       ctx.strokeStyle = "rgba(34, 94, 81, 0.45)";
       ctx.lineWidth = 1;
       ctx.stroke();
+
+      ctx.strokeStyle = "rgba(220, 255, 236, 0.62)";
+      ctx.lineWidth = 1.15;
+      ctx.beginPath();
+      ctx.moveTo(-resource.r * 0.4, 0);
+      ctx.lineTo(resource.r * 0.4, 0);
+      ctx.moveTo(0, -resource.r * 0.4);
+      ctx.lineTo(0, resource.r * 0.4);
+      ctx.stroke();
     }
 
     ctx.restore();
+  }
+
+  function drawTrails() {
+    if (!state.trails.length) return;
+
+    state.trails.forEach((trail, index) => {
+      const alpha = clamp((trail.life / trail.maxLife) * 0.44, 0, 0.44);
+      const widthScale = clamp(index / state.trails.length, 0.3, 1);
+      ctx.save();
+      ctx.translate(trail.x, trail.y);
+      ctx.rotate(trail.angle);
+      ctx.fillStyle = `rgba(130, 228, 238, ${alpha.toFixed(3)})`;
+      drawCapsule(0, 0, state.player.length * 0.72 * widthScale, state.player.radius * 0.58 * widthScale);
+      ctx.fill();
+      ctx.restore();
+    });
   }
 
   function drawPlayer(time) {
@@ -794,6 +912,21 @@
         ctx.stroke();
       }
     }
+  }
+
+  function drawVignette() {
+    const vignette = ctx.createRadialGradient(
+      state.width * 0.5,
+      state.height * 0.5,
+      Math.min(state.width, state.height) * 0.22,
+      state.width * 0.5,
+      state.height * 0.5,
+      Math.max(state.width, state.height) * 0.76
+    );
+    vignette.addColorStop(0, "rgba(0, 0, 0, 0)");
+    vignette.addColorStop(1, "rgba(0, 0, 0, 0.34)");
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, state.width, state.height);
   }
 
   function drawCapsule(x, y, length, radius) {
@@ -863,9 +996,11 @@
     state.pulses.forEach(drawPulse);
     state.resources.forEach((resource) => drawResource(resource, timestamp));
     state.phages.forEach(drawPhage);
+    drawTrails();
     drawPlayer(timestamp);
     drawBursts();
     drawFloaters();
+    drawVignette();
     ctx.restore();
 
     if (isModalOpen()) {
@@ -896,7 +1031,27 @@
     }
   }
 
-  trigger.addEventListener("click", openModal);
+  trigger.addEventListener("click", () => {
+    triggerClicks += 1;
+    trigger.classList.add("is-arming");
+
+    if (triggerTimer) window.clearTimeout(triggerTimer);
+    triggerTimer = window.setTimeout(() => {
+      triggerClicks = 0;
+      trigger.classList.remove("is-arming");
+      triggerTimer = null;
+    }, 950);
+
+    if (triggerClicks < 3) return;
+
+    triggerClicks = 0;
+    if (triggerTimer) {
+      window.clearTimeout(triggerTimer);
+      triggerTimer = null;
+    }
+    trigger.classList.remove("is-arming");
+    openModal();
+  });
   closeButton.addEventListener("click", closeModal);
 
   startButton.addEventListener("click", () => {
