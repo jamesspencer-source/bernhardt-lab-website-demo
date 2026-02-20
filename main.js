@@ -202,10 +202,6 @@ const galleryItems = [
     image: "community-phages-tom-2023-049.jpg"
   },
   {
-    title: "Hands-on instruction during Community Phages",
-    image: "community-phages-tom-2023-050.jpg"
-  },
-  {
     title: "2017 Halloween Pumpkin",
     image:
       "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1519156145666-U4H8RCA93NWXYOOV7QL9/IMG_20171027_163243.jpg"
