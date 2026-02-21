@@ -44,6 +44,7 @@
   const tutorialNoteEl = document.getElementById("envelope-tutorial-note");
   const modelSelectEl = document.getElementById("envelope-model-select");
   const modelNoteEl = document.getElementById("envelope-model-note");
+  const precursorKeyListEl = document.getElementById("envelope-precursor-key-list");
 
   const prefersReducedMotion =
     typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -173,6 +174,7 @@
     lipidII: {
       label: "Lipid II",
       shortLabel: "Lipid II",
+      points: 120,
       icon: "lipid-ii",
       coreShape: "hex",
       glowColor: "rgba(181, 255, 218, 0.9)",
@@ -185,6 +187,7 @@
     phospholipid: {
       label: "Phospholipids",
       shortLabel: "Phospholipids",
+      points: 90,
       icon: "phospholipid",
       coreShape: "disc",
       glowColor: "rgba(181, 218, 255, 0.9)",
@@ -197,6 +200,7 @@
     lps: {
       label: "LPS",
       shortLabel: "LPS",
+      points: 130,
       icon: "lps",
       coreShape: "hex",
       glowColor: "rgba(255, 216, 174, 0.88)",
@@ -209,6 +213,7 @@
     los: {
       label: "LOS",
       shortLabel: "LOS",
+      points: 125,
       icon: "los",
       coreShape: "hex",
       glowColor: "rgba(255, 197, 195, 0.88)",
@@ -221,6 +226,7 @@
     capsule: {
       label: "Capsule polysaccharide",
       shortLabel: "Capsule",
+      points: 115,
       icon: "capsule",
       coreShape: "capsule",
       glowColor: "rgba(191, 255, 230, 0.9)",
@@ -233,6 +239,7 @@
     wta: {
       label: "Wall teichoic acids",
       shortLabel: "WTA",
+      points: 120,
       icon: "teichoic",
       coreShape: "rounded-rect",
       glowColor: "rgba(255, 218, 149, 0.9)",
@@ -245,6 +252,7 @@
     lta: {
       label: "Lipoteichoic acids",
       shortLabel: "LTA",
+      points: 110,
       icon: "teichoic-anchor",
       coreShape: "rounded-rect",
       glowColor: "rgba(255, 199, 150, 0.9)",
@@ -257,6 +265,7 @@
     cholineTa: {
       label: "Choline-rich teichoic acids",
       shortLabel: "Teichoic acids",
+      points: 120,
       icon: "teichoic",
       coreShape: "rounded-rect",
       glowColor: "rgba(255, 184, 218, 0.9)",
@@ -269,6 +278,7 @@
     arabinogalactan: {
       label: "Arabinogalactan",
       shortLabel: "Arabinogalactan",
+      points: 130,
       icon: "mesh",
       coreShape: "hex",
       glowColor: "rgba(218, 203, 255, 0.9)",
@@ -281,6 +291,7 @@
     mycolic: {
       label: "Mycolic acids",
       shortLabel: "Mycolic acids",
+      points: 140,
       icon: "mycolic",
       coreShape: "capsule",
       glowColor: "rgba(183, 219, 255, 0.9)",
@@ -958,6 +969,40 @@
     return labels;
   }
 
+  function getPrecursorKeyEntries(modelId = state.modelId) {
+    const seen = new Set();
+    const entries = [];
+    const pool = getPrecursorPool(modelId);
+
+    pool.forEach((entry) => {
+      const def = getPrecursorDefinition(entry.id);
+      const key = def.shortLabel || def.label;
+      if (seen.has(key)) return;
+      seen.add(key);
+      entries.push({
+        label: key,
+        points: Math.max(1, Math.floor(Number(def.points) || 100))
+      });
+    });
+
+    return entries;
+  }
+
+  function renderPrecursorKey() {
+    if (!precursorKeyListEl) return;
+    const entries = getPrecursorKeyEntries(state.modelId);
+    precursorKeyListEl.innerHTML = "";
+    entries.forEach((entry) => {
+      const li = document.createElement("li");
+      const label = document.createElement("span");
+      label.textContent = entry.label;
+      const points = document.createElement("strong");
+      points.textContent = `+${entry.points}`;
+      li.append(label, points);
+      precursorKeyListEl.append(li);
+    });
+  }
+
   function applyModelGeometry() {
     const model = getModel(state.modelId);
     const baseRadius = clamp(Math.round(state.height * 0.035), 15, 24);
@@ -973,6 +1018,7 @@
     if (modelNoteEl) {
       modelNoteEl.textContent = `${model.label} · ${model.morphology} · Envelope inputs: ${getPrecursorLabels(state.modelId).join(", ")}`;
     }
+    renderPrecursorKey();
   }
 
   function setModel(modelId, persist = true) {
@@ -1839,12 +1885,13 @@
       addBurst(resource.x, resource.y, "#b9d5ff", 16);
     } else {
       const precursor = resource.precursor || ENVELOPE_PRECURSORS.lipidII;
+      const precursorPoints = Math.max(1, Math.floor(Number(precursor.points) || 100));
       state.integrity = clamp(state.integrity + 8, 0, 100);
-      state.score += 100 + state.combo * 16;
+      state.score += precursorPoints + state.combo * 16;
       addFloater(
         resource.x,
         resource.y,
-        `+${precursor.shortLabel}${state.combo > 0 ? ` x${state.combo + 1}` : ""}`,
+        `+${precursor.shortLabel} +${precursorPoints}${state.combo > 0 ? ` x${state.combo + 1}` : ""}`,
         precursor.floaterColor || "#b2ffd6"
       );
       addBurst(resource.x, resource.y, precursor.burstColor || "#89ffca", 12);

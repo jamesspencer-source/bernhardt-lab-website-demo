@@ -15,8 +15,8 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260221n" />
-    <link rel="stylesheet" href="envelope-escape.css?v=20260221x" />
+    <link rel="stylesheet" href="styles.css?v=20260221hd" />
+    <link rel="stylesheet" href="envelope-escape.css?v=20260221y" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -35,9 +35,9 @@
 
         <nav id="site-nav" class="site-nav" aria-label="Main navigation">
           <a href="#about">About</a>
+          <a href="#team">Team</a>
           <a href="#research">Research</a>
           <a href="#publications">Publications</a>
-          <a href="#team">Team</a>
           <a href="#gallery">Gallery</a>
           <a href="#alumni">Alumni</a>
           <a href="#contact">Contact</a>
@@ -61,16 +61,10 @@
               with the goal of enabling new antibiotic strategies against the global threat of increasingly
               drug-resistant infections.
             </p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="#research">Explore Research</a>
-              <a class="button button-ghost" href="#team">Meet The Team</a>
-              <a class="button button-ghost" href="https://phages.hms.harvard.edu" target="_blank" rel="noreferrer"
-                >Community Phages</a
-              >
-            </div>
             <div class="hero-slideshow-controls" role="group" aria-label="Hero background image controls">
               <button class="hero-control" id="hero-prev" type="button" aria-label="Show previous hero image">
-                Previous image
+                <span class="hero-control-icon" aria-hidden="true">←</span>
+                <span class="sr-only">Previous image</span>
               </button>
               <button
                 class="hero-control"
@@ -79,10 +73,12 @@
                 aria-pressed="false"
                 aria-label="Pause background image rotation"
               >
-                Pause motion
+                <span class="hero-control-icon" aria-hidden="true">⏸</span>
+                <span class="sr-only" id="hero-toggle-label">Pause motion</span>
               </button>
               <button class="hero-control" id="hero-next" type="button" aria-label="Show next hero image">
-                Next image
+                <span class="hero-control-icon" aria-hidden="true">→</span>
+                <span class="sr-only">Next image</span>
               </button>
             </div>
           </div>
@@ -392,7 +388,7 @@
                 class="map-frame"
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-                src="https://www.google.com/maps?q=Harvard+Medical+School%2C+77+Avenue+Louis+Pasteur%2C+Boston%2C+MA+02115&amp;z=15&amp;output=embed"
+                src="https://www.google.com/maps?q=Harvard+Medical+School%2C+77+Avenue+Louis+Pasteur%2C+Boston%2C+MA+02115&amp;z=14&amp;output=embed"
               ></iframe>
               <p class="map-note">Harvard Medical School, 77 Avenue Louis Pasteur, Boston.</p>
             </div>
@@ -422,32 +418,43 @@
               The Bernhardt Lab works with complementary HMS and Harvard groups across microbiology, chemistry,
               structure, and single-molecule biophysics.
             </p>
-            <div class="collab-showcase" role="list" aria-label="Bernhardt Lab collaborators">
-              <a class="collab-card" role="listitem" href="https://rudnerlab.med.harvard.edu" target="_blank" rel="noreferrer">
-                <h3>Rudner Lab</h3>
-                <p>Bacterial development and cell biology</p>
-                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
-              </a>
-              <a class="collab-card" role="listitem" href="https://walkerlab.hms.harvard.edu" target="_blank" rel="noreferrer">
-                <h3>Walker Lab</h3>
-                <p>Chemical biology of cell wall assembly</p>
-                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
-              </a>
-              <a class="collab-card" role="listitem" href="https://kahnelab.chemistry.harvard.edu" target="_blank" rel="noreferrer">
-                <h3>Kahne Lab</h3>
-                <p>Gram-negative envelope assembly and resistance</p>
-                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
-              </a>
-              <a class="collab-card" role="listitem" href="https://kruse.hms.harvard.edu" target="_blank" rel="noreferrer">
-                <h3>Kruse Lab</h3>
-                <p>Membrane protein signaling and structure</p>
-                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
-              </a>
-              <a class="collab-card" role="listitem" href="https://loparo.hms.harvard.edu" target="_blank" rel="noreferrer">
-                <h3>Loparo Lab</h3>
-                <p>Single-molecule genome maintenance</p>
-                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
-              </a>
+            <div class="collab-carousel" data-collab-carousel>
+              <div class="collab-showcase" role="list" aria-label="Bernhardt Lab collaborators" tabindex="0">
+                <a class="collab-card" role="listitem" href="https://rudnerlab.med.harvard.edu" target="_blank" rel="noreferrer">
+                  <h3>Rudner Lab</h3>
+                  <p>Bacterial development and cell biology</p>
+                  <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+                </a>
+                <a class="collab-card" role="listitem" href="https://walkerlab.hms.harvard.edu" target="_blank" rel="noreferrer">
+                  <h3>Walker Lab</h3>
+                  <p>Chemical biology of cell wall assembly</p>
+                  <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+                </a>
+                <a class="collab-card" role="listitem" href="https://kahnelab.chemistry.harvard.edu" target="_blank" rel="noreferrer">
+                  <h3>Kahne Lab</h3>
+                  <p>Gram-negative envelope assembly and resistance</p>
+                  <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+                </a>
+                <a class="collab-card" role="listitem" href="https://kruse.hms.harvard.edu" target="_blank" rel="noreferrer">
+                  <h3>Kruse Lab</h3>
+                  <p>Membrane protein signaling and structure</p>
+                  <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+                </a>
+                <a class="collab-card" role="listitem" href="https://loparo.hms.harvard.edu" target="_blank" rel="noreferrer">
+                  <h3>Loparo Lab</h3>
+                  <p>Single-molecule genome maintenance</p>
+                  <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+                </a>
+              </div>
+              <div class="collab-controls">
+                <button type="button" class="collab-nav-button" data-collab-prev aria-label="Show previous collaborator">
+                  <span aria-hidden="true">←</span>
+                </button>
+                <div class="collab-dots" data-collab-dots aria-label="Collaborator carousel position"></div>
+                <button type="button" class="collab-nav-button" data-collab-next aria-label="Show next collaborator">
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
             </div>
           </article>
         </div>
@@ -469,7 +476,6 @@
             <span aria-hidden="true">⋯</span>
             <span class="sr-only">Open hidden lab console game</span>
           </button>
-          <a href="#top">Back to top</a>
           <span class="site-credit">made by James Spencer</span>
         </div>
       </div>
@@ -504,8 +510,8 @@
           <canvas
             id="envelope-canvas"
             class="envelope-canvas"
-            width="960"
-            height="540"
+            width="1280"
+            height="720"
             aria-label="Envelope Escape game canvas"
           ></canvas>
           <div id="envelope-overlay" class="envelope-overlay">
@@ -589,6 +595,10 @@
             <button id="envelope-restart" class="envelope-secondary" type="button">New Run</button>
           </div>
           <p class="envelope-hint">Tip: drag/touch also works for movement.</p>
+          <section class="envelope-precursor-key" aria-labelledby="envelope-precursor-key-title">
+            <h3 id="envelope-precursor-key-title">Precursor key</h3>
+            <ul id="envelope-precursor-key-list" class="envelope-precursor-key-list"></ul>
+          </section>
           <section class="envelope-leaderboard" aria-labelledby="envelope-leaderboard-title">
             <div class="envelope-leaderboard-head">
               <h3 id="envelope-leaderboard-title">Top 25 Scores</h3>
@@ -642,8 +652,8 @@
     </dialog>
 
     <script src="alumni-data.js"></script>
-    <script src="main.js?v=20260221aa"></script>
+    <script src="main.js?v=20260221ai"></script>
     <script src="envelope-escape-config.js"></script>
-    <script src="envelope-escape.js?v=20260221aa"></script>
+    <script src="envelope-escape.js?v=20260221ab"></script>
   </body>
 </html>

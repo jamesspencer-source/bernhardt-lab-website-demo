@@ -49,7 +49,7 @@
 }
 
 .envelope-modal {
-  width: min(1120px, calc(100% - 1.5rem));
+  width: min(1280px, calc(100% - 1rem));
   border: 0;
   background: transparent;
   padding: 0;
@@ -239,7 +239,7 @@
 
 .envelope-stage-wrap {
   position: relative;
-  margin: 0 1rem;
+  margin: 0 0.86rem;
   border: 1px solid rgba(143, 210, 215, 0.26);
   border-radius: 16px;
   overflow: hidden;
@@ -506,7 +506,7 @@
   z-index: 1;
   display: grid;
   gap: 0.6rem;
-  padding: 0.84rem 1rem 1rem;
+  padding: 0.84rem 0.86rem 1rem;
 }
 
 .envelope-buttons {
@@ -526,6 +526,53 @@
   border-radius: 10px;
   padding: 0.46rem 0.58rem;
   background: rgba(8, 24, 42, 0.34);
+}
+
+.envelope-precursor-key {
+  border: 1px solid rgba(143, 210, 215, 0.28);
+  border-radius: 12px;
+  padding: 0.56rem 0.64rem;
+  background:
+    linear-gradient(155deg, rgba(177, 238, 246, 0.08), rgba(177, 238, 246, 0) 42%),
+    rgba(8, 23, 41, 0.42);
+  display: grid;
+  gap: 0.48rem;
+}
+
+.envelope-precursor-key h3 {
+  margin: 0;
+  color: rgba(228, 249, 255, 0.96);
+  font-size: 0.88rem;
+  font-family: "Manrope", sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.envelope-precursor-key-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.34rem;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.envelope-precursor-key-list li {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(143, 210, 215, 0.18);
+  background: rgba(8, 24, 42, 0.42);
+  padding: 0.34rem 0.46rem;
+  color: rgba(219, 242, 252, 0.94);
+  font-size: 0.76rem;
+}
+
+.envelope-precursor-key-list strong {
+  color: #cbf5ff;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
 }
 
 .envelope-leaderboard {
@@ -748,7 +795,7 @@
 
 @media (max-width: 760px) {
   .envelope-modal {
-    width: min(1120px, calc(100% - 0.7rem));
+    width: min(1280px, calc(100% - 0.55rem));
   }
 
   .envelope-header,
@@ -759,12 +806,16 @@
   }
 
   .envelope-stage-wrap {
-    margin: 0 0.7rem;
+    margin: 0 0.56rem;
   }
 
   .envelope-stage-margin-note {
-    margin: 0.56rem 0.7rem 0.62rem;
+    margin: 0.56rem 0.56rem 0.62rem;
     gap: 0.26rem;
+  }
+
+  .envelope-precursor-key-list {
+    grid-template-columns: 1fr;
   }
 
   .envelope-stage-margin-label {

@@ -19,12 +19,23 @@ function titleCase(value = "") {
 function roleBucket(role = "") {
   const label = clean(role).toLowerCase();
   if (!label) return "Unspecified";
-  if (label.includes("postdoctoral") || label.includes("post-baccalaureate")) return "Postdoctoral / Postbac";
+  if (/post[\s-]?bacc|post[\s-]?baccalaureate/.test(label)) return "Post-baccalaureate Alumni";
+  if (label.includes("postdoctoral") || label.includes("postdoc")) return "Postdoctoral Alumni";
   if (label.includes("undergrad") || label.includes("undergraduate")) return "Undergraduate Alumni";
   if (label.includes("graduate")) return "Graduate Alumni";
   if (label.includes("technician") || label.includes("associate") || label.includes("staff")) return "Research Staff Alumni";
   return "Other Alumni";
 }
+
+const BUCKET_ORDER = [
+  "Postdoctoral Alumni",
+  "Post-baccalaureate Alumni",
+  "Graduate Alumni",
+  "Undergraduate Alumni",
+  "Research Staff Alumni",
+  "Other Alumni",
+  "Unspecified"
+];
 
 function slugify(value = "") {
   return clean(value)
@@ -117,7 +128,11 @@ function renderFilters() {
     return acc;
   }, {});
 
-  const buckets = ["All", ...Object.keys(counts).sort((a, b) => a.localeCompare(b))];
+  const orderedBuckets = BUCKET_ORDER.filter((bucket) => counts[bucket]);
+  const extraBuckets = Object.keys(counts)
+    .filter((bucket) => !BUCKET_ORDER.includes(bucket))
+    .sort((a, b) => a.localeCompare(b));
+  const buckets = ["All", ...orderedBuckets, ...extraBuckets];
 
   alumniFilters.innerHTML = buckets
     .map((bucket) => {

@@ -390,7 +390,7 @@ const rawAlumni =
       "role_in_lab": "research technician",
       "current_role": "Founder and CEO, Wild Microbes",
       "source": "2025 Lab List (March 2025)",
-      "lab_dates": "2015-2022"
+      "lab_dates": "2022-2023"
    },
    {
       "current_role": "Senior member of technical staff, Draper Laboratory, Cambridge",

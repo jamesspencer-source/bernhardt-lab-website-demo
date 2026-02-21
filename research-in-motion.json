@@ -4,33 +4,33 @@
   "items": [
     {
       "pmid": "36097171",
-      "doi": "10.1038/s41564-022-01210-8",
+      "doi": "10.1038/s41564-022-01210-z",
       "title": "Division-site architecture during constriction",
       "journal": "Nature Microbiology",
       "year": "2022",
-      "articleUrl": "https://www.nature.com/articles/s41564-022-01210-8",
+      "articleUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/",
       "image": "nmicro2022-divisome-fluorescence.jpg",
       "sourceLabel": "Nature Microbiology · 2022",
       "caption": "Fluorescence map of division geometry."
     },
     {
       "pmid": "36097171",
-      "doi": "10.1038/s41564-022-01210-8",
+      "doi": "10.1038/s41564-022-01210-z",
       "title": "Time-lapse envelope insertion series",
       "journal": "Nature Microbiology",
       "year": "2022",
-      "articleUrl": "https://www.nature.com/articles/s41564-022-01210-8",
+      "articleUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/",
       "image": "nmicro2022-timelapse-rods.jpg",
       "sourceLabel": "Nature Microbiology · 2022",
       "caption": "Dynamic envelope insertion over time."
     },
     {
       "pmid": "36097171",
-      "doi": "10.1038/s41564-022-01210-8",
+      "doi": "10.1038/s41564-022-01210-z",
       "title": "Cryo-ET and cryo-FIB envelope ultrastructure",
       "journal": "Nature Microbiology",
       "year": "2022",
-      "articleUrl": "https://www.nature.com/articles/s41564-022-01210-8",
+      "articleUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/",
       "image": "nmicro2022-cryo-tomography.jpg",
       "sourceLabel": "Nature Microbiology · 2022",
       "caption": "Cryo workflow and ultrastructure view."
@@ -41,7 +41,7 @@
       "title": "Salt-stress genetic screen phenotype panel",
       "journal": "Nature Communications",
       "year": "2022",
-      "articleUrl": "https://www.nature.com/articles/s41467-022-31261-y",
+      "articleUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9308384/",
       "image": "ncomms2022-salt-stress-screen.jpg",
       "sourceLabel": "Nature Communications · 2022",
       "caption": "Envelope stress phenotypes from screen."
@@ -52,7 +52,7 @@
       "title": "FacZ-dependent membrane organization",
       "journal": "mBio",
       "year": "2023",
-      "articleUrl": "https://doi.org/10.1128/mbio.00345-23",
+      "articleUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/",
       "image": "mbio2023saur-f2.jpg",
       "sourceLabel": "mBio · 2023",
       "caption": "Membrane and PG patterning during division."
@@ -63,7 +63,7 @@
       "title": "FacZ peptidoglycan enrichment profiles",
       "journal": "mBio",
       "year": "2023",
-      "articleUrl": "https://doi.org/10.1128/mbio.00345-23",
+      "articleUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/",
       "image": "mbio2023saur-f4.jpg",
       "sourceLabel": "mBio · 2023",
       "caption": "Spatial enrichment across septal architecture."
@@ -74,7 +74,7 @@
       "title": "PcdA recruitment during cytokinesis",
       "journal": "mBio",
       "year": "2023",
-      "articleUrl": "https://doi.org/10.1128/mbio.01847-23",
+      "articleUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/",
       "image": "mbio2023-f2.jpg",
       "sourceLabel": "mBio · 2023",
       "caption": "PcdA localization across division states."
@@ -85,7 +85,7 @@
       "title": "PcdA activity-state comparisons",
       "journal": "mBio",
       "year": "2023",
-      "articleUrl": "https://doi.org/10.1128/mbio.01847-23",
+      "articleUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/",
       "image": "mbio2023-f4.jpg",
       "sourceLabel": "mBio · 2023",
       "caption": "Functional states across membrane classes."

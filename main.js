@@ -32,7 +32,7 @@ const researchThemes = [
 const IS_FLAT_BUILD = !document.querySelector('link[href^="assets/styles.css"]');
 const RESEARCH_IN_MOTION_MANIFEST_URL = IS_FLAT_BUILD ? "research-in-motion.json" : "assets/data/research-in-motion.json";
 const RESEARCH_IN_MOTION_TARGET_COUNT = 12;
-const RESEARCH_IN_MOTION_CACHE_KEY = "bernhardt-rim-manifest-v1";
+const RESEARCH_IN_MOTION_CACHE_KEY = "bernhardt-rim-manifest-v2";
 const RESEARCH_IN_MOTION_CACHE_MAX_AGE_MS = 6 * 60 * 60 * 1000;
 const RESEARCH_IN_MOTION_FETCH_TIMEOUT_MS = 9000;
 
@@ -70,14 +70,14 @@ const researchInMotionFallback = [
     caption: "Fluorescence map of division geometry.",
     image: "assets/images/highlights/nmicro2022-divisome-fluorescence.jpg",
     sourceLabel: "Nature Microbiology · 2022",
-    articleUrl: "https://www.nature.com/articles/s41564-022-01210-8"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/"
   },
   {
     title: "Time-lapse envelope insertion series",
     caption: "Dynamic envelope insertion over time.",
     image: "assets/images/highlights/nmicro2022-timelapse-rods.jpg",
     sourceLabel: "Nature Microbiology · 2022",
-    articleUrl: "https://www.nature.com/articles/s41564-022-01210-8",
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/",
     format: "Movie"
   },
   {
@@ -85,70 +85,70 @@ const researchInMotionFallback = [
     caption: "Cryo workflow and ultrastructure view.",
     image: "assets/images/highlights/nmicro2022-cryo-tomography.jpg",
     sourceLabel: "Nature Microbiology · 2022",
-    articleUrl: "https://www.nature.com/articles/s41564-022-01210-8"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/"
   },
   {
     title: "FacZ and peptidoglycan spatial patterning",
     caption: "S. aureus envelope patterning.",
     image: "assets/images/highlights/mbio2023saur-facz-pg.jpg",
     sourceLabel: "mBio · 2023",
-    articleUrl: "https://doi.org/10.1128/mbio.00345-23"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
   },
   {
     title: "S. aureus envelope architecture states",
     caption: "Envelope architecture across stages.",
     image: "assets/images/highlights/mbio2023saur-envelope-architecture.jpg",
     sourceLabel: "mBio · 2023",
-    articleUrl: "https://doi.org/10.1128/mbio.00345-23"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
   },
   {
     title: "PcdA localization across division stages",
     caption: "Localization across division states.",
     image: "assets/images/highlights/mbio2023-pcda-localization.jpg",
     sourceLabel: "mBio · 2023",
-    articleUrl: "https://doi.org/10.1128/mbio.01847-23"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
   },
   {
     title: "Divisome-associated localization maps",
     caption: "Divisome localization maps.",
     image: "assets/images/highlights/mbio2023-division-maps.jpg",
     sourceLabel: "mBio · 2023",
-    articleUrl: "https://doi.org/10.1128/mbio.01847-23"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
   },
   {
     title: "Salt-stress genetic screen phenotype panel",
     caption: "Envelope stress phenotypes from screen.",
     image: "assets/images/highlights/ncomms2022-salt-stress-screen.jpg",
     sourceLabel: "Nature Communications · 2022",
-    articleUrl: "https://www.nature.com/articles/s41467-022-31261-y"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9308384/"
   },
   {
     title: "FacZ-dependent membrane organization",
     caption: "Membrane and PG patterning during division.",
     image: "assets/images/publications/mbio2023saur-f2.jpg",
     sourceLabel: "mBio · 2023",
-    articleUrl: "https://doi.org/10.1128/mbio.00345-23"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
   },
   {
     title: "FacZ peptidoglycan enrichment profiles",
     caption: "Spatial enrichment across septal architecture.",
     image: "assets/images/publications/mbio2023saur-f4.jpg",
     sourceLabel: "mBio · 2023",
-    articleUrl: "https://doi.org/10.1128/mbio.00345-23"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
   },
   {
     title: "PcdA recruitment during cytokinesis",
     caption: "PcdA localization across division states.",
     image: "assets/images/publications/mbio2023-f2.jpg",
     sourceLabel: "mBio · 2023",
-    articleUrl: "https://doi.org/10.1128/mbio.01847-23"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
   },
   {
     title: "PcdA activity-state comparisons",
     caption: "Functional states across membrane classes.",
     image: "assets/images/publications/mbio2023-f4.jpg",
     sourceLabel: "mBio · 2023",
-    articleUrl: "https://doi.org/10.1128/mbio.01847-23"
+    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
   },
   {
     title: "Lytic transglycosylase reaction model",
@@ -183,7 +183,7 @@ const researchInMotionFallback = [
 const galleryItems = [
   {
     title: "Tom Bernhardt mentoring during HMS Community Phages",
-    image: "assets/images/gallery/community-phages-tom-2023-049.jpg"
+    image: "community-phages-tom-2023-049.jpg"
   },
   {
     title: "Tom's tenured gift from the lab",
@@ -335,7 +335,7 @@ const rawPeople = [
       "profile" : "/thomas-bernhardt",
       "bio" : "The Bernhardt lab studies molecular mechanisms of bacterial growth and cell wall assembly to inform antibiotic discovery.",
       "role" : "Professor, Department of Microbiology | Investigator, Howard Hughes Medical Institute",
-      "image" : "assets/images/team/thomas-bernhardt-hhmi-2025.png",
+      "image" : "thomas-bernhardt-hhmi-2025.png",
       "email" : "",
       "name" : "Thomas Bernhardt"
    },
@@ -543,12 +543,25 @@ function profileSlug(url = "", name = "") {
 }
 
 function alumniProfilePath(slug) {
+  if (IS_FLAT_BUILD) return `alumni-${slug}.html`;
   return `alumni-profiles/${slug}.html`;
+}
+
+function isFeaturedAlumniRoleEligible(role = "") {
+  const label = cleanText(role).toLowerCase();
+  if (!label) return false;
+  if (/undergrad|undergraduate|visiting|visitor|intern|master|masters|other|post-?bacc|postbaccalaureate/.test(label)) {
+    return false;
+  }
+  if (/postdoc|postdoctoral/.test(label)) return true;
+  if (/graduate|grad student|bbs|phd/.test(label)) return true;
+  if (/staff|technician|research assistant|research associate|lab manager|scientist/.test(label)) return true;
+  return false;
 }
 
 function buildFeaturedAlumni() {
   if (typeof rawAlumni === "undefined" || typeof verifiedAlumniProfiles === "undefined") {
-    return featuredAlumniFallback;
+    return featuredAlumniFallback.filter((entry) => isFeaturedAlumniRoleEligible(entry.roleInLab));
   }
 
   const byName = new Map();
@@ -573,6 +586,7 @@ function buildFeaturedAlumni() {
   });
 
   const featured = Array.from(byName.values())
+    .filter((entry) => isFeaturedAlumniRoleEligible(entry.roleInLab))
     .map((entry) => {
       const verified = verifiedAlumniProfiles[entry.name];
       if (!verified || !verified.url) return null;
@@ -591,7 +605,7 @@ function buildFeaturedAlumni() {
     .filter(Boolean)
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  return featured.length ? featured : featuredAlumniFallback;
+  return featured.length ? featured : featuredAlumniFallback.filter((entry) => isFeaturedAlumniRoleEligible(entry.roleInLab));
 }
 
 function classifyGroup(role, name) {
@@ -661,7 +675,7 @@ const people = rawPeople.map((person) => {
     tileRole: landingTileRole(name, group, role),
     bio: normalizeBio(name, person.bio || ""),
     email: cleanText(person.email || "").replace(/\{at\}/gi, "@"),
-    profile: `./${slug}/`,
+    profile: IS_FLAT_BUILD ? `./${slug}.html` : `./${slug}/`,
     profileSource: sourceProfile,
     slug,
     image: cleanText(person.image || ""),
@@ -1263,11 +1277,12 @@ function renderGallery() {
     const total = galleryItems.length;
     state.galleryIndex = (nextIndex + total) % total;
     const item = galleryItems[state.galleryIndex];
+    const resolvedImage = resolveImagePath(item.image);
 
-    activeImage.src = item.image;
+    activeImage.src = resolvedImage;
     activeImage.alt = item.title;
     activeCaption.textContent = item.title;
-    activeImage.dataset.image = item.image;
+    activeImage.dataset.image = resolvedImage;
     activeImage.dataset.title = item.title;
     activeImage.setAttribute("aria-label", `Open ${item.title} in full view`);
 
@@ -1480,26 +1495,6 @@ function setupNavigation() {
   });
 }
 
-function setupBackToTop() {
-  const links = document.querySelectorAll('a[href="#top"]');
-  if (!links.length) return;
-
-  links.forEach((link) => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      const target = document.getElementById("top");
-      if (target) {
-        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
-      } else {
-        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
-      }
-      if (history?.replaceState) {
-        history.replaceState(null, "", "#top");
-      }
-    });
-  });
-}
-
 function setupSearch() {
   if (!searchInput) return;
   searchInput.addEventListener("input", (event) => {
@@ -1604,6 +1599,150 @@ function setupScrollDynamics() {
   window.addEventListener("resize", onResize);
 }
 
+function setupCollaboratorCarousel() {
+  const carousel = document.querySelector("[data-collab-carousel]");
+  if (!carousel) return;
+
+  const scroller = carousel.querySelector(".collab-showcase");
+  const cards = Array.from(carousel.querySelectorAll(".collab-card"));
+  const dotsRoot = carousel.querySelector("[data-collab-dots]");
+  const prevButton = carousel.querySelector("[data-collab-prev]");
+  const nextButton = carousel.querySelector("[data-collab-next]");
+  if (!scroller || cards.length === 0) return;
+
+  let activeIndex = 0;
+  let autoTimer = null;
+  let scrollRaf = null;
+  const dots = [];
+
+  const normalizeIndex = (index) => ((index % cards.length) + cards.length) % cards.length;
+
+  const updateState = (index) => {
+    activeIndex = normalizeIndex(index);
+    cards.forEach((card, cardIndex) => {
+      card.classList.toggle("is-active", cardIndex === activeIndex);
+    });
+    dots.forEach((dot, dotIndex) => {
+      const active = dotIndex === activeIndex;
+      dot.classList.toggle("active", active);
+      dot.setAttribute("aria-current", active ? "true" : "false");
+    });
+  };
+
+  const scrollToIndex = (index) => {
+    const targetIndex = normalizeIndex(index);
+    const target = cards[targetIndex];
+    if (!target) return;
+    target.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      inline: "start",
+      block: "nearest"
+    });
+    updateState(targetIndex);
+  };
+
+  const resolveClosestIndex = () => {
+    const leftEdge = scroller.getBoundingClientRect().left;
+    let closest = activeIndex;
+    let shortestDistance = Number.POSITIVE_INFINITY;
+    cards.forEach((card, index) => {
+      const distance = Math.abs(card.getBoundingClientRect().left - leftEdge);
+      if (distance < shortestDistance) {
+        shortestDistance = distance;
+        closest = index;
+      }
+    });
+    return closest;
+  };
+
+  const stopAuto = () => {
+    if (!autoTimer) return;
+    clearInterval(autoTimer);
+    autoTimer = null;
+  };
+
+  const startAuto = () => {
+    stopAuto();
+    if (prefersReducedMotion || cards.length < 2) return;
+    autoTimer = window.setInterval(() => {
+      scrollToIndex(activeIndex + 1);
+    }, 5200);
+  };
+
+  if (dotsRoot) {
+    cards.forEach((card, index) => {
+      const label = card.querySelector("h3")?.textContent?.trim() || `Collaborator ${index + 1}`;
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "collab-dot";
+      dot.setAttribute("aria-label", `Show ${label}`);
+      dot.addEventListener("click", () => {
+        scrollToIndex(index);
+        startAuto();
+      });
+      dotsRoot.appendChild(dot);
+      dots.push(dot);
+    });
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener("click", () => {
+      scrollToIndex(activeIndex - 1);
+      startAuto();
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener("click", () => {
+      scrollToIndex(activeIndex + 1);
+      startAuto();
+    });
+  }
+
+  scroller.addEventListener(
+    "scroll",
+    () => {
+      if (scrollRaf !== null) return;
+      scrollRaf = window.requestAnimationFrame(() => {
+        scrollRaf = null;
+        updateState(resolveClosestIndex());
+      });
+    },
+    { passive: true }
+  );
+
+  scroller.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      scrollToIndex(activeIndex + 1);
+      startAuto();
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      scrollToIndex(activeIndex - 1);
+      startAuto();
+    }
+  });
+
+  carousel.addEventListener("mouseenter", stopAuto);
+  carousel.addEventListener("mouseleave", startAuto);
+  carousel.addEventListener("focusin", stopAuto);
+  carousel.addEventListener("focusout", (event) => {
+    if (carousel.contains(event.relatedTarget)) return;
+    startAuto();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopAuto();
+    } else {
+      startAuto();
+    }
+  });
+
+  updateState(0);
+  startAuto();
+}
+
 function setupHeroSlideshow() {
   const hero = document.querySelector(".hero");
   if (!hero) return;
@@ -1613,6 +1752,8 @@ function setupHeroSlideshow() {
   const prevButton = document.getElementById("hero-prev");
   const nextButton = document.getElementById("hero-next");
   const toggleButton = document.getElementById("hero-toggle");
+  const toggleIcon = toggleButton ? toggleButton.querySelector(".hero-control-icon") : null;
+  const toggleLabel = document.getElementById("hero-toggle-label");
 
   let activeLayer = 0;
   let activeIndex = 0;
@@ -1647,7 +1788,7 @@ function setupHeroSlideshow() {
   const startAuto = () => {
     stopAuto();
     if (!autoplayEnabled || prefersReducedMotion || heroSlides.length < 2) return;
-    heroTimer = setInterval(() => setSlide(activeIndex + 1), 6500);
+    heroTimer = setInterval(() => setSlide(activeIndex + 1), 9000);
   };
 
   const updateToggle = () => {
@@ -1655,7 +1796,8 @@ function setupHeroSlideshow() {
     if (prefersReducedMotion) {
       toggleButton.disabled = true;
       toggleButton.setAttribute("aria-pressed", "true");
-      toggleButton.textContent = "Motion off";
+      if (toggleIcon) toggleIcon.textContent = "•";
+      if (toggleLabel) toggleLabel.textContent = "Motion off";
       toggleButton.setAttribute(
         "aria-label",
         "Background image rotation is off because reduced-motion is enabled in your system settings"
@@ -1664,7 +1806,8 @@ function setupHeroSlideshow() {
     }
     const paused = !autoplayEnabled;
     toggleButton.setAttribute("aria-pressed", String(paused));
-    toggleButton.textContent = paused ? "Resume motion" : "Pause motion";
+    if (toggleIcon) toggleIcon.textContent = paused ? "▶" : "⏸";
+    if (toggleLabel) toggleLabel.textContent = paused ? "Resume motion" : "Pause motion";
     toggleButton.setAttribute(
       "aria-label",
       paused ? "Resume background image rotation" : "Pause background image rotation"
@@ -1732,10 +1875,10 @@ async function initializePage() {
   renderGallery();
   renderAlumni();
   setupNavigation();
-  setupBackToTop();
   setupSearch();
   setupRevealObserver();
   setupScrollDynamics();
+  setupCollaboratorCarousel();
   setupHeroSlideshow();
   await refreshResearchInMotion();
 }
