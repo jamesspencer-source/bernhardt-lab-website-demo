@@ -335,7 +335,7 @@ const rawPeople = [
       "profile" : "/thomas-bernhardt",
       "bio" : "The Bernhardt lab studies molecular mechanisms of bacterial growth and cell wall assembly to inform antibiotic discovery.",
       "role" : "Professor, Department of Microbiology | Investigator, Howard Hughes Medical Institute",
-      "image" : "assets/images/team/thomas-bernhardt-hhmi-2025.png",
+      "image" : "thomas-bernhardt-hhmi-2025.png",
       "email" : "",
       "name" : "Thomas Bernhardt"
    },
@@ -1672,146 +1672,188 @@ function setupCollaboratorCarousel() {
   if (!carousel) return;
 
   const scroller = carousel.querySelector(".collab-showcase");
-  const cards = Array.from(carousel.querySelectorAll(".collab-card"));
-  const dotsRoot = carousel.querySelector("[data-collab-dots]");
+  const baseCards = scroller ? Array.from(scroller.querySelectorAll(".collab-card")) : [];
   const prevButton = carousel.querySelector("[data-collab-prev]");
   const nextButton = carousel.querySelector("[data-collab-next]");
-  if (!scroller || cards.length === 0) return;
-
-  let activeIndex = 0;
-  let autoTimer = null;
-  let scrollRaf = null;
-  const dots = [];
-
-  const normalizeIndex = (index) => ((index % cards.length) + cards.length) % cards.length;
-
-  const updateState = (index) => {
-    activeIndex = normalizeIndex(index);
-    cards.forEach((card, cardIndex) => {
-      card.classList.toggle("is-active", cardIndex === activeIndex);
-    });
-    dots.forEach((dot, dotIndex) => {
-      const active = dotIndex === activeIndex;
-      dot.classList.toggle("active", active);
-      dot.setAttribute("aria-current", active ? "true" : "false");
-    });
-  };
-
-  const scrollToIndex = (index) => {
-    const targetIndex = normalizeIndex(index);
-    const target = cards[targetIndex];
-    if (!target) return;
-    const scrollerBounds = scroller.getBoundingClientRect();
-    const targetBounds = target.getBoundingClientRect();
-    const targetLeft = scroller.scrollLeft + (targetBounds.left - scrollerBounds.left);
-    scroller.scrollTo({
-      left: Math.max(0, targetLeft),
-      behavior: prefersReducedMotion ? "auto" : "smooth"
-    });
-    updateState(targetIndex);
-  };
-
-  const resolveClosestIndex = () => {
-    const leftEdge = scroller.getBoundingClientRect().left;
-    let closest = activeIndex;
-    let shortestDistance = Number.POSITIVE_INFINITY;
-    cards.forEach((card, index) => {
-      const distance = Math.abs(card.getBoundingClientRect().left - leftEdge);
-      if (distance < shortestDistance) {
-        shortestDistance = distance;
-        closest = index;
-      }
-    });
-    return closest;
-  };
-
-  const stopAuto = () => {
-    if (!autoTimer) return;
-    clearInterval(autoTimer);
-    autoTimer = null;
-  };
-
-  const startAuto = () => {
-    stopAuto();
-    if (prefersReducedMotion || cards.length < 2) return;
-    autoTimer = window.setInterval(() => {
-      scrollToIndex(activeIndex + 1);
-    }, 5200);
-  };
+  const dotsRoot = carousel.querySelector("[data-collab-dots]");
+  if (!scroller || baseCards.length < 2) return;
 
   if (dotsRoot) {
-    cards.forEach((card, index) => {
-      const label = card.querySelector("h3")?.textContent?.trim() || `Collaborator ${index + 1}`;
-      const dot = document.createElement("button");
-      dot.type = "button";
-      dot.className = "collab-dot";
-      dot.setAttribute("aria-label", `Show ${label}`);
-      dot.addEventListener("click", () => {
-        scrollToIndex(index);
-        startAuto();
-      });
-      dotsRoot.appendChild(dot);
-      dots.push(dot);
-    });
+    dotsRoot.innerHTML = "";
+    dotsRoot.hidden = true;
   }
+
+  const clones = baseCards.map((card) => {
+    const clone = card.cloneNode(true);
+    clone.classList.add("is-clone");
+    clone.setAttribute("aria-hidden", "true");
+    clone.setAttribute("tabindex", "-1");
+    scroller.appendChild(clone);
+    return clone;
+  });
+
+  let loopWidth = 0;
+  let cardStep = 0;
+  let rafId = null;
+  let isPaused = false;
+  let lastTimestamp = 0;
+  let resumeTimer = null;
+  const speedPxPerSecond = 26;
+
+  const normalizeScroll = () => {
+    if (!loopWidth) return;
+    while (scroller.scrollLeft >= loopWidth) {
+      scroller.scrollLeft -= loopWidth;
+    }
+    while (scroller.scrollLeft < 0) {
+      scroller.scrollLeft += loopWidth;
+    }
+  };
+
+  const computeMetrics = () => {
+    if (!baseCards.length) return;
+    const first = baseCards[0];
+    const firstClone = clones[0];
+
+    if (first && firstClone) {
+      loopWidth = Math.max(firstClone.offsetLeft - first.offsetLeft, 1);
+    }
+
+    if (baseCards.length > 1) {
+      cardStep = Math.max(baseCards[1].offsetLeft - baseCards[0].offsetLeft, 180);
+    } else {
+      cardStep = Math.max(first.getBoundingClientRect().width, 220);
+    }
+
+    normalizeScroll();
+  };
+
+  const stop = () => {
+    isPaused = true;
+    lastTimestamp = 0;
+    if (rafId !== null) {
+      window.cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  };
+
+  const tick = (timestamp) => {
+    if (isPaused || prefersReducedMotion || document.hidden) {
+      rafId = null;
+      return;
+    }
+
+    if (!loopWidth) computeMetrics();
+    if (!loopWidth) {
+      rafId = window.requestAnimationFrame(tick);
+      return;
+    }
+
+    if (!lastTimestamp) {
+      lastTimestamp = timestamp;
+    }
+
+    const elapsed = Math.min((timestamp - lastTimestamp) / 1000, 0.06);
+    lastTimestamp = timestamp;
+    scroller.scrollLeft += speedPxPerSecond * elapsed;
+
+    if (scroller.scrollLeft >= loopWidth) {
+      scroller.scrollLeft -= loopWidth;
+    }
+
+    rafId = window.requestAnimationFrame(tick);
+  };
+
+  const start = () => {
+    if (prefersReducedMotion) return;
+    isPaused = false;
+    if (rafId === null) {
+      lastTimestamp = 0;
+      rafId = window.requestAnimationFrame(tick);
+    }
+  };
+
+  const queueResume = (delay = 1200) => {
+    if (resumeTimer) {
+      window.clearTimeout(resumeTimer);
+    }
+    resumeTimer = window.setTimeout(() => {
+      const activeInside = carousel.contains(document.activeElement);
+      if (!document.hidden && !activeInside && !carousel.matches(":hover")) {
+        start();
+      }
+    }, delay);
+  };
+
+  const nudge = (direction) => {
+    if (!cardStep) computeMetrics();
+    const target = scroller.scrollLeft + direction * cardStep;
+    scroller.scrollTo({
+      left: target,
+      behavior: prefersReducedMotion ? "auto" : "smooth"
+    });
+    window.setTimeout(normalizeScroll, prefersReducedMotion ? 0 : 360);
+  };
 
   if (prevButton) {
     prevButton.addEventListener("click", () => {
-      scrollToIndex(activeIndex - 1);
-      startAuto();
+      stop();
+      nudge(-1);
+      queueResume(900);
     });
   }
 
   if (nextButton) {
     nextButton.addEventListener("click", () => {
-      scrollToIndex(activeIndex + 1);
-      startAuto();
+      stop();
+      nudge(1);
+      queueResume(900);
     });
   }
-
-  scroller.addEventListener(
-    "scroll",
-    () => {
-      if (scrollRaf !== null) return;
-      scrollRaf = window.requestAnimationFrame(() => {
-        scrollRaf = null;
-        updateState(resolveClosestIndex());
-      });
-    },
-    { passive: true }
-  );
 
   scroller.addEventListener("keydown", (event) => {
     if (event.key === "ArrowRight") {
       event.preventDefault();
-      scrollToIndex(activeIndex + 1);
-      startAuto();
+      stop();
+      nudge(1);
+      queueResume(1200);
     } else if (event.key === "ArrowLeft") {
       event.preventDefault();
-      scrollToIndex(activeIndex - 1);
-      startAuto();
+      stop();
+      nudge(-1);
+      queueResume(1200);
     }
   });
 
-  carousel.addEventListener("mouseenter", stopAuto);
-  carousel.addEventListener("mouseleave", startAuto);
-  carousel.addEventListener("focusin", stopAuto);
+  scroller.addEventListener("pointerdown", stop, { passive: true });
+  scroller.addEventListener("pointerup", () => queueResume(), { passive: true });
+  scroller.addEventListener("touchstart", stop, { passive: true });
+  scroller.addEventListener("touchend", () => queueResume(), { passive: true });
+
+  carousel.addEventListener("mouseenter", stop);
+  carousel.addEventListener("mouseleave", start);
+  carousel.addEventListener("focusin", stop);
   carousel.addEventListener("focusout", (event) => {
     if (carousel.contains(event.relatedTarget)) return;
-    startAuto();
+    start();
   });
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
-      stopAuto();
+      stop();
     } else {
-      startAuto();
+      start();
     }
   });
 
-  updateState(0);
-  startAuto();
+  window.addEventListener("resize", () => {
+    computeMetrics();
+  });
+
+  computeMetrics();
+  start();
 }
+
 
 function setupHeroSlideshow() {
   const hero = document.querySelector(".hero");

@@ -2755,15 +2755,33 @@ body.is-scrolled .site-header {
 
 .research-media-block .media-card {
   border-color: rgba(220, 224, 235, 0.22);
-  background: linear-gradient(145deg, rgba(33, 37, 47, 0.94), rgba(26, 30, 39, 0.9));
+  background: linear-gradient(145deg, rgba(38, 42, 52, 0.95), rgba(30, 34, 43, 0.92));
 }
 
 .research-media-block .media-card-body {
-  background: linear-gradient(180deg, rgba(34, 39, 50, 0.9), rgba(28, 32, 41, 0.92));
+  background: linear-gradient(180deg, rgba(44, 49, 60, 0.9), rgba(34, 38, 47, 0.94));
 }
 
 .research-media-block .media-card-meta {
-  border-top-color: rgba(220, 224, 235, 0.2);
+  border-top-color: rgba(220, 224, 235, 0.3);
+}
+
+.research-media-block .media-card h3 {
+  color: #f7f9fd;
+}
+
+.research-media-block .media-card p {
+  color: #dfe5ef;
+}
+
+.research-media-block .media-card-meta span {
+  border-color: rgba(239, 243, 251, 0.36);
+  background: rgba(248, 250, 255, 0.14);
+  color: #f3f6fb;
+}
+
+.research-media-block .media-source {
+  color: #ffd6dd;
 }
 
 .media-card:hover,
@@ -2777,7 +2795,30 @@ body.is-scrolled .site-header {
 .person-link,
 .alumni-item a,
 .publication-footnote a {
-  color: #f2a7b3;
+  color: #ffccd5;
+}
+
+.media-source-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 0.34rem 0.78rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 212, 221, 0.68);
+  background: linear-gradient(135deg, rgba(177, 42, 61, 0.34), rgba(139, 30, 48, 0.4));
+  color: #fff2f5;
+  text-decoration: none;
+  text-decoration-thickness: 0;
+  box-shadow: 0 10px 20px rgba(6, 7, 11, 0.3);
+}
+
+.media-source-pill:hover,
+.media-source-pill:focus-visible {
+  border-color: rgba(255, 230, 236, 0.84);
+  background: linear-gradient(135deg, rgba(188, 54, 73, 0.44), rgba(139, 30, 48, 0.56));
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .directory-controls .search-wrap,
@@ -2852,11 +2893,25 @@ body.is-scrolled .site-header {
   box-shadow: var(--shadow-2);
 }
 
+.collab-showcase {
+  scroll-snap-type: none;
+  overflow-x: hidden;
+}
+
+.collab-controls {
+  justify-content: flex-end;
+}
+
+.collab-dots {
+  display: none;
+}
+
 .collab-card {
   border-color: rgba(220, 224, 235, 0.22);
   background: linear-gradient(145deg, rgba(40, 45, 57, 0.84), rgba(30, 34, 44, 0.88));
   color: var(--text-high);
   box-shadow: 0 14px 28px rgba(6, 7, 11, 0.34);
+  scroll-snap-align: none;
 }
 
 .collab-card p,
@@ -2895,11 +2950,31 @@ body.is-scrolled .site-header {
   color: var(--text-low);
 }
 
+.affiliation-link {
+  border-color: rgba(194, 202, 218, 0.68);
+  background: rgba(246, 248, 252, 0.96);
+  box-shadow: 0 10px 22px rgba(6, 7, 11, 0.24);
+  padding: 0.3rem 0.54rem;
+}
+
 .affiliation-link:hover,
 .affiliation-link:focus-visible {
-  border-color: rgba(220, 224, 235, 0.26);
-  background: rgba(40, 45, 56, 0.64);
-  box-shadow: 0 10px 20px rgba(6, 7, 11, 0.24);
+  border-color: rgba(177, 42, 61, 0.56);
+  background: rgba(255, 255, 255, 0.99);
+  box-shadow: 0 14px 24px rgba(6, 7, 11, 0.26);
+}
+
+.affiliations-inner img {
+  background: transparent;
+  filter: none;
+}
+
+.affiliation-hms img {
+  height: 4.34rem;
+}
+
+.affiliation-hhmi img {
+  height: 4.62rem;
 }
 
 .site-footer {
