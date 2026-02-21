@@ -183,7 +183,7 @@ const researchInMotionFallback = [
 const galleryItems = [
   {
     title: "Tom Bernhardt mentoring during HMS Community Phages",
-    image: "community-phages-tom-2023-049.jpg"
+    image: "assets/images/gallery/community-phages-tom-2023-049.jpg"
   },
   {
     title: "Tom's tenured gift from the lab",
@@ -335,7 +335,7 @@ const rawPeople = [
       "profile" : "/thomas-bernhardt",
       "bio" : "The Bernhardt lab studies molecular mechanisms of bacterial growth and cell wall assembly to inform antibiotic discovery.",
       "role" : "Professor, Department of Microbiology | Investigator, Howard Hughes Medical Institute",
-      "image" : "thomas-bernhardt-hhmi-2025.png",
+      "image" : "assets/images/team/thomas-bernhardt-hhmi-2025.png",
       "email" : "",
       "name" : "Thomas Bernhardt"
    },
@@ -1461,6 +1461,74 @@ function renderAlumni() {
   startAutoRotate();
 }
 
+function getScrollTargetY(target) {
+  const header = document.querySelector(".site-header");
+  const stickyOffset =
+    header && target.id !== "home" && target.id !== "top" ? header.getBoundingClientRect().height + 10 : 0;
+  return Math.max(0, window.scrollY + target.getBoundingClientRect().top - stickyOffset);
+}
+
+function scrollToTarget(target, options = {}) {
+  if (!target) return;
+  const behavior = options.behavior || (prefersReducedMotion ? "auto" : "smooth");
+  window.scrollTo({
+    top: getScrollTargetY(target),
+    behavior
+  });
+  if (options.updateHash && target.id) {
+    window.history.replaceState(null, "", `#${target.id}`);
+  }
+}
+
+function applyInitialScrollPosition() {
+  if ("scrollRestoration" in window.history) {
+    window.history.scrollRestoration = "manual";
+  }
+
+  const hash = decodeURIComponent((window.location.hash || "").replace(/^#/, "")).trim();
+  if (!hash || hash.toLowerCase() === "home") {
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+    return;
+  }
+
+  const target = document.getElementById(hash);
+  if (!target) return;
+
+  window.requestAnimationFrame(() => {
+    scrollToTarget(target, { behavior: "auto", updateHash: false });
+  });
+}
+
+function setupAnchorNavigation() {
+  const inPageLinks = Array.from(document.querySelectorAll('a[href^="#"]')).filter((link) => {
+    const href = link.getAttribute("href");
+    return Boolean(href && href.length > 1);
+  });
+
+  inPageLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const href = link.getAttribute("href");
+      if (!href) return;
+      const targetId = decodeURIComponent(href.slice(1));
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      event.preventDefault();
+      const isSkipLink = link.classList.contains("skip-link");
+      scrollToTarget(target, { updateHash: !isSkipLink });
+
+      if (isSkipLink) {
+        if (!target.hasAttribute("tabindex")) {
+          target.setAttribute("tabindex", "-1");
+        }
+        target.focus({ preventScroll: true });
+      }
+    });
+  });
+}
+
 function setupNavigation() {
   if (!navToggle || !nav) return;
 
@@ -1633,10 +1701,12 @@ function setupCollaboratorCarousel() {
     const targetIndex = normalizeIndex(index);
     const target = cards[targetIndex];
     if (!target) return;
-    target.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-      inline: "start",
-      block: "nearest"
+    const scrollerBounds = scroller.getBoundingClientRect();
+    const targetBounds = target.getBoundingClientRect();
+    const targetLeft = scroller.scrollLeft + (targetBounds.left - scrollerBounds.left);
+    scroller.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: prefersReducedMotion ? "auto" : "smooth"
     });
     updateState(targetIndex);
   };
@@ -1867,6 +1937,7 @@ function setupHeroSlideshow() {
 }
 
 async function initializePage() {
+  applyInitialScrollPosition();
   renderBigQuestions();
   renderResearch();
   renderMedia();
@@ -1875,6 +1946,7 @@ async function initializePage() {
   renderGallery();
   renderAlumni();
   setupNavigation();
+  setupAnchorNavigation();
   setupSearch();
   setupRevealObserver();
   setupScrollDynamics();
