@@ -15,9 +15,37 @@
 
   const SESSION_TOKEN_KEY = "bernhardt_admin_token";
   const SESSION_ENDPOINT_KEY = "bernhardt_admin_endpoint";
+  const SPECIES_LABELS = {
+    ecoli: "Escherichia coli",
+    paeruginosa: "Pseudomonas aeruginosa",
+    saureus: "Staphylococcus aureus",
+    spneumoniae: "Streptococcus pneumoniae",
+    cglutamicum: "Corynebacterium glutamicum",
+    kpneumoniae: "Klebsiella pneumoniae",
+    abaumannii: "Acinetobacter baumannii",
+    unknown: "Model not recorded"
+  };
 
   let adminEndpoint = "";
   let adminToken = "";
+  const REQUEST_TIMEOUT_MS = 10000;
+
+  async function fetchWithTimeout(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
+    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timeoutId = controller
+      ? window.setTimeout(() => {
+          controller.abort();
+        }, timeoutMs)
+      : null;
+    try {
+      return await fetch(url, {
+        ...options,
+        signal: controller ? controller.signal : undefined
+      });
+    } finally {
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+    }
+  }
 
   function normalizeAdminEndpoint(value) {
     const raw = String(value || "").trim();
@@ -62,7 +90,19 @@
 
   function formatDate(ms) {
     const time = Number(ms) || Date.now();
-    return new Date(time).toLocaleString();
+    const stamp = new Date(time);
+    if (!Number.isFinite(stamp.getTime())) return "Unknown";
+    const pad = (value) => String(value).padStart(2, "0");
+    return `${stamp.getFullYear()}-${pad(stamp.getMonth() + 1)}-${pad(stamp.getDate())} ${pad(stamp.getHours())}:${pad(
+      stamp.getMinutes()
+    )}`;
+  }
+
+  function formatSpecies(species) {
+    const key = String(species || "")
+      .trim()
+      .toLowerCase();
+    return SPECIES_LABELS[key] || SPECIES_LABELS.unknown;
   }
 
   function escapeHtml(value) {
@@ -82,7 +122,7 @@
       url.searchParams.set("limit", String(limit));
     }
 
-    const response = await fetch(url.toString(), {
+    const response = await fetchWithTimeout(url.toString(), {
       method,
       headers: {
         "Content-Type": "application/json",
@@ -122,7 +162,8 @@
         <td>${entry.id}</td>
         <td>${escapeHtml(entry.name || "Anonymous")}</td>
         <td>${Number(entry.score || 0)}</td>
-        <td>${escapeHtml(formatDate(entry.createdAt))}</td>
+        <td>${escapeHtml(formatSpecies(entry.species))}</td>
+        <td>${escapeHtml(formatDate(entry.playedAt || entry.createdAt))}</td>
         <td>
           <div class="admin-row-actions">
             <button class="admin-btn" type="button" data-action="rename" data-id="${entry.id}" data-name="${escapeHtml(

@@ -3,110 +3,38 @@ const researchThemes = [
     title: "Cell wall growth and division-site architecture",
     text:
       "We define how peptidoglycan synthesis, hydrolysis, and division machinery are coordinated so bacteria can grow and split reliably.",
-    image: "fluorescence-envelope.jpg",
+    image: "assets/images/research/fluorescence-envelope.jpg",
     chips: ["Cell wall synthesis", "Division", "Peptidoglycan"]
   },
   {
     title: "Envelope stress and membrane integrity",
     text:
       "We investigate how bacteria sense envelope stress and re-balance lipid and cell wall biogenesis to avoid structural failure.",
-    image: "pseudomonas-tem.jpg",
+    image: "assets/images/research/pseudomonas-tem.jpg",
     chips: ["Stress signaling", "Outer membrane", "Lipid transport"]
   },
   {
     title: "Species-spanning envelope biology",
     text:
       "The lab compares mechanisms across model and clinically important bacteria to identify conserved principles and species-specific vulnerabilities.",
-    image: "species-envelope.png",
+    image: "assets/images/research/species-envelope.png",
     chips: ["E. coli", "P. aeruginosa", "S. aureus", "C. glutamicum", "K. pneumoniae", "A. baumannii"]
   },
   {
     title: "Mechanism to medicine",
     text:
       "By resolving molecular mechanisms behind envelope assembly, we help illuminate targets and concepts for next-generation antibiotics.",
-    image: "coryfdaa.png",
+    image: "assets/images/research/coryfdaa.png",
     chips: ["Antibiotic targets", "Resistance", "Translational microbiology"]
   }
 ];
 
-const staticPublications = [
-  {
-    title:
-      "Coupling constraints between the DNA translocase FtsK and septal peptidoglycan synthesis shape the architecture of bacterial division sites",
-    journal: "Nature Communications",
-    year: "2025",
-    takeaway: "Connects chromosome segregation with physical cell wall construction at the division site.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/41183199/"
-  },
-  {
-    title:
-      "Structure-guided engineering of a broad-spectrum anti-enterohemorrhagic Escherichia coli and anti-Enterobacteriaceae colicin",
-    journal: "mBio",
-    year: "2025",
-    takeaway: "Uses protein engineering to expand antibacterial activity against high-priority Gram-negative pathogens.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/41278774/"
-  },
-  {
-    title:
-      "The peptidoglycan amidase activator EnvC associates with FtsL to coordinate cell wall synthesis and hydrolysis at the bacterial division site",
-    journal: "mBio",
-    year: "2025",
-    takeaway: "Explains how synthesis and cleavage of cell wall material are synchronized during cytokinesis.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/40691462/"
-  },
-  {
-    title:
-      "Identification of the LytM-domain factor CsdM and its partner CsdL as novel septal peptidoglycan amidase activators in Corynebacterium glutamicum",
-    journal: "mBio",
-    year: "2025",
-    takeaway: "Finds new regulators of septal wall remodeling in a major Actinobacterial model.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/40258142/"
-  },
-  {
-    title: "CryoEM structures reveal how Escherichia coli FtsL and FtsB activate septal peptidoglycan synthesis",
-    journal: "Nature Communications",
-    year: "2025",
-    takeaway: "Provides structural detail for divisome activation logic in E. coli.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/40236067/"
-  },
-  {
-    title: "Folding-ribosome interactions reveal design principles for inner membrane protein sequences in prokaryotes",
-    journal: "Molecular Cell",
-    year: "2025",
-    takeaway: "Defines sequence-level constraints that shape membrane protein biogenesis in bacteria.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/40126103/"
-  },
-  {
-    title:
-      "The lytic transglycosylase MltG suppresses a hybrid peptidoglycan synthesis assembly at the Escherichia coli division site",
-    journal: "Nature Microbiology",
-    year: "2025",
-    takeaway: "Shows how MltG limits aberrant assembly states during septal wall synthesis.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/39992125/"
-  },
-  {
-    title: "An essential polymerase module in the Staphylococcus aureus peptidoglycan synthase PBP2",
-    journal: "mBio",
-    year: "2024",
-    takeaway: "Dissects a critical S. aureus wall-building module linked to antimicrobial susceptibility.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/39869797/"
-  },
-  {
-    title: "Cell wall synthesis and remodeling dynamics determine division site architecture in Staphylococcus aureus",
-    journal: "Nature Microbiology",
-    year: "2022",
-    takeaway: "Maps how synthesis and remodeling dynamics shape where and how S. aureus divides.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/35821058/"
-  },
-  {
-    title:
-      "An essential membrane protein modulates the proteolysis of LpxC to control lipopolysaccharide synthesis in Escherichia coli",
-    journal: "eLife",
-    year: "2019",
-    takeaway: "Reveals a regulatory checkpoint linking membrane protein control to outer-membrane biogenesis.",
-    url: "https://pubmed.ncbi.nlm.nih.gov/30975061/"
-  }
-];
+const IS_FLAT_BUILD = !document.querySelector('link[href^="assets/styles.css"]');
+const RESEARCH_IN_MOTION_MANIFEST_URL = IS_FLAT_BUILD ? "research-in-motion.json" : "assets/data/research-in-motion.json";
+const RESEARCH_IN_MOTION_TARGET_COUNT = 12;
+const RESEARCH_IN_MOTION_CACHE_KEY = "bernhardt-rim-manifest-v1";
+const RESEARCH_IN_MOTION_CACHE_MAX_AGE_MS = 6 * 60 * 60 * 1000;
+const RESEARCH_IN_MOTION_FETCH_TIMEOUT_MS = 9000;
 
 const bigQuestions = [
   {
@@ -136,85 +64,126 @@ const bigQuestions = [
   }
 ];
 
-const mediaHighlights = [
+const researchInMotionFallback = [
   {
     title: "Division-site architecture during constriction",
-    text: "Fluorescence map of division geometry.",
-    image: "nmicro2022-divisome-fluorescence.jpg",
-    sourceLabel: "Nature Microbiology 2022 (PubMed)",
-    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36097171/"
+    caption: "Fluorescence map of division geometry.",
+    image: "assets/images/highlights/nmicro2022-divisome-fluorescence.jpg",
+    sourceLabel: "Nature Microbiology · 2022",
+    articleUrl: "https://www.nature.com/articles/s41564-022-01210-8"
   },
   {
     title: "Time-lapse envelope insertion series",
-    text: "Dynamic envelope insertion over time.",
-    image: "nmicro2022-timelapse-rods.jpg",
-    sourceLabel: "Nature Microbiology 2022 (PubMed)",
-    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36097171/",
+    caption: "Dynamic envelope insertion over time.",
+    image: "assets/images/highlights/nmicro2022-timelapse-rods.jpg",
+    sourceLabel: "Nature Microbiology · 2022",
+    articleUrl: "https://www.nature.com/articles/s41564-022-01210-8",
     format: "Movie"
   },
   {
     title: "Cryo-ET and cryo-FIB envelope ultrastructure",
-    text: "Cryo workflow and ultrastructure view.",
-    image: "nmicro2022-cryo-tomography.jpg",
-    sourceLabel: "Nature Microbiology 2022 (PubMed)",
-    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/36097171/"
+    caption: "Cryo workflow and ultrastructure view.",
+    image: "assets/images/highlights/nmicro2022-cryo-tomography.jpg",
+    sourceLabel: "Nature Microbiology · 2022",
+    articleUrl: "https://www.nature.com/articles/s41564-022-01210-8"
   },
   {
     title: "FacZ and peptidoglycan spatial patterning",
-    text: "S. aureus envelope patterning.",
-    image: "mbio2023saur-facz-pg.jpg",
-    sourceLabel: "mBio 2023 (PubMed)",
-    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37162900/"
+    caption: "S. aureus envelope patterning.",
+    image: "assets/images/highlights/mbio2023saur-facz-pg.jpg",
+    sourceLabel: "mBio · 2023",
+    articleUrl: "https://doi.org/10.1128/mbio.00345-23"
   },
   {
     title: "S. aureus envelope architecture states",
-    text: "Envelope architecture across stages.",
-    image: "mbio2023saur-envelope-architecture.jpg",
-    sourceLabel: "mBio 2023 (PubMed)",
-    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37162900/"
+    caption: "Envelope architecture across stages.",
+    image: "assets/images/highlights/mbio2023saur-envelope-architecture.jpg",
+    sourceLabel: "mBio · 2023",
+    articleUrl: "https://doi.org/10.1128/mbio.00345-23"
   },
   {
     title: "PcdA localization across division stages",
-    text: "Localization across division states.",
-    image: "mbio2023-pcda-localization.jpg",
-    sourceLabel: "mBio 2023 (PubMed)",
-    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37886572/"
+    caption: "Localization across division states.",
+    image: "assets/images/highlights/mbio2023-pcda-localization.jpg",
+    sourceLabel: "mBio · 2023",
+    articleUrl: "https://doi.org/10.1128/mbio.01847-23"
   },
   {
     title: "Divisome-associated localization maps",
-    text: "Divisome localization maps.",
-    image: "mbio2023-division-maps.jpg",
-    sourceLabel: "mBio 2023 (PubMed)",
-    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/37886572/"
+    caption: "Divisome localization maps.",
+    image: "assets/images/highlights/mbio2023-division-maps.jpg",
+    sourceLabel: "mBio · 2023",
+    articleUrl: "https://doi.org/10.1128/mbio.01847-23"
   },
   {
     title: "Salt-stress genetic screen phenotype panel",
-    text: "Envelope stress phenotypes from screen.",
-    image: "ncomms2022-salt-stress-screen.jpg",
-    sourceLabel: "Nature Communications 2022 (PubMed)",
-    sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/35851384/"
+    caption: "Envelope stress phenotypes from screen.",
+    image: "assets/images/highlights/ncomms2022-salt-stress-screen.jpg",
+    sourceLabel: "Nature Communications · 2022",
+    articleUrl: "https://www.nature.com/articles/s41467-022-31261-y"
+  },
+  {
+    title: "FacZ-dependent membrane organization",
+    caption: "Membrane and PG patterning during division.",
+    image: "assets/images/publications/mbio2023saur-f2.jpg",
+    sourceLabel: "mBio · 2023",
+    articleUrl: "https://doi.org/10.1128/mbio.00345-23"
+  },
+  {
+    title: "FacZ peptidoglycan enrichment profiles",
+    caption: "Spatial enrichment across septal architecture.",
+    image: "assets/images/publications/mbio2023saur-f4.jpg",
+    sourceLabel: "mBio · 2023",
+    articleUrl: "https://doi.org/10.1128/mbio.00345-23"
+  },
+  {
+    title: "PcdA recruitment during cytokinesis",
+    caption: "PcdA localization across division states.",
+    image: "assets/images/publications/mbio2023-f2.jpg",
+    sourceLabel: "mBio · 2023",
+    articleUrl: "https://doi.org/10.1128/mbio.01847-23"
+  },
+  {
+    title: "PcdA activity-state comparisons",
+    caption: "Functional states across membrane classes.",
+    image: "assets/images/publications/mbio2023-f4.jpg",
+    sourceLabel: "mBio · 2023",
+    articleUrl: "https://doi.org/10.1128/mbio.01847-23"
+  },
+  {
+    title: "Lytic transglycosylase reaction model",
+    caption: "Schematic of glycan maturation steps.",
+    image: "assets/images/publications/pnas2004598117-fig1.jpg",
+    sourceLabel: "PNAS · 2020",
+    articleUrl: "https://www.pnas.org/doi/10.1073/pnas.2004598117"
+  },
+  {
+    title: "Peptidoglycan incorporation endpoint",
+    caption: "Completion state for mature cell wall strands.",
+    image: "assets/images/publications/pnas2004598117-fig2.jpg",
+    sourceLabel: "PNAS · 2020",
+    articleUrl: "https://www.pnas.org/doi/10.1073/pnas.2004598117"
+  },
+  {
+    title: "Envelope remodeling activity map",
+    caption: "Comparative reaction-state readout.",
+    image: "assets/images/publications/pnas2004598117-fig3.jpg",
+    sourceLabel: "PNAS · 2020",
+    articleUrl: "https://www.pnas.org/doi/10.1073/pnas.2004598117"
+  },
+  {
+    title: "Cell-wall maturation completion profile",
+    caption: "Late-stage remodeling reference panel.",
+    image: "assets/images/publications/pnas2004598117-fig4.jpg",
+    sourceLabel: "PNAS · 2020",
+    articleUrl: "https://www.pnas.org/doi/10.1073/pnas.2004598117"
   }
 ];
 
 const galleryItems = [
   {
     title: "Tom Bernhardt mentoring during HMS Community Phages",
-    image: "community-phages-tom-2023-049.jpg"
-  },
-  {
-    title: "2017 Halloween Pumpkin",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1519156145666-U4H8RCA93NWXYOOV7QL9/IMG_20171027_163243.jpg"
-  },
-  {
-    title: "Departmental Halloween Party 2017",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1519156170494-GRRLT91VLARX1R6RWD6B/IMG_20171027_165714.jpg"
-  },
-  {
-    title: "Bernhardt Lab Happy Hour 2017",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1519148047941-VHYO4D7CY0ESZ2EF66E9/BernhardtBeerHour.png"
+    image: "assets/images/gallery/community-phages-tom-2023-049.jpg"
   },
   {
     title: "Tom's tenured gift from the lab",
@@ -225,11 +194,6 @@ const galleryItems = [
     title: "Lab group photo, October 2019",
     image:
       "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1630095169803-FDQ8732FYB808X9S8F70/lab+group+picture.jpeg"
-  },
-  {
-    title: "Rose tasting",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1548175776661-WJ9SBNWFXJR5YQNAJB3X/IMG_0930.jpg"
   },
   {
     title: "Super group meeting prep",
@@ -275,15 +239,15 @@ const featuredAlumniFallback = [
     name: "Kate Hummels",
     roleInLab: "Former postdoctoral fellow",
     currentRole: "Assistant Professor, Department of Microbiology, University of Georgia",
-    source: "https://mib.uga.edu/directory/people/kate-hummels",
-    sourceLabel: "University of Georgia"
+    source: "https://research.franklin.uga.edu/lab/hummels-lab",
+    sourceLabel: "University of Georgia (Hummels Lab)"
   },
   {
     name: "Thomas Bartlett",
     roleInLab: "Former postdoctoral fellow",
     currentRole: "Principal Investigator and Senior Staff Scientist, Wadsworth Center",
-    source: "https://www.wadsworth.org/senior-staff/thomas-bartlett",
-    sourceLabel: "Wadsworth Center"
+    source: "https://www.wadsworth.org/research/laboratories/bartlett/people",
+    sourceLabel: "Wadsworth Center (Bartlett Lab)"
   },
   {
     name: "Lindsey Marmont",
@@ -345,7 +309,7 @@ const featuredAlumniFallback = [
     name: "Chris Lok-To Sham",
     roleInLab: "Former graduate student",
     currentRole: "Assistant Professor, Department of Microbiology and Immunology, National University of Singapore",
-    source: "https://nusgs.nus.edu.sg/thesis-advisors/miclts",
+    source: "https://discovery.nus.edu.sg/11874-lok-to-sham",
     sourceLabel: "National University of Singapore"
   },
   {
@@ -371,7 +335,7 @@ const rawPeople = [
       "profile" : "/thomas-bernhardt",
       "bio" : "The Bernhardt lab studies molecular mechanisms of bacterial growth and cell wall assembly to inform antibiotic discovery.",
       "role" : "Professor, Department of Microbiology | Investigator, Howard Hughes Medical Institute",
-      "image" : "thomas-bernhardt-hhmi-2025.png",
+      "image" : "assets/images/team/thomas-bernhardt-hhmi-2025.png",
       "email" : "",
       "name" : "Thomas Bernhardt"
    },
@@ -435,7 +399,7 @@ const rawPeople = [
       "name" : "Wilaysha Evans",
       "email" : "wilayshaevans{at}g.harvard.edu",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1663796653002-8C0DEY29J50676GSPCWO/Screen+Shot+2022-09-21+at+12.49.48+PM.png",
-      "role" : "BBS Graduate Student",
+      "role" : "ChemBio Graduate Student",
       "bio" : "I am most interested in understanding the mechanisms that underpin bacterial cell shape and division. More specifically, in the Bernhardt lab, I study some of the mechanisms by which cell wall integrity in Corynebacterium glutamicum is maintained.",
       "profile" : "/wilaysha-evans"
    },
@@ -579,7 +543,7 @@ function profileSlug(url = "", name = "") {
 }
 
 function alumniProfilePath(slug) {
-  return `alumni-${slug}.html`;
+  return `alumni-profiles/${slug}.html`;
 }
 
 function buildFeaturedAlumni() {
@@ -596,12 +560,14 @@ function buildFeaturedAlumni() {
     const existing = byName.get(name) || {};
     const roleInLab = cleanText(entry.role_in_lab || existing.roleInLab || "");
     const currentRole = cleanText(entry.current_role || existing.currentRole || "");
+    const labDates = cleanText(entry.lab_dates || existing.labDates || "");
     const sourceLabel = cleanText(entry.source || existing.sourceLabel || "Bernhardt Lab alumni records");
 
     byName.set(name, {
       name,
       roleInLab,
       currentRole,
+      labDates,
       sourceLabel
     });
   });
@@ -615,6 +581,7 @@ function buildFeaturedAlumni() {
       return {
         name: entry.name,
         roleInLab: roleLabel.charAt(0).toUpperCase() + roleLabel.slice(1),
+        labDates: cleanText(entry.labDates || ""),
         currentRole: currentLabel,
         source: verified.url,
         sourceLabel: cleanText(verified.source || entry.sourceLabel || "Verified profile"),
@@ -635,11 +602,11 @@ function classifyGroup(role, name) {
   if (label.includes("postdoctoral")) {
     return "Postdoctoral Fellows";
   }
+  if (label.includes("undergrad") || label.includes("undergraduate")) {
+    return "Undergraduate Researchers";
+  }
   if (label.includes("graduate") || label.includes("bbs") || label.includes("bph") || label.includes("mco")) {
     return "Graduate Students";
-  }
-  if (label.includes("undergraduate")) {
-    return "Undergraduate Researchers";
   }
   return "Research Staff";
 }
@@ -694,7 +661,7 @@ const people = rawPeople.map((person) => {
     tileRole: landingTileRole(name, group, role),
     bio: normalizeBio(name, person.bio || ""),
     email: cleanText(person.email || "").replace(/\{at\}/gi, "@"),
-    profile: `${slug}.html`,
+    profile: `./${slug}/`,
     profileSource: sourceProfile,
     slug,
     image: cleanText(person.image || ""),
@@ -707,19 +674,23 @@ const groupPriority = ["All", "Faculty", "Postdoctoral Fellows", "Graduate Stude
 
 const heroSlides = [
   {
-    image: "fluorescence-envelope.jpg",
+    image: "assets/images/research/cglutamicum-wt-tem-9335.jpg",
+    position: "center 42%"
+  },
+  {
+    image: "assets/images/research/fluorescence-envelope.jpg",
     position: "center center"
   },
   {
-    image: "pseudomonas-tem.jpg",
+    image: "assets/images/research/pseudomonas-tem.jpg",
     position: "center center"
   },
   {
-    image: "coryfdaa.png",
+    image: "assets/images/research/coryfdaa.png",
     position: "center center"
   },
   {
-    image: "corynebacterium-phage.jpg",
+    image: "assets/images/research/corynebacterium-phage.jpg",
     position: "center center"
   }
 ];
@@ -730,9 +701,8 @@ const state = {
   galleryIndex: 0,
   alumniIndex: 0,
   questionIndex: 0,
-  showAllPublications: false,
-  publications: [...staticPublications],
-  publicationsSource: "Curated selection"
+  researchInMotion: [...researchInMotionFallback.slice(0, RESEARCH_IN_MOTION_TARGET_COUNT)],
+  researchInMotionSource: "Packaged fallback set"
 };
 
 const navToggle = document.querySelector(".nav-toggle");
@@ -746,10 +716,9 @@ const galleryRoot = document.getElementById("gallery-grid");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const lightboxCaption = document.getElementById("lightbox-caption");
-const publicationSourceNote = document.getElementById("publications-source-note");
+const researchMotionSourceNote = document.getElementById("research-motion-source-note");
 let galleryTimer = null;
 let alumniTimer = null;
-let questionTimer = null;
 let revealObserver = null;
 let heroTimer = null;
 const prefersReducedMotion =
@@ -762,6 +731,92 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/\"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function resolveImagePath(path) {
+  const value = String(path || "").trim();
+  if (!value) return "";
+  if (/^(https?:)?\/\//i.test(value) || value.startsWith("data:")) return value;
+  if (!IS_FLAT_BUILD) return value;
+  const segments = value.split("/").filter(Boolean);
+  return segments[segments.length - 1] || value;
+}
+
+function normalizeResearchInMotionItem(item, index = 0) {
+  const title = cleanText(item?.title || "").replace(/\.$/, "");
+  const caption = cleanText(item?.caption || item?.text || title);
+  const image = cleanText(item?.image || "");
+  const articleUrl = cleanText(item?.articleUrl || item?.sourceUrl || "");
+  const journal = cleanText(item?.journal || "");
+  const year = cleanText(item?.year || "");
+  const sourceLabel =
+    cleanText(item?.sourceLabel || [journal, year].filter(Boolean).join(" · ")) || "Bernhardt Lab publication";
+
+  if (!title || !image || !articleUrl) return null;
+  if (/pubmed\.ncbi\.nlm\.nih\.gov|biorxiv\.org|medrxiv\.org/i.test(articleUrl)) return null;
+
+  return {
+    pmid: cleanText(item?.pmid || ""),
+    doi: cleanText(item?.doi || ""),
+    title,
+    caption,
+    journal,
+    year,
+    sourceLabel,
+    image,
+    articleUrl,
+    format: cleanText(item?.format || (index === 0 ? "Featured figure" : "Figure"))
+  };
+}
+
+function normalizeResearchInMotionPayload(payload) {
+  const rawItems = Array.isArray(payload) ? payload : payload?.items;
+  if (!Array.isArray(rawItems)) return [];
+
+  return rawItems
+    .map((item, index) => normalizeResearchInMotionItem(item, index))
+    .filter(Boolean)
+    .slice(0, RESEARCH_IN_MOTION_TARGET_COUNT);
+}
+
+function readResearchInMotionCache() {
+  try {
+    const raw = window.localStorage.getItem(RESEARCH_IN_MOTION_CACHE_KEY);
+    if (!raw) return null;
+
+    const payload = JSON.parse(raw);
+    const cachedAt = Number(payload?.cachedAt) || 0;
+    const age = Date.now() - cachedAt;
+    if (!cachedAt || age < 0 || age > RESEARCH_IN_MOTION_CACHE_MAX_AGE_MS) return null;
+
+    const manifest = payload?.manifest || payload;
+    const items = normalizeResearchInMotionPayload(manifest);
+    if (items.length < RESEARCH_IN_MOTION_TARGET_COUNT) return null;
+
+    return { items, manifest };
+  } catch {
+    return null;
+  }
+}
+
+function writeResearchInMotionCache(manifestPayload) {
+  try {
+    const items = normalizeResearchInMotionPayload(manifestPayload);
+    if (items.length < RESEARCH_IN_MOTION_TARGET_COUNT) return;
+    window.localStorage.setItem(
+      RESEARCH_IN_MOTION_CACHE_KEY,
+      JSON.stringify({
+        cachedAt: Date.now(),
+        manifest: manifestPayload
+      })
+    );
+  } catch {
+    /* no-op */
+  }
 }
 
 function openLightbox(imageUrl, title) {
@@ -779,33 +834,58 @@ function openLightbox(imageUrl, title) {
 function renderMedia() {
   if (!mediaGrid) return;
 
-  mediaGrid.innerHTML = mediaHighlights
+  const items = (state.researchInMotion || [])
+    .map((item, index) => normalizeResearchInMotionItem(item, index))
+    .filter(Boolean)
+    .slice(0, RESEARCH_IN_MOTION_TARGET_COUNT);
+
+  if (!items.length) {
+    mediaGrid.innerHTML = `
+      <article class="media-card reveal">
+        <div class="media-card-body">
+          <h3>Research in Motion feed is updating</h3>
+          <p>Dynamic publication tiles are temporarily unavailable. Please check back shortly.</p>
+        </div>
+      </article>
+    `;
+    observeRevealTargets(mediaGrid);
+    if (researchMotionSourceNote) {
+      researchMotionSourceNote.textContent = "Research in Motion refresh is currently unavailable.";
+    }
+    return;
+  }
+
+  mediaGrid.innerHTML = items
     .map(
       (item, index) => `
       <article class="media-card reveal ${index === 0 ? "featured" : ""}">
-        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy" />
+        <img src="${escapeHtml(resolveImagePath(item.image))}" alt="${escapeHtml(item.title)}" loading="lazy" />
         <div class="media-card-body">
           <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(item.text)}</p>
+          <p>${escapeHtml(item.caption || item.title)}</p>
           <div class="media-card-meta">
-            <span>${escapeHtml(item.format || (item.image.toLowerCase().includes(".gif") ? "Movie" : "Image"))}</span>
-            <a class="media-source" href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noreferrer">${escapeHtml(item.sourceLabel)}</a>
+            <span>${escapeHtml(item.sourceLabel)}</span>
+            <a class="media-source" href="${escapeHtml(item.articleUrl)}" target="_blank" rel="noreferrer">Read open-access article</a>
           </div>
         </div>
       </article>
     `
     )
     .join("");
+  if (researchMotionSourceNote) {
+    researchMotionSourceNote.textContent = state.researchInMotionSource || "Packaged fallback set";
+  }
   observeRevealTargets(mediaGrid);
 }
 
 function renderResearch() {
   const root = document.getElementById("research-grid");
+  if (!root) return;
   root.innerHTML = researchThemes
     .map(
       (theme) => `
       <article class="research-card reveal">
-        <img src="${escapeHtml(theme.image)}" alt="${escapeHtml(theme.title)}" loading="lazy" />
+        <img src="${escapeHtml(resolveImagePath(theme.image))}" alt="${escapeHtml(theme.title)}" loading="lazy" />
         <div class="research-card-body">
           <h3>${escapeHtml(theme.title)}</h3>
           <p>${escapeHtml(theme.text)}</p>
@@ -822,42 +902,99 @@ function renderBigQuestions() {
   const root = document.getElementById("question-grid");
   if (!root || !bigQuestions.length) return;
 
-  root.innerHTML = bigQuestions
-    .map(
-      (item, index) => `
-      <article class="question-card${index === state.questionIndex ? " is-active" : ""}" data-index="${index}" tabindex="0" role="button" aria-label="Highlight question ${index + 1}">
-        <p class="question-index">Q${index + 1}</p>
-        <h4>${escapeHtml(item.title)}</h4>
-        <p>${escapeHtml(item.detail)}</p>
-      </article>
-    `
-    )
-    .join("");
+  root.innerHTML = `
+    <article class="question-spotlight" aria-live="polite">
+      <p class="question-kicker" id="question-kicker">Question 01</p>
+      <h4 id="question-title"></h4>
+      <p id="question-detail"></p>
+      <div class="question-progress" role="presentation">
+        <span id="question-progress-fill"></span>
+      </div>
+      <div class="question-meta">
+        <span id="question-counter"></span>
+        <span>Active conceptual thread</span>
+      </div>
+    </article>
+    <div class="question-rail" role="listbox" aria-label="Research question selector">
+      ${bigQuestions
+        .map(
+          (item, index) => `
+        <button class="question-step${index === state.questionIndex ? " is-active" : ""}" data-index="${index}" type="button" role="option" aria-selected="${index === state.questionIndex ? "true" : "false"}" aria-label="Show question ${index + 1}">
+          <span class="question-step-index">Q${index + 1}</span>
+          <span class="question-step-title">${escapeHtml(item.title)}</span>
+        </button>
+      `
+        )
+        .join("")}
+    </div>
+  `;
 
   const prevButton = document.getElementById("question-prev");
   const nextButton = document.getElementById("question-next");
   const toggleButton = document.getElementById("question-toggle");
+  const kicker = document.getElementById("question-kicker");
+  const title = document.getElementById("question-title");
+  const detail = document.getElementById("question-detail");
+  const counter = document.getElementById("question-counter");
+  const progressFill = document.getElementById("question-progress-fill");
+  const questionSteps = root.querySelectorAll(".question-step");
+  const rotationMs = 7400;
   let autoRotate = !prefersReducedMotion;
+  let progressRaf = null;
+  let progressRatio = 0;
+  let phaseStart = 0;
+
+  const applyProgress = () => {
+    if (!progressFill) return;
+    progressFill.style.width = `${(progressRatio * 100).toFixed(1)}%`;
+  };
 
   const setQuestion = (nextIndex) => {
     const total = bigQuestions.length;
     state.questionIndex = (nextIndex + total) % total;
-    root.querySelectorAll(".question-card").forEach((card, index) => {
-      card.classList.toggle("is-active", index === state.questionIndex);
+    const active = bigQuestions[state.questionIndex];
+
+    if (kicker) kicker.textContent = `Question ${String(state.questionIndex + 1).padStart(2, "0")}`;
+    if (title) title.textContent = active.title;
+    if (detail) detail.textContent = active.detail;
+    if (counter) counter.textContent = `${state.questionIndex + 1} / ${bigQuestions.length}`;
+
+    questionSteps.forEach((step, index) => {
+      const isActive = index === state.questionIndex;
+      step.classList.toggle("is-active", isActive);
+      step.setAttribute("aria-selected", String(isActive));
     });
   };
 
   const stopRotation = () => {
-    if (questionTimer) {
-      clearInterval(questionTimer);
-      questionTimer = null;
+    if (progressRaf !== null) {
+      cancelAnimationFrame(progressRaf);
+      progressRaf = null;
     }
   };
 
-  const startRotation = () => {
+  const tickRotation = (now) => {
+    if (!autoRotate || prefersReducedMotion || bigQuestions.length < 2) {
+      progressRaf = null;
+      return;
+    }
+    progressRatio = clamp((now - phaseStart) / rotationMs, 0, 1);
+    applyProgress();
+    if (progressRatio >= 1) {
+      setQuestion(state.questionIndex + 1);
+      progressRatio = 0;
+      phaseStart = now;
+      applyProgress();
+    }
+    progressRaf = requestAnimationFrame(tickRotation);
+  };
+
+  const startRotation = (resume = false) => {
     stopRotation();
     if (!autoRotate || prefersReducedMotion || bigQuestions.length < 2) return;
-    questionTimer = setInterval(() => setQuestion(state.questionIndex + 1), 6200);
+    const now = performance.now();
+    phaseStart = resume ? now - progressRatio * rotationMs : now;
+    progressRaf = requestAnimationFrame(tickRotation);
   };
 
   const updateToggle = () => {
@@ -870,6 +1007,8 @@ function renderBigQuestions() {
         "aria-label",
         "Question rotation is off because reduced-motion is enabled in your system settings"
       );
+      progressRatio = 1;
+      applyProgress();
       return;
     }
     const paused = !autoRotate;
@@ -881,14 +1020,18 @@ function renderBigQuestions() {
   if (prevButton) {
     prevButton.addEventListener("click", () => {
       setQuestion(state.questionIndex - 1);
-      if (autoRotate) startRotation();
+      progressRatio = 0;
+      applyProgress();
+      if (autoRotate) startRotation(false);
     });
   }
 
   if (nextButton) {
     nextButton.addEventListener("click", () => {
       setQuestion(state.questionIndex + 1);
-      if (autoRotate) startRotation();
+      progressRatio = 0;
+      applyProgress();
+      if (autoRotate) startRotation(false);
     });
   }
 
@@ -897,21 +1040,23 @@ function renderBigQuestions() {
       autoRotate = !autoRotate;
       updateToggle();
       if (autoRotate) {
-        startRotation();
+        startRotation(true);
       } else {
         stopRotation();
       }
     });
   }
 
-  root.querySelectorAll(".question-card").forEach((card) => {
-    const index = Number(card.dataset.index || 0);
+  questionSteps.forEach((step) => {
+    const index = Number(step.dataset.index || 0);
     const activate = () => {
       setQuestion(index);
-      if (autoRotate) startRotation();
+      progressRatio = 0;
+      applyProgress();
+      if (autoRotate) startRotation(false);
     };
-    card.addEventListener("click", activate);
-    card.addEventListener("keydown", (event) => {
+    step.addEventListener("click", activate);
+    step.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
         activate();
@@ -920,115 +1065,93 @@ function renderBigQuestions() {
   });
 
   root.addEventListener("mouseenter", stopRotation);
-  root.addEventListener("mouseleave", startRotation);
+  root.addEventListener("mouseleave", () => startRotation(true));
   root.addEventListener("focusin", stopRotation);
   root.addEventListener("focusout", (event) => {
     if (root.contains(event.relatedTarget)) return;
-    startRotation();
+    startRotation(true);
   });
 
+  progressRatio = 0;
+  applyProgress();
   updateToggle();
   setQuestion(state.questionIndex);
-  startRotation();
+  startRotation(false);
 }
 
-function renderPublications() {
-  const root = document.getElementById("publication-list");
-  const previewCount = 6;
-  const publicationItems = state.publications.length ? state.publications : staticPublications;
-  const items = state.showAllPublications ? publicationItems : publicationItems.slice(0, previewCount);
-
-  root.innerHTML = items
-    .map(
-      (item) => `
-      <article class="publication-item reveal">
-        <a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer"><h3>${escapeHtml(item.title)}</h3></a>
-        <div class="publication-meta">
-          <span>${escapeHtml(item.journal)}</span>
-          <span>${escapeHtml(item.year)}</span>
-        </div>
-        ${item.takeaway ? `<p>${escapeHtml(item.takeaway)}</p>` : ""}
-      </article>
-    `
-    )
-    .join("");
-  observeRevealTargets(root);
-
-  const toggle = document.getElementById("publications-toggle");
-  if (!toggle) return;
-
-  const hasOverflow = publicationItems.length > previewCount;
-  toggle.hidden = !hasOverflow;
-  toggle.setAttribute("aria-expanded", String(state.showAllPublications));
-  toggle.textContent = state.showAllPublications
-    ? "Collapse publication list"
-    : `Expand publication list (${publicationItems.length - previewCount} more)`;
-
-  if (publicationSourceNote) {
-    publicationSourceNote.textContent = state.publicationsSource;
-  }
-}
-
-function setupPublicationToggle() {
-  const toggle = document.getElementById("publications-toggle");
-  if (!toggle) return;
-  toggle.addEventListener("click", () => {
-    state.showAllPublications = !state.showAllPublications;
-    renderPublications();
-  });
-}
-
-function parsePublicationYear(value = "") {
-  const match = String(value).match(/(19|20)\d{2}/);
-  return match ? match[0] : "";
-}
-
-async function fetchPubmedPublications() {
-  const term = encodeURIComponent("Bernhardt TG[Author]");
-  const searchUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=18&sort=pub+date&term=${term}`;
-  const searchResponse = await fetch(searchUrl, { headers: { Accept: "application/json" } });
-  if (!searchResponse.ok) throw new Error(`PubMed search failed: ${searchResponse.status}`);
-
-  const searchJson = await searchResponse.json();
-  const ids = (searchJson?.esearchresult?.idlist || []).filter(Boolean).slice(0, 18);
-  if (ids.length === 0) return [];
-
-  const summaryUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=${ids.join(",")}`;
-  const summaryResponse = await fetch(summaryUrl, { headers: { Accept: "application/json" } });
-  if (!summaryResponse.ok) throw new Error(`PubMed summary failed: ${summaryResponse.status}`);
-
-  const summaryJson = await summaryResponse.json();
-  return ids
-    .map((id) => summaryJson?.result?.[id])
+async function refreshResearchInMotion() {
+  const fallbackItems = researchInMotionFallback
+    .map((item, index) => normalizeResearchInMotionItem(item, index))
     .filter(Boolean)
-    .map((item) => {
-      const title = cleanText(item.title || "");
-      return {
-        title: title.replace(/\.$/, ""),
-        journal: cleanText(item.fulljournalname || item.source || "PubMed"),
-        year: parsePublicationYear(item.pubdate || item.sortpubdate || ""),
-        takeaway: "",
-        url: `https://pubmed.ncbi.nlm.nih.gov/${item.uid || item.articleids?.[0]?.value || ""}/`
-      };
-    })
-    .filter((item) => item.title && item.url.includes("pubmed.ncbi.nlm.nih.gov/"));
-}
+    .slice(0, RESEARCH_IN_MOTION_TARGET_COUNT);
 
-async function refreshPublicationsFromPubMed() {
+  state.researchInMotion = fallbackItems;
+  state.researchInMotionSource = "Packaged fallback set";
+  renderMedia();
+
+  const cached = readResearchInMotionCache();
+  if (cached) {
+    const stamp = cached.manifest?.generatedAt ? new Date(cached.manifest.generatedAt) : null;
+    state.researchInMotion = cached.items;
+    state.researchInMotionSource = stamp && Number.isFinite(stamp.getTime())
+      ? `Auto-refreshed weekly • Updated ${stamp.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric"
+        })}`
+      : "Auto-refreshed weekly from Bernhardt last-author open-access papers";
+    renderMedia();
+  }
+
   try {
-    const items = await fetchPubmedPublications();
-    if (!items.length) return;
-    state.publications = items;
-    state.publicationsSource = "Auto-updated from PubMed (Bernhardt TG author feed)";
-    renderPublications();
-  } catch (error) {
-    state.publications = [...staticPublications];
-    state.publicationsSource = "Curated selection (auto-refresh unavailable in this browser session)";
-    renderPublications();
+    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timeoutId = controller
+      ? window.setTimeout(() => {
+          controller.abort();
+        }, RESEARCH_IN_MOTION_FETCH_TIMEOUT_MS)
+      : null;
+
+    let response;
+    try {
+      response = await fetch(RESEARCH_IN_MOTION_MANIFEST_URL, {
+        method: "GET",
+        headers: { Accept: "application/json" },
+        cache: "default",
+        signal: controller ? controller.signal : undefined
+      });
+    } finally {
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+    }
+    if (!response.ok) throw new Error(`Manifest request failed (${response.status})`);
+    const payload = await response.json();
+    const normalized = normalizeResearchInMotionPayload(payload);
+
+    if (normalized.length < RESEARCH_IN_MOTION_TARGET_COUNT) {
+      throw new Error("Manifest did not provide 12 valid open-access Bernhardt entries.");
+    }
+
+    writeResearchInMotionCache(payload);
+    state.researchInMotion = normalized;
+    const stamp = payload?.generatedAt ? new Date(payload.generatedAt) : null;
+    state.researchInMotionSource = stamp && Number.isFinite(stamp.getTime())
+      ? `Auto-refreshed weekly • Updated ${stamp.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric"
+        })}`
+      : "Auto-refreshed weekly from Bernhardt last-author open-access papers";
+    renderMedia();
+  } catch {
+    if (!cached) {
+      state.researchInMotion = fallbackItems;
+      state.researchInMotionSource = "Packaged fallback set (dynamic refresh unavailable in this browser session)";
+      renderMedia();
+    }
   }
 }
 
 function renderRoleFilters() {
+  if (!roleFilters) return;
   const counts = people.reduce((acc, person) => {
     acc[person.group] = (acc[person.group] || 0) + 1;
     return acc;
@@ -1064,6 +1187,7 @@ function filteredPeople() {
 }
 
 function renderPeople() {
+  if (!peopleGrid || !peopleCount) return;
   const matches = filteredPeople();
 
   if (matches.length === 0) {
@@ -1196,7 +1320,17 @@ function renderGallery() {
   galleryRoot.addEventListener("mouseenter", stopAutoRotate);
   galleryRoot.addEventListener("mouseleave", startAutoRotate);
   galleryRoot.addEventListener("focusin", stopAutoRotate);
-  galleryRoot.addEventListener("focusout", startAutoRotate);
+  galleryRoot.addEventListener("focusout", (event) => {
+    if (galleryRoot.contains(event.relatedTarget)) return;
+    startAutoRotate();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopAutoRotate();
+    } else {
+      startAutoRotate();
+    }
+  });
   setSlide(0);
   startAutoRotate();
 }
@@ -1245,6 +1379,7 @@ function renderAlumni() {
       <article class="alumni-item">
         <p class="alumni-role">${escapeHtml(item.roleInLab)}</p>
         <h3>${escapeHtml(item.name)}</h3>
+        ${item.labDates ? `<p class="alumni-role">Lab dates: ${escapeHtml(item.labDates)}</p>` : ""}
         <p class="alumni-current">${escapeHtml(item.currentRole)}</p>
         <p class="alumni-source">Source: ${escapeHtml(item.sourceLabel || "Institutional profile")}</p>
         <div class="alumni-link-row">
@@ -1295,6 +1430,18 @@ function renderAlumni() {
 
   root.addEventListener("mouseenter", stopAutoRotate);
   root.addEventListener("mouseleave", startAutoRotate);
+  root.addEventListener("focusin", stopAutoRotate);
+  root.addEventListener("focusout", (event) => {
+    if (root.contains(event.relatedTarget)) return;
+    startAutoRotate();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopAutoRotate();
+    } else {
+      startAutoRotate();
+    }
+  });
   setAlumni(0);
   startAutoRotate();
 }
@@ -1333,7 +1480,28 @@ function setupNavigation() {
   });
 }
 
+function setupBackToTop() {
+  const links = document.querySelectorAll('a[href="#top"]');
+  if (!links.length) return;
+
+  links.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const target = document.getElementById("top");
+      if (target) {
+        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      }
+      if (history?.replaceState) {
+        history.replaceState(null, "", "#top");
+      }
+    });
+  });
+}
+
 function setupSearch() {
+  if (!searchInput) return;
   searchInput.addEventListener("input", (event) => {
     state.query = event.target.value;
     renderPeople();
@@ -1454,7 +1622,7 @@ function setupHeroSlideshow() {
     const total = heroSlides.length;
     const normalized = ((slideIndex % total) + total) % total;
     const slide = heroSlides[normalized];
-    layer.style.backgroundImage = `url("${slide.image}")`;
+    layer.style.backgroundImage = `url("${resolveImagePath(slide.image)}")`;
     layer.style.backgroundPosition = slide.position || "center center";
   };
 
@@ -1543,6 +1711,13 @@ function setupHeroSlideshow() {
     if (hero.contains(event.relatedTarget)) return;
     startAuto();
   });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopAuto();
+    } else {
+      startAuto();
+    }
+  });
 
   updateToggle();
   startAuto();
@@ -1552,18 +1727,17 @@ async function initializePage() {
   renderBigQuestions();
   renderResearch();
   renderMedia();
-  renderPublications();
-  setupPublicationToggle();
   renderRoleFilters();
   renderPeople();
   renderGallery();
   renderAlumni();
   setupNavigation();
+  setupBackToTop();
   setupSearch();
   setupRevealObserver();
   setupScrollDynamics();
   setupHeroSlideshow();
-  await refreshPublicationsFromPubMed();
+  await refreshResearchInMotion();
 }
 
 initializePage();

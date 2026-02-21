@@ -20,8 +20,8 @@ function roleBucket(role = "") {
   const label = clean(role).toLowerCase();
   if (!label) return "Unspecified";
   if (label.includes("postdoctoral") || label.includes("post-baccalaureate")) return "Postdoctoral / Postbac";
+  if (label.includes("undergrad") || label.includes("undergraduate")) return "Undergraduate Alumni";
   if (label.includes("graduate")) return "Graduate Alumni";
-  if (label.includes("undergrad")) return "Undergraduate Alumni";
   if (label.includes("technician") || label.includes("associate") || label.includes("staff")) return "Research Staff Alumni";
   return "Other Alumni";
 }
@@ -50,6 +50,7 @@ const deduped = (() => {
 
     let roleInLab = titleCase(entry.role_in_lab || "");
     let currentRole = clean(entry.current_role || "");
+    const labDates = clean(entry.lab_dates || "");
 
     if (!currentRole && roleInLab.toLowerCase().includes(" at ")) {
       currentRole = roleInLab;
@@ -64,6 +65,7 @@ const deduped = (() => {
       name,
       roleInLab: roleInLab || existing?.roleInLab || "",
       currentRole: currentRole || existing?.currentRole || "",
+      labDates: labDates || existing?.labDates || "",
       sourceLabel: clean(entry.source || "Bernhardt Lab alumni page")
     };
 
@@ -104,11 +106,12 @@ function filteredAlumni() {
     if (!matchesBucket) return false;
     if (!query) return true;
 
-    return `${entry.name} ${entry.roleInLab} ${entry.currentRole} ${entry.bucket}`.toLowerCase().includes(query);
+    return `${entry.name} ${entry.roleInLab} ${entry.labDates} ${entry.currentRole} ${entry.bucket}`.toLowerCase().includes(query);
   });
 }
 
 function renderFilters() {
+  if (!alumniFilters) return;
   const counts = deduped.reduce((acc, entry) => {
     acc[entry.bucket] = (acc[entry.bucket] || 0) + 1;
     return acc;
@@ -134,6 +137,7 @@ function renderFilters() {
 }
 
 function renderAlumniDirectory() {
+  if (!alumniRoot || !alumniCount) return;
   const rows = filteredAlumni();
 
   if (!rows.length) {
@@ -152,6 +156,7 @@ function renderAlumniDirectory() {
         </div>
         <h3>${entry.name}</h3>
         <p class="alumni-role"><strong>Role in lab:</strong> ${entry.roleInLab || "Former lab member"}</p>
+        ${entry.labDates ? `<p class="alumni-role"><strong>Lab dates:</strong> ${entry.labDates}</p>` : ""}
         <p class="alumni-current"><strong>Current / latest role:</strong> ${entry.currentRole || "Role update pending"}</p>
         <p class="alumni-source">${entry.verified ? `Source: ${entry.verifiedSource}` : `Source: ${entry.sourceLabel}`}</p>
         <div class="alumni-links">
@@ -166,10 +171,14 @@ function renderAlumniDirectory() {
   alumniCount.textContent = `${rows.length} alumni shown`;
 }
 
-alumniSearch.addEventListener("input", (event) => {
-  state.query = event.target.value;
-  renderAlumniDirectory();
-});
+if (alumniSearch) {
+  alumniSearch.addEventListener("input", (event) => {
+    state.query = event.target.value;
+    renderAlumniDirectory();
+  });
+}
 
-renderFilters();
-renderAlumniDirectory();
+if (alumniRoot && alumniFilters && alumniCount) {
+  renderFilters();
+  renderAlumniDirectory();
+}

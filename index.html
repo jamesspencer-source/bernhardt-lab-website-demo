@@ -15,8 +15,8 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="envelope-escape.css" />
+    <link rel="stylesheet" href="styles.css?v=20260221n" />
+    <link rel="stylesheet" href="envelope-escape.css?v=20260221x" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -108,7 +108,11 @@
         <div class="container affiliations-inner reveal">
           <div class="affiliations-copy">
             <p>Affiliated with</p>
-            <h2>Harvard Medical School Department of Microbiology + Howard Hughes Medical Institute</h2>
+            <h2>
+              <span class="affiliation-name">Harvard Medical School Department of Microbiology</span>
+              <span class="affiliation-separator" aria-hidden="true">+</span>
+              <span class="affiliation-name">Howard Hughes Medical Institute</span>
+            </h2>
           </div>
           <div class="affiliations-logos" aria-label="Institutional affiliations">
             <a
@@ -187,6 +191,33 @@
         </div>
       </section>
 
+
+      <section id="team" class="section section-people">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Team</p>
+            <h2>Meet the team.</h2>
+          </div>
+
+          <div class="directory-controls reveal">
+            <label class="search-wrap" for="people-search">
+              <span>Search team members by name, role, or research interest</span>
+              <input
+                id="people-search"
+                name="people-search"
+                type="search"
+                placeholder="Search team"
+                autocomplete="off"
+              />
+            </label>
+            <div id="role-filters" class="role-filters" role="tablist" aria-label="Filter team members"></div>
+          </div>
+
+          <div id="people-grid" class="people-grid" aria-live="polite"></div>
+          <p id="people-count" class="people-count" aria-live="polite"></p>
+        </div>
+      </section>
+
       <section id="research" class="section section-ink">
         <div class="container">
           <div class="section-head reveal">
@@ -253,8 +284,8 @@
               <h3>Microscopy-first views of bacterial envelope biology.</h3>
             </div>
             <p class="section-intro reveal">
-              Video and publication-derived imaging highlight envelope growth, division, and stress adaptation in real
-              time.
+              Video plus an auto-refreshed set of 12 recent Bernhardt-lab papers highlight envelope growth, division,
+              and stress adaptation in real time.
             </p>
             <article class="research-video-feature reveal" aria-labelledby="lab-video-title">
               <div class="research-video-embed">
@@ -293,6 +324,7 @@
               <span>Division-site dynamics</span>
             </div>
             <div id="media-grid" class="media-grid"></div>
+            <p id="research-motion-source-note" class="publication-footnote research-motion-note reveal"></p>
           </div>
         </div>
       </section>
@@ -300,52 +332,23 @@
       <section id="publications" class="section section-light">
         <div class="container">
           <div class="section-head reveal">
-            <p class="eyebrow">Selected Publications</p>
-            <h2>Recent and representative work.</h2>
+            <p class="eyebrow">Publication Archive</p>
+            <h2>Full Bernhardt Lab bibliography.</h2>
           </div>
-
-          <div id="publication-list" class="publication-list"></div>
-          <div class="publication-actions reveal">
-            <button id="publications-toggle" class="button button-outline" type="button" aria-expanded="false">
-              Expand publication list
-            </button>
-          </div>
+          <p class="section-intro reveal">
+            Research in Motion above is refreshed weekly from recent open-access papers led by the Bernhardt Lab.
+          </p>
           <p class="publication-footnote reveal">
             Complete publication list:
-            <a href="https://pubmed.ncbi.nlm.nih.gov/?sort=date&amp;term=Bernhardt%20TG%5BAuthor%5D" target="_blank" rel="noreferrer"
+            <a
+              href="https://pubmed.ncbi.nlm.nih.gov/?sort=date&amp;term=Bernhardt%20TG%5BAuthor%5D"
+              target="_blank"
+              rel="noreferrer"
               >PubMed author search</a
             >
           </p>
-          <p id="publications-source-note" class="publication-footnote reveal"></p>
         </div>
       </section>
-
-      <section id="team" class="section section-people">
-        <div class="container">
-          <div class="section-head reveal">
-            <p class="eyebrow">Team</p>
-            <h2>Meet the team.</h2>
-          </div>
-
-          <div class="directory-controls reveal">
-            <label class="search-wrap" for="people-search">
-              <span>Search team members by name, role, or research interest</span>
-              <input
-                id="people-search"
-                name="people-search"
-                type="search"
-                placeholder="Search team"
-                autocomplete="off"
-              />
-            </label>
-            <div id="role-filters" class="role-filters" role="tablist" aria-label="Filter team members"></div>
-          </div>
-
-          <div id="people-grid" class="people-grid" aria-live="polite"></div>
-          <p id="people-count" class="people-count" aria-live="polite"></p>
-        </div>
-      </section>
-
       <section id="gallery" class="section section-ink">
         <div class="container">
           <div class="section-head reveal">
@@ -367,9 +370,7 @@
             <a class="button button-primary" href="alumni.html">Browse Full Alumni Directory</a>
           </p>
           <p class="publication-footnote reveal">
-            Roles are based on publicly listed institutional profiles (updated February 19, 2026).<br />
-            Full alumni list:
-            <a href="alumni.html">Bernhardt Lab alumni directory</a>
+            Roles are based on publicly listed institutional profiles (updated February 19, 2026).
           </p>
         </div>
       </section>
@@ -410,25 +411,43 @@
                 alt="Gordon Hall at Harvard Medical School"
                 loading="lazy"
               />
-              <figcaption>Gordon Hall, Harvard Medical School quadrangle (photo via Wikimedia Commons).</figcaption>
             </figure>
             <a class="button button-primary" href="mailto:thomas_bernhardt@hms.harvard.edu">Contact The Lab</a>
           </article>
 
           <article class="contact-card contact-collab">
             <p class="eyebrow">Collaborators</p>
-            <h2>Explore nearby HMS collaborators.</h2>
+            <h2>Collaborator Network</h2>
             <p>
-              The Bernhardt Lab collaborates with colleagues across the HMS microbiology and chemical biology
-              community.
+              The Bernhardt Lab works with complementary HMS and Harvard groups across microbiology, chemistry,
+              structure, and single-molecule biophysics.
             </p>
-            <div class="collab-links">
-              <a class="button button-outline" href="https://rudnerlab.med.harvard.edu" target="_blank" rel="noreferrer"
-                >Visit the Rudner Lab</a
-              >
-              <a class="button button-outline" href="https://walkerlab.hms.harvard.edu" target="_blank" rel="noreferrer"
-                >Visit the Walker Lab</a
-              >
+            <div class="collab-showcase" role="list" aria-label="Bernhardt Lab collaborators">
+              <a class="collab-card" role="listitem" href="https://rudnerlab.med.harvard.edu" target="_blank" rel="noreferrer">
+                <h3>Rudner Lab</h3>
+                <p>Bacterial development and cell biology</p>
+                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+              </a>
+              <a class="collab-card" role="listitem" href="https://walkerlab.hms.harvard.edu" target="_blank" rel="noreferrer">
+                <h3>Walker Lab</h3>
+                <p>Chemical biology of cell wall assembly</p>
+                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+              </a>
+              <a class="collab-card" role="listitem" href="https://kahnelab.chemistry.harvard.edu" target="_blank" rel="noreferrer">
+                <h3>Kahne Lab</h3>
+                <p>Gram-negative envelope assembly and resistance</p>
+                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+              </a>
+              <a class="collab-card" role="listitem" href="https://kruse.hms.harvard.edu" target="_blank" rel="noreferrer">
+                <h3>Kruse Lab</h3>
+                <p>Membrane protein signaling and structure</p>
+                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+              </a>
+              <a class="collab-card" role="listitem" href="https://loparo.hms.harvard.edu" target="_blank" rel="noreferrer">
+                <h3>Loparo Lab</h3>
+                <p>Single-molecule genome maintenance</p>
+                <span class="collab-visit">Visit lab <span aria-hidden="true">↗</span></span>
+              </a>
             </div>
           </article>
         </div>
@@ -451,6 +470,7 @@
             <span class="sr-only">Open hidden lab console game</span>
           </button>
           <a href="#top">Back to top</a>
+          <span class="site-credit">made by James Spencer</span>
         </div>
       </div>
     </footer>
@@ -459,11 +479,26 @@
       <div class="envelope-shell">
         <header class="envelope-header">
           <div>
-            <p class="envelope-eyebrow">Hidden Experiment</p>
+            <p class="envelope-eyebrow">Hidden Game</p>
             <h2 id="envelope-title">Envelope Escape</h2>
           </div>
           <button id="envelope-close" class="envelope-close" type="button" aria-label="Close game">Close</button>
         </header>
+
+        <div class="envelope-stage-margin-note" role="note" aria-label="Game controls">
+          <span class="envelope-stage-margin-label">Controls</span>
+          <span class="envelope-keyset" aria-hidden="true">
+            <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+          </span>
+          <span class="envelope-stage-margin-text">or</span>
+          <span class="envelope-keyset" aria-hidden="true">
+            <kbd>&uarr;</kbd><kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&rarr;</kbd>
+          </span>
+          <span class="envelope-stage-margin-text">to move</span>
+          <span class="envelope-stage-margin-sep" aria-hidden="true">•</span>
+          <span class="envelope-keyset" aria-hidden="true"><kbd>Space</kbd></span>
+          <span class="envelope-stage-margin-text">pause / resume</span>
+        </div>
 
         <div class="envelope-stage-wrap">
           <canvas
@@ -474,56 +509,92 @@
             aria-label="Envelope Escape game canvas"
           ></canvas>
           <div id="envelope-overlay" class="envelope-overlay">
-            <h3 id="envelope-overlay-title">Run a hidden Bernhardt Lab simulation.</h3>
+            <h3 id="envelope-overlay-title">Envelope Escape</h3>
             <p id="envelope-overlay-copy">
-              Guide a bacterium through phage pressure and antibiotic pulses. Collect envelope-building precursors to
-              maintain integrity.
+              Guide your bacterium through phage attacks and antibiotic waves. Collect species-specific envelope
+              precursors to stay intact.
             </p>
             <div class="envelope-model-picker">
               <label for="envelope-model-select">Choose a model bacterium</label>
               <select id="envelope-model-select" name="envelope-model">
                 <option value="ecoli">Escherichia coli</option>
+                <option value="paeruginosa">Pseudomonas aeruginosa</option>
+                <option value="saureus">Staphylococcus aureus</option>
+                <option value="spneumoniae">Streptococcus pneumoniae</option>
+                <option value="cglutamicum">Corynebacterium glutamicum</option>
                 <option value="kpneumoniae">Klebsiella pneumoniae</option>
                 <option value="abaumannii">Acinetobacter baumannii</option>
-                <option value="saureus">Staphylococcus aureus</option>
               </select>
               <p id="envelope-model-note"></p>
             </div>
-            <button id="envelope-start" class="envelope-action" type="button">Start Simulation</button>
+            <div class="envelope-player-name">
+              <label for="envelope-player-name">Leaderboard name</label>
+              <input
+                id="envelope-player-name"
+                name="envelope-player-name"
+                type="text"
+                maxlength="24"
+                autocomplete="nickname"
+                placeholder="Enter your name"
+              />
+              <p id="envelope-player-name-feedback" hidden></p>
+            </div>
+            <p id="envelope-tutorial-note" class="envelope-tutorial-note">
+              First time? Try Tutorial Mode (easier, not ranked).
+            </p>
+            <div class="envelope-start-actions">
+              <button id="envelope-start" class="envelope-action" type="button">Start Run</button>
+              <button id="envelope-tutorial-start" class="envelope-secondary" type="button">Tutorial Mode</button>
+            </div>
           </div>
         </div>
 
         <div class="envelope-hud" aria-live="polite">
-          <article>
+          <article class="envelope-card">
             <span>Score</span>
             <strong id="envelope-score">0</strong>
           </article>
-          <article>
+          <article class="envelope-card">
             <span>Best</span>
             <strong id="envelope-best">0</strong>
           </article>
-          <article>
+          <article class="envelope-card">
+            <span>Survival Time</span>
+            <strong id="envelope-time">0:00</strong>
+          </article>
+          <article class="envelope-card">
+            <span>Pressure State</span>
+            <strong id="envelope-pressure">Calm</strong>
+          </article>
+          <article class="envelope-card envelope-card--meter">
             <span>Envelope Integrity</span>
             <strong id="envelope-integrity">100%</strong>
+            <div class="envelope-meter" aria-hidden="true"><span id="envelope-integrity-bar"></span></div>
           </article>
-          <article>
+          <article class="envelope-card envelope-card--meter">
             <span>Shield</span>
             <strong id="envelope-shield">0%</strong>
+            <div class="envelope-meter" aria-hidden="true"><span id="envelope-shield-bar"></span></div>
+          </article>
+          <article class="envelope-card envelope-card--meter">
+            <span>Catalytic Boost</span>
+            <strong id="envelope-boost">0%</strong>
+            <div class="envelope-meter" aria-hidden="true"><span id="envelope-boost-bar"></span></div>
           </article>
         </div>
 
         <div class="envelope-controls">
           <div class="envelope-buttons">
             <button id="envelope-pause" class="envelope-secondary" type="button">Pause</button>
-            <button id="envelope-restart" class="envelope-secondary" type="button">Restart</button>
+            <button id="envelope-restart" class="envelope-secondary" type="button">New Run</button>
           </div>
-          <p>Controls: WASD or arrow keys, or drag/touch inside the arena.</p>
+          <p class="envelope-hint">Tip: drag/touch also works for movement.</p>
           <section class="envelope-leaderboard" aria-labelledby="envelope-leaderboard-title">
             <div class="envelope-leaderboard-head">
-              <h3 id="envelope-leaderboard-title">Top 10 Lab Scores</h3>
+              <h3 id="envelope-leaderboard-title">Top 25 Scores</h3>
               <div class="envelope-leaderboard-meta-wrap">
-                <p id="envelope-leaderboard-meta">Stored in this browser</p>
-                <button id="envelope-admin-toggle" class="envelope-admin-toggle" type="button">Controls</button>
+                <p id="envelope-leaderboard-meta">Local leaderboard</p>
+                <button id="envelope-admin-toggle" class="envelope-admin-toggle" type="button">Admin</button>
               </div>
             </div>
             <ol id="envelope-leaderboard-list" class="envelope-leaderboard-list"></ol>
@@ -542,7 +613,7 @@
               <p id="envelope-admin-feedback" hidden></p>
             </form>
             <form id="envelope-name-form" class="envelope-name-form" hidden>
-              <label for="envelope-name-input" id="envelope-name-label">New high score: add your name</label>
+              <label for="envelope-name-input" id="envelope-name-label">New high score: enter your name</label>
               <p id="envelope-name-feedback" class="envelope-name-feedback" hidden></p>
               <div class="envelope-name-row">
                 <input
@@ -571,8 +642,8 @@
     </dialog>
 
     <script src="alumni-data.js"></script>
-    <script src="main.js?v=20260220b"></script>
+    <script src="main.js?v=20260221aa"></script>
     <script src="envelope-escape-config.js"></script>
-    <script src="envelope-escape.js"></script>
+    <script src="envelope-escape.js?v=20260221aa"></script>
   </body>
 </html>

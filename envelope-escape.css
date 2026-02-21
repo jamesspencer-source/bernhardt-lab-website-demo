@@ -173,6 +173,70 @@
   box-shadow: 0 10px 22px rgba(6, 98, 117, 0.34);
 }
 
+.envelope-stage-margin-note {
+  position: relative;
+  z-index: 1;
+  margin: 0.56rem 1rem 0.66rem;
+  padding: 0.42rem 0.58rem;
+  border-radius: 12px;
+  border: 1px solid rgba(143, 210, 215, 0.26);
+  background:
+    linear-gradient(160deg, rgba(188, 238, 245, 0.12), rgba(188, 238, 245, 0) 44%),
+    rgba(8, 23, 41, 0.42);
+  color: rgba(220, 242, 252, 0.92);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.34rem;
+}
+
+.envelope-stage-margin-label {
+  color: rgba(183, 235, 241, 0.92);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.envelope-stage-margin-text {
+  color: rgba(202, 236, 248, 0.9);
+  font-size: 0.76rem;
+  line-height: 1.2;
+}
+
+.envelope-stage-margin-sep {
+  color: rgba(166, 218, 229, 0.58);
+  font-size: 0.76rem;
+  margin: 0 0.04rem;
+}
+
+.envelope-keyset {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.envelope-keyset kbd {
+  min-width: 1.3rem;
+  height: 1.34rem;
+  padding: 0 0.26rem;
+  border-radius: 0.36rem;
+  border: 1px solid rgba(172, 231, 238, 0.48);
+  background:
+    linear-gradient(180deg, rgba(23, 58, 90, 0.88), rgba(12, 33, 56, 0.84));
+  box-shadow:
+    inset 0 -1px 0 rgba(116, 199, 214, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.3);
+  color: rgba(232, 248, 255, 0.96);
+  font-family: "Manrope", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .envelope-stage-wrap {
   position: relative;
   margin: 0 1rem;
@@ -240,6 +304,20 @@
   font-size: 0.92rem;
 }
 
+.envelope-start-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.envelope-tutorial-note {
+  margin: 0.06rem 0 -0.16rem;
+  color: rgba(195, 235, 248, 0.88);
+  font-size: 0.78rem;
+}
+
 .envelope-model-picker {
   width: min(24rem, 100%);
   display: grid;
@@ -289,28 +367,76 @@
   color: rgba(168, 231, 238, 0.9);
 }
 
+.envelope-player-name {
+  width: min(24rem, 100%);
+  display: grid;
+  gap: 0.42rem;
+  margin-top: -0.12rem;
+  padding: 0.62rem;
+  border-radius: 12px;
+  border: 1px solid rgba(143, 210, 215, 0.28);
+  background:
+    linear-gradient(160deg, rgba(177, 238, 246, 0.08), rgba(177, 238, 246, 0) 46%),
+    rgba(5, 17, 32, 0.54);
+}
+
+.envelope-player-name label {
+  margin: 0;
+  text-align: left;
+  color: rgba(210, 241, 252, 0.92);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.envelope-player-name input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(143, 210, 215, 0.44);
+  background: rgba(8, 24, 42, 0.78);
+  color: #edf9ff;
+  font: inherit;
+  font-size: 0.88rem;
+  min-height: 2.3rem;
+  padding: 0.38rem 0.72rem;
+}
+
+.envelope-player-name input:focus-visible {
+  outline: 3px solid rgba(143, 210, 215, 0.74);
+  outline-offset: 2px;
+}
+
+.envelope-player-name p {
+  margin: 0;
+  text-align: left;
+  color: rgba(255, 176, 200, 0.94);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
 .envelope-hud {
   position: relative;
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.62rem;
-  padding: 0.92rem 1rem 0.32rem;
+  padding: 0.92rem 1rem 0.4rem;
 }
 
-.envelope-hud article {
+.envelope-card {
   border: 1px solid rgba(143, 210, 215, 0.26);
   border-radius: 12px;
   background:
     linear-gradient(160deg, rgba(182, 237, 245, 0.1), rgba(182, 237, 245, 0) 40%),
     linear-gradient(180deg, rgba(8, 24, 42, 0.66), rgba(8, 24, 42, 0.4));
-  padding: 0.56rem 0.62rem;
+  padding: 0.56rem 0.62rem 0.62rem;
   display: grid;
-  gap: 0.2rem;
+  gap: 0.24rem;
   box-shadow: inset 0 1px 0 rgba(198, 244, 249, 0.12);
 }
 
-.envelope-hud span {
+.envelope-card > span {
   font-size: 0.67rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
@@ -322,6 +448,57 @@
   color: #f2fbff;
   font-size: 1.06rem;
   line-height: 1.2;
+}
+
+.envelope-pressure-calm {
+  color: #9ae7f7;
+}
+
+.envelope-pressure-ramping {
+  color: #90f2cf;
+}
+
+.envelope-pressure-strained {
+  color: #ffd29a;
+}
+
+.envelope-pressure-critical {
+  color: #ffb0ca;
+}
+
+.envelope-pressure-surge {
+  color: #ff8fba;
+  text-shadow: 0 0 16px rgba(255, 143, 186, 0.25);
+}
+
+.envelope-card--meter {
+  padding-bottom: 0.7rem;
+}
+
+.envelope-meter {
+  position: relative;
+  height: 0.36rem;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(140, 211, 223, 0.14);
+  border: 1px solid rgba(145, 215, 227, 0.22);
+}
+
+.envelope-meter > span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  transition: width 220ms ease;
+  background: linear-gradient(90deg, rgba(129, 244, 255, 0.84), rgba(176, 255, 223, 0.86));
+}
+
+#envelope-shield-bar {
+  background: linear-gradient(90deg, rgba(130, 231, 255, 0.88), rgba(171, 255, 224, 0.86));
+}
+
+#envelope-boost-bar {
+  background: linear-gradient(90deg, rgba(181, 238, 255, 0.88), rgba(155, 180, 255, 0.86));
 }
 
 .envelope-controls {
@@ -342,6 +519,13 @@
   margin: 0;
   color: rgba(213, 235, 247, 0.9);
   font-size: 0.82rem;
+}
+
+.envelope-hint {
+  border: 1px solid rgba(143, 210, 215, 0.24);
+  border-radius: 10px;
+  padding: 0.46rem 0.58rem;
+  background: rgba(8, 24, 42, 0.34);
 }
 
 .envelope-leaderboard {
@@ -427,6 +611,20 @@
   font-size: 0.82rem;
   line-height: 1.35;
   padding-right: 0.25rem;
+  display: grid;
+  gap: 0.08rem;
+}
+
+.envelope-leaderboard-main {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.22rem;
+}
+
+.envelope-leaderboard-meta-line {
+  color: rgba(186, 224, 240, 0.82);
+  font-size: 0.68rem;
+  letter-spacing: 0.01em;
 }
 
 .envelope-leaderboard-list li.is-empty {
@@ -564,8 +762,30 @@
     margin: 0 0.7rem;
   }
 
+  .envelope-stage-margin-note {
+    margin: 0.56rem 0.7rem 0.62rem;
+    gap: 0.26rem;
+  }
+
+  .envelope-stage-margin-label {
+    width: 100%;
+  }
+
+  .envelope-stage-margin-sep {
+    display: none;
+  }
+
   .envelope-hud {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .envelope-start-actions {
+    width: 100%;
+  }
+
+  .envelope-start-actions .envelope-action,
+  .envelope-start-actions .envelope-secondary {
+    flex: 1 1 10rem;
   }
 
   .footer-secret-trigger {

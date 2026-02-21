@@ -3,6 +3,7 @@
   const modal = document.getElementById("envelope-modal");
   const closeButton = document.getElementById("envelope-close");
   const startButton = document.getElementById("envelope-start");
+  const tutorialStartButton = document.getElementById("envelope-tutorial-start");
   const pauseButton = document.getElementById("envelope-pause");
   const restartButton = document.getElementById("envelope-restart");
   const canvas = document.getElementById("envelope-canvas");
@@ -19,8 +20,14 @@
 
   const scoreEl = document.getElementById("envelope-score");
   const bestEl = document.getElementById("envelope-best");
+  const timeEl = document.getElementById("envelope-time");
+  const pressureEl = document.getElementById("envelope-pressure");
   const integrityEl = document.getElementById("envelope-integrity");
+  const integrityBarEl = document.getElementById("envelope-integrity-bar");
   const shieldEl = document.getElementById("envelope-shield");
+  const shieldBarEl = document.getElementById("envelope-shield-bar");
+  const boostEl = document.getElementById("envelope-boost");
+  const boostBarEl = document.getElementById("envelope-boost-bar");
   const leaderboardListEl = document.getElementById("envelope-leaderboard-list");
   const leaderboardMetaEl = document.getElementById("envelope-leaderboard-meta");
   const adminToggleEl = document.getElementById("envelope-admin-toggle");
@@ -32,6 +39,9 @@
   const nameLabelEl = document.getElementById("envelope-name-label");
   const nameSkipEl = document.getElementById("envelope-name-skip");
   const nameFeedbackEl = document.getElementById("envelope-name-feedback");
+  const playerNameInputEl = document.getElementById("envelope-player-name");
+  const playerNameFeedbackEl = document.getElementById("envelope-player-name-feedback");
+  const tutorialNoteEl = document.getElementById("envelope-tutorial-note");
   const modelSelectEl = document.getElementById("envelope-model-select");
   const modelNoteEl = document.getElementById("envelope-model-note");
 
@@ -41,7 +51,10 @@
   const STORAGE_KEY = "bernhardt-envelope-escape-best";
   const LEADERBOARD_KEY = "bernhardt-envelope-escape-leaderboard-v1";
   const MODEL_KEY = "bernhardt-envelope-escape-model";
-  const LEADERBOARD_SIZE = 10;
+  const PLAYER_NAME_KEY = "bernhardt-envelope-escape-player-name";
+  const TUTORIAL_SEEN_KEY = "bernhardt-envelope-escape-tutorial-seen";
+  const LEADERBOARD_SIZE = 25;
+  const LEADERBOARD_REQUEST_TIMEOUT_MS = 9000;
   const GLOBAL_LEADERBOARD_URL = String(window.ENVELOPE_LEADERBOARD_URL || "").trim();
   const ADMIN_SESSION_TOKEN_KEY = "bernhardt_admin_token";
   const ADMIN_SESSION_ENDPOINT_KEY = "bernhardt_admin_endpoint";
@@ -106,7 +119,219 @@
         accent: "rgba(255, 226, 170, 0.76)",
         shield: "rgba(255, 228, 173, 0.66)"
       }
+    },
+    paeruginosa: {
+      label: "Pseudomonas aeruginosa",
+      morphology: "Slightly curved rod",
+      shape: "curved-rod",
+      radiusScale: 0.94,
+      lengthScale: 2.85,
+      palette: {
+        membraneA: "#8deed7",
+        membraneB: "#b5ffe8",
+        membraneC: "#60cdb7",
+        core: "rgba(12, 52, 59, 0.88)",
+        accent: "rgba(191, 255, 239, 0.8)",
+        shield: "rgba(169, 254, 228, 0.7)"
+      }
+    },
+    spneumoniae: {
+      label: "Streptococcus pneumoniae",
+      morphology: "Lancet diplococcus",
+      shape: "diplococcus",
+      radiusScale: 0.96,
+      lengthScale: 2.05,
+      palette: {
+        membraneA: "#ffb3c8",
+        membraneB: "#ffd1df",
+        membraneC: "#f08fae",
+        core: "rgba(92, 33, 58, 0.82)",
+        accent: "rgba(255, 214, 229, 0.84)",
+        shield: "rgba(255, 197, 222, 0.68)"
+      }
+    },
+    cglutamicum: {
+      label: "Corynebacterium glutamicum",
+      morphology: "Coryneform rod",
+      shape: "coryneform",
+      radiusScale: 0.95,
+      lengthScale: 2.38,
+      palette: {
+        membraneA: "#c6d4ff",
+        membraneB: "#e2e8ff",
+        membraneC: "#9db2ff",
+        core: "rgba(25, 33, 79, 0.84)",
+        accent: "rgba(218, 228, 255, 0.8)",
+        shield: "rgba(191, 208, 255, 0.72)"
+      }
     }
+  };
+
+  // Species-aware precursor set for game pickups (PG/Lipid II, Gram-negative OM glycoconjugates,
+  // Gram-positive teichoic acids, and Corynebacteriales arabinogalactan-mycolate layers).
+  const ENVELOPE_PRECURSORS = {
+    lipidII: {
+      label: "Lipid II",
+      shortLabel: "Lipid II",
+      icon: "lipid-ii",
+      coreShape: "hex",
+      glowColor: "rgba(181, 255, 218, 0.9)",
+      fillColor: "rgba(162, 255, 205, 0.95)",
+      strokeColor: "rgba(31, 98, 78, 0.58)",
+      detailColor: "rgba(230, 255, 243, 0.78)",
+      burstColor: "#89ffca",
+      floaterColor: "#b4ffd7"
+    },
+    phospholipid: {
+      label: "Phospholipids",
+      shortLabel: "Phospholipids",
+      icon: "phospholipid",
+      coreShape: "disc",
+      glowColor: "rgba(181, 218, 255, 0.9)",
+      fillColor: "rgba(165, 208, 255, 0.95)",
+      strokeColor: "rgba(42, 78, 118, 0.62)",
+      detailColor: "rgba(226, 240, 255, 0.82)",
+      burstColor: "#9bc2ff",
+      floaterColor: "#c4dcff"
+    },
+    lps: {
+      label: "LPS",
+      shortLabel: "LPS",
+      icon: "lps",
+      coreShape: "hex",
+      glowColor: "rgba(255, 216, 174, 0.88)",
+      fillColor: "rgba(255, 200, 140, 0.95)",
+      strokeColor: "rgba(112, 71, 33, 0.56)",
+      detailColor: "rgba(255, 235, 210, 0.82)",
+      burstColor: "#ffc288",
+      floaterColor: "#ffd7af"
+    },
+    los: {
+      label: "LOS",
+      shortLabel: "LOS",
+      icon: "los",
+      coreShape: "hex",
+      glowColor: "rgba(255, 197, 195, 0.88)",
+      fillColor: "rgba(255, 172, 172, 0.95)",
+      strokeColor: "rgba(123, 52, 52, 0.56)",
+      detailColor: "rgba(255, 228, 228, 0.82)",
+      burstColor: "#ff9fa4",
+      floaterColor: "#ffc7cb"
+    },
+    capsule: {
+      label: "Capsule polysaccharide",
+      shortLabel: "Capsule",
+      icon: "capsule",
+      coreShape: "capsule",
+      glowColor: "rgba(191, 255, 230, 0.9)",
+      fillColor: "rgba(182, 255, 222, 0.95)",
+      strokeColor: "rgba(38, 103, 87, 0.56)",
+      detailColor: "rgba(236, 255, 247, 0.82)",
+      burstColor: "#93ffd9",
+      floaterColor: "#bbffe6"
+    },
+    wta: {
+      label: "Wall teichoic acids",
+      shortLabel: "WTA",
+      icon: "teichoic",
+      coreShape: "rounded-rect",
+      glowColor: "rgba(255, 218, 149, 0.9)",
+      fillColor: "rgba(255, 194, 122, 0.95)",
+      strokeColor: "rgba(117, 73, 27, 0.56)",
+      detailColor: "rgba(255, 237, 201, 0.82)",
+      burstColor: "#ffbf7f",
+      floaterColor: "#ffd5a9"
+    },
+    lta: {
+      label: "Lipoteichoic acids",
+      shortLabel: "LTA",
+      icon: "teichoic-anchor",
+      coreShape: "rounded-rect",
+      glowColor: "rgba(255, 199, 150, 0.9)",
+      fillColor: "rgba(255, 177, 124, 0.95)",
+      strokeColor: "rgba(123, 65, 33, 0.56)",
+      detailColor: "rgba(255, 229, 200, 0.82)",
+      burstColor: "#ffb685",
+      floaterColor: "#ffd2b5"
+    },
+    cholineTa: {
+      label: "Choline-rich teichoic acids",
+      shortLabel: "Teichoic acids",
+      icon: "teichoic",
+      coreShape: "rounded-rect",
+      glowColor: "rgba(255, 184, 218, 0.9)",
+      fillColor: "rgba(255, 156, 202, 0.95)",
+      strokeColor: "rgba(116, 43, 86, 0.56)",
+      detailColor: "rgba(255, 221, 238, 0.82)",
+      burstColor: "#ff9ad1",
+      floaterColor: "#ffc3e3"
+    },
+    arabinogalactan: {
+      label: "Arabinogalactan",
+      shortLabel: "Arabinogalactan",
+      icon: "mesh",
+      coreShape: "hex",
+      glowColor: "rgba(218, 203, 255, 0.9)",
+      fillColor: "rgba(198, 179, 255, 0.95)",
+      strokeColor: "rgba(72, 51, 123, 0.56)",
+      detailColor: "rgba(234, 224, 255, 0.82)",
+      burstColor: "#c8b0ff",
+      floaterColor: "#ddcdff"
+    },
+    mycolic: {
+      label: "Mycolic acids",
+      shortLabel: "Mycolic acids",
+      icon: "mycolic",
+      coreShape: "capsule",
+      glowColor: "rgba(183, 219, 255, 0.9)",
+      fillColor: "rgba(164, 204, 255, 0.95)",
+      strokeColor: "rgba(46, 71, 122, 0.56)",
+      detailColor: "rgba(220, 236, 255, 0.82)",
+      burstColor: "#9ebfff",
+      floaterColor: "#c5dcff"
+    }
+  };
+
+  const MODEL_PRECURSOR_POOLS = {
+    ecoli: [
+      { id: "lipidII", weight: 0.46 },
+      { id: "lps", weight: 0.34 },
+      { id: "phospholipid", weight: 0.2 }
+    ],
+    paeruginosa: [
+      { id: "lipidII", weight: 0.44 },
+      { id: "lps", weight: 0.34 },
+      { id: "phospholipid", weight: 0.22 }
+    ],
+    kpneumoniae: [
+      { id: "lipidII", weight: 0.35 },
+      { id: "lps", weight: 0.26 },
+      { id: "capsule", weight: 0.28 },
+      { id: "phospholipid", weight: 0.11 }
+    ],
+    abaumannii: [
+      { id: "lipidII", weight: 0.35 },
+      { id: "los", weight: 0.31 },
+      { id: "capsule", weight: 0.23 },
+      { id: "phospholipid", weight: 0.11 }
+    ],
+    saureus: [
+      { id: "lipidII", weight: 0.38 },
+      { id: "wta", weight: 0.3 },
+      { id: "lta", weight: 0.22 },
+      { id: "phospholipid", weight: 0.1 }
+    ],
+    spneumoniae: [
+      { id: "lipidII", weight: 0.38 },
+      { id: "cholineTa", weight: 0.34 },
+      { id: "capsule", weight: 0.28 }
+    ],
+    cglutamicum: [
+      { id: "lipidII", weight: 0.34 },
+      { id: "arabinogalactan", weight: 0.3 },
+      { id: "mycolic", weight: 0.28 },
+      { id: "phospholipid", weight: 0.08 }
+    ]
   };
 
   const state = {
@@ -120,20 +345,31 @@
     best: readBestScore(),
     integrity: 100,
     shield: 0,
+    boostTimer: 0,
     combo: 0,
     invulnerable: 0,
     shake: 0,
-    phageSpawnIn: 1.1,
-    pulseSpawnIn: 4,
-    resourceSpawnIn: 1.4,
-    surgeIn: 11,
+    flowAngle: random(0, Math.PI * 2),
+    flowTargetAngle: random(0, Math.PI * 2),
+    flowStrength: 0,
+    flowTargetStrength: 0,
+    flowShiftIn: random(7, 12),
+    phageSpawnIn: 1.45,
+    pulseSpawnIn: 5.4,
+    resourceSpawnIn: 1.2,
+    surgeIn: 64,
     surgeTimer: 0,
-    surgePulseIn: 0.35,
+    surgePulseIn: 0.44,
     nearMissCooldown: 0,
     collapseActive: false,
     collapseTimer: 0,
-    collapseDuration: 2.4,
+    collapseDuration: 2.7,
+    collapseRuptureAt: 0.38,
+    collapseReleased: false,
     lysisPhages: [],
+    lysisRuptures: [],
+    lysisFragments: [],
+    lysisShockwaves: [],
     particles: [],
     phages: [],
     pulses: [],
@@ -144,6 +380,10 @@
     leaderboard: readLeaderboard(),
     leaderboardMode: GLOBAL_LEADERBOARD_URL ? "global" : "local",
     pendingScore: null,
+    runMode: "ranked",
+    tutorialTipStep: 0,
+    tutorialSeen: readTutorialSeen(),
+    playerName: readPlayerName(),
     modelId: readModelChoice(),
     player: {
       x: 0,
@@ -168,6 +408,14 @@
     x: 0,
     y: 0
   };
+
+  function resetInputState() {
+    keys.up = false;
+    keys.down = false;
+    keys.left = false;
+    keys.right = false;
+    pointer.active = false;
+  }
 
   const seededBest = Math.max(state.best, getLeaderboardBest(state.leaderboard));
   state.best = seededBest;
@@ -247,15 +495,38 @@
     nameFeedbackEl.hidden = !message;
   }
 
+  function normalizeSpeciesId(value) {
+    const key = String(value || "").trim().toLowerCase();
+    if (key && BACTERIA_MODELS[key]) return key;
+    return "unknown";
+  }
+
+  function getSpeciesLabel(speciesId) {
+    const key = normalizeSpeciesId(speciesId);
+    if (key === "unknown") return "Model not recorded";
+    return getModel(key).label;
+  }
+
+  function formatLeaderboardTimestamp(ms) {
+    const time = Number(ms) || Date.now();
+    const stamp = new Date(time);
+    if (!Number.isFinite(stamp.getTime())) return "Unknown time";
+    const pad = (value) => String(value).padStart(2, "0");
+    return `${stamp.getFullYear()}-${pad(stamp.getMonth() + 1)}-${pad(stamp.getDate())} ${pad(stamp.getHours())}:${pad(stamp.getMinutes())}`;
+  }
+
   function normalizeLeaderboardEntries(entries) {
     if (!Array.isArray(entries)) return [];
     return entries
       .map((entry) => {
         const cleanedName = sanitizeName(entry?.name) || "Anonymous";
+        const playedAt = Math.max(0, Number(entry?.playedAt ?? entry?.createdAt) || Date.now());
         return {
           name: isNameAllowed(cleanedName) ? cleanedName : "Anonymous",
           score: Math.max(0, Math.floor(Number(entry?.score) || 0)),
-          createdAt: Math.max(0, Number(entry?.createdAt) || Date.now())
+          species: normalizeSpeciesId(entry?.species ?? entry?.speciesId ?? entry?.modelId),
+          playedAt,
+          createdAt: playedAt
         };
       })
       .filter((entry) => entry.score > 0)
@@ -280,27 +551,96 @@
     }
   }
 
+  function readPlayerName() {
+    try {
+      return sanitizeName(window.localStorage.getItem(PLAYER_NAME_KEY) || "") || "Anonymous";
+    } catch {
+      return "Anonymous";
+    }
+  }
+
+  function writePlayerName(name) {
+    try {
+      window.localStorage.setItem(PLAYER_NAME_KEY, sanitizeName(name) || "Anonymous");
+    } catch {
+      /* no-op */
+    }
+  }
+
+  function setPlayerNameFeedback(message = "") {
+    if (!playerNameFeedbackEl) return;
+    playerNameFeedbackEl.textContent = message;
+    playerNameFeedbackEl.hidden = !message;
+  }
+
+  function readTutorialSeen() {
+    try {
+      return window.localStorage.getItem(TUTORIAL_SEEN_KEY) === "1";
+    } catch {
+      return false;
+    }
+  }
+
+  function writeTutorialSeen(seen = true) {
+    try {
+      window.localStorage.setItem(TUTORIAL_SEEN_KEY, seen ? "1" : "0");
+    } catch {
+      /* no-op */
+    }
+  }
+
+  function syncPlayerNameInput() {
+    if (!playerNameInputEl) return;
+    playerNameInputEl.value = state.playerName || "Anonymous";
+  }
+
+  function updateTutorialNote() {
+    if (!tutorialNoteEl) return;
+    tutorialNoteEl.textContent = state.tutorialSeen
+      ? "Need a refresher? Tutorial Mode is easier and does not affect the leaderboard."
+      : "First time? Try Tutorial Mode (easier, not ranked).";
+  }
+
   function setLeaderboardMeta(mode) {
     if (!leaderboardMetaEl) return;
     leaderboardMetaEl.classList.remove("is-global", "is-fallback");
 
     if (mode === "global") {
-      leaderboardMetaEl.textContent = "Shared globally";
+      leaderboardMetaEl.textContent = "Shared leaderboard";
       leaderboardMetaEl.classList.add("is-global");
       return;
     }
     if (mode === "fallback") {
-      leaderboardMetaEl.textContent = "Global unavailable · local copy";
+      leaderboardMetaEl.textContent = "Global offline · using local copy";
       leaderboardMetaEl.classList.add("is-fallback");
       return;
     }
-    leaderboardMetaEl.textContent = "Stored in this browser";
+    leaderboardMetaEl.textContent = "Local leaderboard";
   }
 
   function setAdminFeedback(message = "") {
     if (!adminFeedbackEl) return;
     adminFeedbackEl.textContent = message;
     adminFeedbackEl.hidden = !message;
+  }
+
+  async function fetchJsonWithTimeout(url, options = {}, timeoutMs = LEADERBOARD_REQUEST_TIMEOUT_MS) {
+    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timeoutId = controller
+      ? window.setTimeout(() => {
+          controller.abort();
+        }, timeoutMs)
+      : null;
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller ? controller.signal : undefined
+      });
+      return response;
+    } finally {
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+    }
   }
 
   function hideAdminForm() {
@@ -339,7 +679,7 @@
     const verifyUrl = new URL(adminEndpoint);
     verifyUrl.searchParams.set("limit", "1");
 
-    const response = await fetch(verifyUrl.toString(), {
+    const response = await fetchJsonWithTimeout(verifyUrl.toString(), {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -360,7 +700,7 @@
 
   async function fetchGlobalLeaderboard() {
     if (!GLOBAL_LEADERBOARD_URL) return null;
-    const response = await fetch(GLOBAL_LEADERBOARD_URL, {
+    const response = await fetchJsonWithTimeout(GLOBAL_LEADERBOARD_URL, {
       method: "GET",
       headers: { Accept: "application/json" }
     });
@@ -372,9 +712,9 @@
     return normalizeLeaderboardEntries(entries);
   }
 
-  async function submitGlobalScore(name, score) {
+  async function submitGlobalScore(name, score, species, playedAt) {
     if (!GLOBAL_LEADERBOARD_URL) return;
-    const response = await fetch(GLOBAL_LEADERBOARD_URL, {
+    const response = await fetchJsonWithTimeout(GLOBAL_LEADERBOARD_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -382,7 +722,9 @@
       },
       body: JSON.stringify({
         name: sanitizeName(name) || "Anonymous",
-        score: Math.max(0, Math.floor(score))
+        score: Math.max(0, Math.floor(score)),
+        species: normalizeSpeciesId(species),
+        playedAt: Math.max(0, Math.floor(Number(playedAt) || Date.now()))
       })
     });
     if (!response.ok) {
@@ -430,13 +772,6 @@
     return Math.max(0, Math.floor(entries[0].score));
   }
 
-  function qualifiesForLeaderboard(score) {
-    const cleanedScore = Math.max(0, Math.floor(score));
-    if (cleanedScore <= 0) return false;
-    if (state.leaderboard.length < LEADERBOARD_SIZE) return true;
-    return cleanedScore >= state.leaderboard[state.leaderboard.length - 1].score;
-  }
-
   function renderLeaderboard() {
     if (!leaderboardListEl) return;
 
@@ -448,7 +783,16 @@
       if (entry) {
         const score = document.createElement("strong");
         score.textContent = String(entry.score);
-        li.append(score, document.createTextNode(` — ${entry.name}`));
+
+        const mainLine = document.createElement("div");
+        mainLine.className = "envelope-leaderboard-main";
+        mainLine.append(score, document.createTextNode(` — ${entry.name}`));
+
+        const metaLine = document.createElement("span");
+        metaLine.className = "envelope-leaderboard-meta-line";
+        metaLine.textContent = `${getSpeciesLabel(entry.species)} · ${formatLeaderboardTimestamp(entry.playedAt || entry.createdAt)}`;
+
+        li.append(mainLine, metaLine);
       } else {
         li.classList.add("is-empty");
         li.textContent = "—";
@@ -472,7 +816,7 @@
     state.pendingScore = cleanedScore;
 
     if (!nameFormEl) {
-      const rawName = window.prompt(`Top 10 score: ${cleanedScore}. Enter your name:`);
+      const rawName = window.prompt(`Top 25 score (${cleanedScore}). Enter your name:`);
       if (rawName === null) {
         state.pendingScore = null;
         return;
@@ -481,21 +825,21 @@
       const savedName = fallbackName || "Anonymous";
       if (!isNameAllowed(savedName)) {
         state.pendingScore = null;
-        showOverlay("Score not saved", "Name unavailable. Try a different one.", "Run Again", "restart");
+        showOverlay("Score not saved", "Name unavailable. Try another name.", "Play Again", "restart");
         return;
       }
       addLeaderboardEntry(savedName, cleanedScore).then(() => {
         showOverlay(
-          "Score logged",
-          `${savedName} added with ${cleanedScore} points. Highest score: ${Math.floor(state.best)}.`,
-          "Run Again",
+          "Score saved",
+          `${savedName} saved with ${cleanedScore} points. Best score: ${Math.floor(state.best)}.`,
+          "Play Again",
           "restart"
         );
       });
       return;
     }
 
-    if (nameLabelEl) nameLabelEl.textContent = `Top 10 score (${cleanedScore}): add your name`;
+    if (nameLabelEl) nameLabelEl.textContent = `Top 25 score (${cleanedScore}): enter your name`;
     nameFormEl.hidden = false;
     setNameFeedback("");
     if (nameInputEl) {
@@ -505,17 +849,20 @@
   }
 
   async function addLeaderboardEntry(name, score) {
+    const playedAt = Date.now();
     const entry = {
       name: sanitizeName(name) || "Anonymous",
       score: Math.max(0, Math.floor(score)),
-      createdAt: Date.now()
+      species: normalizeSpeciesId(state.modelId),
+      playedAt,
+      createdAt: playedAt
     };
     if (entry.score <= 0) return false;
     if (!isNameAllowed(entry.name)) return false;
 
     if (GLOBAL_LEADERBOARD_URL) {
       try {
-        await submitGlobalScore(entry.name, entry.score);
+        await submitGlobalScore(entry.name, entry.score, entry.species, entry.playedAt);
         const remoteEntries = await fetchGlobalLeaderboard();
         state.leaderboard = remoteEntries || [];
         writeLeaderboard(state.leaderboard);
@@ -570,6 +917,47 @@
     return BACTERIA_MODELS[modelId] || BACTERIA_MODELS.ecoli;
   }
 
+  function getPrecursorPool(modelId = state.modelId) {
+    return MODEL_PRECURSOR_POOLS[modelId] || MODEL_PRECURSOR_POOLS.ecoli;
+  }
+
+  function getPrecursorDefinition(precursorId) {
+    return ENVELOPE_PRECURSORS[precursorId] || ENVELOPE_PRECURSORS.lipidII;
+  }
+
+  function pickModelPrecursor(modelId = state.modelId) {
+    const pool = getPrecursorPool(modelId);
+    const totalWeight = pool.reduce((sum, entry) => sum + Math.max(0, Number(entry.weight) || 0), 0);
+    if (totalWeight <= 0) return ENVELOPE_PRECURSORS.lipidII;
+
+    let roll = Math.random() * totalWeight;
+    for (let i = 0; i < pool.length; i += 1) {
+      const entry = pool[i];
+      roll -= Math.max(0, Number(entry.weight) || 0);
+      if (roll <= 0) {
+        return getPrecursorDefinition(entry.id);
+      }
+    }
+
+    return getPrecursorDefinition(pool[pool.length - 1].id);
+  }
+
+  function getPrecursorLabels(modelId = state.modelId) {
+    const seen = new Set();
+    const labels = [];
+    const pool = getPrecursorPool(modelId);
+
+    pool.forEach((entry) => {
+      const def = getPrecursorDefinition(entry.id);
+      const key = def.shortLabel || def.label;
+      if (seen.has(key)) return;
+      seen.add(key);
+      labels.push(key);
+    });
+
+    return labels;
+  }
+
   function applyModelGeometry() {
     const model = getModel(state.modelId);
     const baseRadius = clamp(Math.round(state.height * 0.035), 15, 24);
@@ -583,7 +971,7 @@
       modelSelectEl.value = state.modelId;
     }
     if (modelNoteEl) {
-      modelNoteEl.textContent = `${model.label} · ${model.morphology}`;
+      modelNoteEl.textContent = `${model.label} · ${model.morphology} · Envelope inputs: ${getPrecursorLabels(state.modelId).join(", ")}`;
     }
   }
 
@@ -595,12 +983,117 @@
     updateModelUi();
   }
 
+  function capturePlayerNameForRun() {
+    const proposed = sanitizeName(playerNameInputEl ? playerNameInputEl.value : state.playerName) || "Anonymous";
+    if (!isNameAllowed(proposed)) {
+      setPlayerNameFeedback("Name unavailable. Please choose a different name.");
+      if (playerNameInputEl) {
+        playerNameInputEl.focus({ preventScroll: true });
+        playerNameInputEl.select();
+      }
+      return false;
+    }
+
+    state.playerName = proposed;
+    writePlayerName(proposed);
+    syncPlayerNameInput();
+    setPlayerNameFeedback("");
+    return true;
+  }
+
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
   }
 
   function random(min, max) {
     return min + Math.random() * (max - min);
+  }
+
+  function smoothstep(value) {
+    const t = clamp(value, 0, 1);
+    return t * t * (3 - 2 * t);
+  }
+
+  function getDifficultyProfile() {
+    if (state.runMode === "tutorial") {
+      const ramp = smoothstep(state.elapsed / 220);
+      return {
+        intensity: 0.32 + ramp * 0.48,
+        phageSpeedMul: 0.5 + ramp * 0.3,
+        pulseSpeedMul: 0.42 + ramp * 0.26,
+        phageSpawnMul: 0.36 + ramp * 0.52,
+        pulseSpawnMul: 0.34 + ramp * 0.46,
+        resourceSpawnMul: 2.02 - ramp * 0.26,
+        darterChance: 0.02 + ramp * 0.08,
+        damageMul: 0.46 + ramp * 0.22,
+        surgeCooldownMul: 2.5,
+        surgeDurationMul: 0.6,
+        surgeCadenceMul: 0.58
+      };
+    }
+
+    const ramp = smoothstep(state.elapsed / 480);
+    return {
+      intensity: 0.58 + ramp * 1.82,
+      phageSpeedMul: 0.82 + ramp * 0.95,
+      pulseSpeedMul: 0.78 + ramp * 1.0,
+      phageSpawnMul: 0.68 + ramp * 1.78,
+      pulseSpawnMul: 0.64 + ramp * 1.44,
+      resourceSpawnMul: 1.26 - ramp * 0.42,
+      darterChance: 0.1 + ramp * 0.34,
+      damageMul: 0.88 + ramp * 0.44,
+      surgeCooldownMul: 1.32 - ramp * 0.44,
+      surgeDurationMul: 0.9 + ramp * 0.34,
+      surgeCadenceMul: 0.92 + ramp * 0.4
+    };
+  }
+
+  function formatDuration(seconds) {
+    const total = Math.max(0, Math.floor(seconds));
+    const minutes = Math.floor(total / 60);
+    const remainder = total % 60;
+    return `${minutes}:${String(remainder).padStart(2, "0")}`;
+  }
+
+  function getPressureState(profile) {
+    if (state.runMode === "tutorial") {
+      return { label: "Tutorial", className: "envelope-pressure-calm" };
+    }
+    if (state.surgeTimer > 0) {
+      return { label: "Surge", className: "envelope-pressure-surge" };
+    }
+    if (profile.intensity < 1.02) {
+      return { label: "Calm", className: "envelope-pressure-calm" };
+    }
+    if (profile.intensity < 1.45) {
+      return { label: "Ramping", className: "envelope-pressure-ramping" };
+    }
+    if (profile.intensity < 1.95) {
+      return { label: "Strained", className: "envelope-pressure-strained" };
+    }
+    return { label: "Critical", className: "envelope-pressure-critical" };
+  }
+
+  function normalizeAngle(angle) {
+    let next = angle;
+    while (next <= -Math.PI) next += Math.PI * 2;
+    while (next > Math.PI) next -= Math.PI * 2;
+    return next;
+  }
+
+  function updateFlowField(dt, profile) {
+    state.flowShiftIn -= dt;
+    if (state.flowShiftIn <= 0) {
+      const intensity = profile.intensity;
+      state.flowTargetAngle = random(0, Math.PI * 2);
+      state.flowTargetStrength = random(4, 22 + intensity * 10);
+      state.flowShiftIn = random(6.4, 10.8) / (0.88 + intensity * 0.13);
+    }
+
+    const angleDelta = normalizeAngle(state.flowTargetAngle - state.flowAngle);
+    state.flowAngle += angleDelta * dt * 1.05;
+    state.flowStrength += (state.flowTargetStrength - state.flowStrength) * dt * 0.9;
+    state.flowStrength = clamp(state.flowStrength, 0, 36);
   }
 
   function isModalOpen() {
@@ -650,19 +1143,31 @@
     state.score = 0;
     state.integrity = 100;
     state.shield = 0;
+    state.boostTimer = 0;
     state.combo = 0;
     state.invulnerable = 0;
     state.shake = 0;
-    state.phageSpawnIn = 1.1;
-    state.pulseSpawnIn = 3.9;
-    state.resourceSpawnIn = 1.4;
-    state.surgeIn = random(10, 14);
+    state.flowAngle = random(0, Math.PI * 2);
+    state.flowTargetAngle = state.flowAngle;
+    state.flowStrength = random(0, 6);
+    state.flowTargetStrength = state.flowStrength;
+    state.flowShiftIn = random(6.8, 10.6);
+    state.phageSpawnIn = 1.45;
+    state.pulseSpawnIn = 5.4;
+    state.resourceSpawnIn = 1.2;
+    state.surgeIn = state.runMode === "tutorial" ? 9999 : random(58, 86);
     state.surgeTimer = 0;
-    state.surgePulseIn = 0.35;
+    state.surgePulseIn = 0.44;
+    state.tutorialTipStep = 0;
     state.nearMissCooldown = 0;
     state.collapseActive = false;
     state.collapseTimer = 0;
+    state.collapseRuptureAt = 0.38;
+    state.collapseReleased = false;
     state.lysisPhages = [];
+    state.lysisRuptures = [];
+    state.lysisFragments = [];
+    state.lysisShockwaves = [];
     state.phages = [];
     state.pulses = [];
     state.resources = [];
@@ -691,6 +1196,8 @@
     overlayTitle.textContent = title;
     overlayCopy.textContent = copy;
     startButton.textContent = actionText;
+    if (tutorialStartButton) tutorialStartButton.hidden = mode !== "start";
+    if (tutorialNoteEl) tutorialNoteEl.hidden = mode !== "start";
     overlay.classList.remove("is-hidden");
   }
 
@@ -699,10 +1206,32 @@
   }
 
   function updateHud() {
+    const profile = getDifficultyProfile();
+    const pressure = getPressureState(profile);
+    const integrityPct = clamp(state.integrity, 0, 100);
+    const shieldPct = clamp(state.shield, 0, 100);
+    const boostPct = clamp((state.boostTimer / 7.2) * 100, 0, 100);
+
     if (scoreEl) scoreEl.textContent = String(Math.floor(state.score));
     if (bestEl) bestEl.textContent = String(Math.floor(state.best));
-    if (integrityEl) integrityEl.textContent = `${Math.max(0, Math.floor(state.integrity))}%`;
-    if (shieldEl) shieldEl.textContent = `${Math.max(0, Math.floor(state.shield))}%`;
+    if (timeEl) timeEl.textContent = formatDuration(state.elapsed);
+    if (pressureEl) {
+      pressureEl.textContent = pressure.label;
+      pressureEl.classList.remove(
+        "envelope-pressure-calm",
+        "envelope-pressure-ramping",
+        "envelope-pressure-strained",
+        "envelope-pressure-critical",
+        "envelope-pressure-surge"
+      );
+      pressureEl.classList.add(pressure.className);
+    }
+    if (integrityEl) integrityEl.textContent = `${Math.floor(integrityPct)}%`;
+    if (shieldEl) shieldEl.textContent = `${Math.floor(shieldPct)}%`;
+    if (boostEl) boostEl.textContent = `${Math.floor(boostPct)}%`;
+    if (integrityBarEl) integrityBarEl.style.width = `${integrityPct.toFixed(1)}%`;
+    if (shieldBarEl) shieldBarEl.style.width = `${shieldPct.toFixed(1)}%`;
+    if (boostBarEl) boostBarEl.style.width = `${boostPct.toFixed(1)}%`;
   }
 
   function pointerToWorld(event) {
@@ -726,6 +1255,7 @@
     resetSimulation();
     hideNameForm();
     hideAdminForm();
+    state.runMode = "ranked";
     state.running = false;
     state.paused = false;
     pauseButton.textContent = "Pause";
@@ -733,11 +1263,14 @@
     renderLeaderboard();
     refreshLeaderboardFromSource();
     updateModelUi();
+    syncPlayerNameInput();
+    setPlayerNameFeedback("");
+    updateTutorialNote();
 
     showOverlay(
-      "Run a hidden Bernhardt Lab simulation.",
-      "Guide a bacterium through phage pressure, dynamic surge waves, and antibiotic pulses. Collect envelope-building precursors to maintain integrity.",
-      "Start Simulation",
+      "Envelope Escape",
+      "Guide your bacterium through phage attacks and antibiotic waves. Collect species-specific envelope precursors, shields, and catalytic boosts to stay intact.",
+      "Start Run",
       "start"
     );
 
@@ -753,7 +1286,7 @@
 
     state.running = false;
     state.paused = false;
-    pointer.active = false;
+    resetInputState();
     hideNameForm();
     hideAdminForm();
 
@@ -763,7 +1296,14 @@
     }
   }
 
-  function startSimulation() {
+  function startSimulation(mode = state.runMode || "ranked") {
+    state.runMode = mode === "tutorial" ? "tutorial" : "ranked";
+    if (state.runMode === "tutorial") {
+      state.tutorialSeen = true;
+      writeTutorialSeen(true);
+      updateTutorialNote();
+    }
+
     resetSimulation();
     hideNameForm();
     hideAdminForm();
@@ -772,6 +1312,9 @@
     pauseButton.textContent = "Pause";
     hideOverlay();
     lastFrame = performance.now();
+    if (state.runMode === "tutorial") {
+      addFloater(state.width * 0.5, 54, "Tutorial mode: scores are not ranked.", "#c9f5ff");
+    }
     ensureLoop();
   }
 
@@ -788,8 +1331,8 @@
     state.paused = true;
     pauseButton.textContent = "Resume";
     showOverlay(
-      "Simulation paused",
-      "Resume when you are ready. Keep collecting precursors and avoid phage hits.",
+      "Paused",
+      "Dodge phages and antibiotic waves, then collect precursors to rebuild your envelope.",
       "Resume",
       "resume"
     );
@@ -800,7 +1343,21 @@
     state.paused = false;
     pauseButton.textContent = "Pause";
     const finalScore = Math.floor(state.score);
-    const qualifies = qualifiesForLeaderboard(finalScore);
+    const savedName = state.playerName || "Anonymous";
+
+    if (state.runMode === "tutorial") {
+      hideNameForm();
+      showOverlay(
+        "Tutorial complete",
+        `Tutorial score: ${finalScore}. Tutorial runs are practice only and are not submitted to the leaderboard.`,
+        "Start Ranked Run",
+        "start"
+      );
+      state.runMode = "ranked";
+      updateHud();
+      renderLeaderboard();
+      return;
+    }
 
     if (finalScore > state.best) {
       state.best = finalScore;
@@ -810,17 +1367,56 @@
     updateHud();
     renderLeaderboard();
 
+    hideNameForm();
+
     showOverlay(
       "Envelope collapsed",
-      qualifies
-        ? `Final score: ${finalScore}. Highest score: ${Math.floor(state.best)}. Top 10 unlocked — add your name below.`
-        : `Final score: ${finalScore}. Highest score: ${Math.floor(state.best)}.`,
-      "Run Again",
+      `Final score: ${finalScore}. Best score: ${Math.floor(state.best)}. Saving to leaderboard...`,
+      "Play Again",
       "restart"
     );
 
-    if (qualifies) openNameForm(finalScore);
-    else hideNameForm();
+    if (finalScore <= 0) {
+      showOverlay(
+        "Envelope collapsed",
+        `Final score: ${finalScore}. Best score: ${Math.floor(state.best)}.`,
+        "Play Again",
+        "restart"
+      );
+      return;
+    }
+
+    addLeaderboardEntry(savedName, finalScore).then(async (accepted) => {
+      if (state.running || state.collapseActive) return;
+      if (accepted) {
+        showOverlay(
+          "Envelope collapsed",
+          `Final score: ${finalScore}. Best score: ${Math.floor(state.best)}. Saved as ${savedName}.`,
+          "Play Again",
+          "restart"
+        );
+        return;
+      }
+
+      if (savedName !== "Anonymous") {
+        await addLeaderboardEntry("Anonymous", finalScore);
+        if (state.running || state.collapseActive) return;
+        showOverlay(
+          "Envelope collapsed",
+          `Final score: ${finalScore}. Best score: ${Math.floor(state.best)}. Saved as Anonymous.`,
+          "Play Again",
+          "restart"
+        );
+        return;
+      }
+
+      showOverlay(
+        "Envelope collapsed",
+        `Final score: ${finalScore}. Best score: ${Math.floor(state.best)}.`,
+        "Play Again",
+        "restart"
+      );
+    });
   }
 
   function spawnPhage(kind = "hunter") {
@@ -843,10 +1439,10 @@
       y = state.height + margin;
     }
 
-    const difficulty = 1 + state.elapsed / 48;
-    const baseSpeed = random(72, 108) + difficulty * 18;
+    const profile = getDifficultyProfile();
+    const baseSpeed = random(70, 96) * profile.phageSpeedMul + profile.intensity * 7;
     const isDarter = kind === "darter";
-    const speed = isDarter ? baseSpeed * random(1.18, 1.33) : baseSpeed;
+    const speed = isDarter ? baseSpeed * random(1.12, 1.27) : baseSpeed;
     const angle = Math.atan2(state.player.y - y, state.player.x - x) + random(-0.35, 0.35);
 
     state.phages.push({
@@ -865,13 +1461,14 @@
   }
 
   function spawnPulse() {
+    const profile = getDifficultyProfile();
     const margin = 64;
     state.pulses.push({
       x: random(margin, state.width - margin),
       y: random(margin, state.height - margin),
       r: random(10, 26),
       thickness: random(11, 16),
-      speed: random(70, 110) + state.elapsed * 0.8,
+      speed: (random(68, 98) * profile.pulseSpeedMul + profile.intensity * 9) * (state.surgeTimer > 0 ? 1.08 : 1),
       maxR: Math.max(state.width, state.height) * random(0.52, 0.82),
       hitLock: 0,
       nearScored: false
@@ -880,13 +1477,17 @@
 
   function spawnResource() {
     const kindRoll = Math.random();
-    const kind = kindRoll < 0.16 ? "shield" : "precursor";
+    let kind = "precursor";
+    if (kindRoll < 0.14) kind = "shield";
+    else if (kindRoll > 0.86) kind = "boost";
+    const precursor = kind === "precursor" ? pickModelPrecursor(state.modelId) : null;
 
     state.resources.push({
       x: random(30, state.width - 30),
       y: random(30, state.height - 30),
-      r: kind === "shield" ? 12 : 10,
+      r: kind === "shield" ? 12 : kind === "boost" ? 11 : precursor?.coreShape === "capsule" ? 11 : 10,
       kind,
+      precursor,
       phase: random(0, Math.PI * 2),
       life: 0
     });
@@ -928,20 +1529,142 @@
   }
 
   function triggerPressureSurge() {
-    state.surgeTimer = random(5.6, 8.4);
-    state.surgePulseIn = random(0.18, 0.34);
-    state.surgeIn = random(14, 21);
+    if (state.runMode === "tutorial") {
+      state.surgeIn = 9999;
+      return;
+    }
+    const profile = getDifficultyProfile();
+    state.surgeTimer = random(4.8, 7.1) * profile.surgeDurationMul;
+    state.surgePulseIn = random(0.28, 0.44) / profile.surgeCadenceMul;
+    state.surgeIn = random(16, 24) * profile.surgeCooldownMul;
     state.shake = Math.max(state.shake, 6.5);
     addFloater(state.width * 0.5, 48, "Phage surge", "#98f0ff");
     addBurst(state.width * 0.5, 62, "#8eefff", 20);
-    spawnPhageSwarm(clamp(3 + Math.floor(state.elapsed / 42), 3, 7));
+    const swarmSize = 2 + Math.floor(state.elapsed / 85) + Math.round(profile.intensity * 0.65);
+    spawnPhageSwarm(clamp(swarmSize, 2, 9));
+  }
+
+  function maybeShowTutorialHints() {
+    if (state.runMode !== "tutorial") return;
+
+    const hints = [
+      { at: 1.2, text: "Collect precursors to rebuild your envelope." },
+      { at: 6.2, text: "Avoid phages and pink antibiotic waves." },
+      { at: 12.2, text: "Blue shields absorb incoming damage." },
+      { at: 18.2, text: "Catalytic boosts raise speed and score gain." }
+    ];
+
+    while (state.tutorialTipStep < hints.length && state.elapsed >= hints[state.tutorialTipStep].at) {
+      const hint = hints[state.tutorialTipStep];
+      addFloater(state.width * 0.5, 62 + state.tutorialTipStep * 8, hint.text, "#bdefff");
+      state.tutorialTipStep += 1;
+    }
+  }
+
+  function localToWorldPoint(originX, originY, angle, localX, localY) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return {
+      x: originX + localX * cos - localY * sin,
+      y: originY + localX * sin + localY * cos
+    };
+  }
+
+  function buildLysisRuptures(model) {
+    const isRound = model.shape === "coccus" || model.shape === "diplococcus";
+    const count = prefersReducedMotion ? (isRound ? 2 : 3) : isRound ? 4 : 5;
+    const ruptures = [];
+
+    for (let i = 0; i < count; i += 1) {
+      if (isRound) {
+        const theta = (Math.PI * 2 * i) / count + random(-0.26, 0.26);
+        const radius = random(0.38, 0.62);
+        ruptures.push({
+          xRatio: Math.cos(theta) * radius,
+          yRatio: Math.sin(theta) * radius,
+          size: random(2.2, 4.2),
+          crackAngle: theta + random(-0.3, 0.3)
+        });
+      } else {
+        const t = count === 1 ? 0 : i / (count - 1);
+        const xRatio = -0.56 + t * 1.12 + random(-0.08, 0.08);
+        const yBase = i % 2 === 0 ? -0.38 : 0.38;
+        ruptures.push({
+          xRatio,
+          yRatio: yBase + random(-0.12, 0.12),
+          size: random(2.2, 4.6),
+          crackAngle: random(-1.15, 1.15)
+        });
+      }
+    }
+
+    return ruptures;
+  }
+
+  function ruptureWorldPoint(site) {
+    return localToWorldPoint(
+      state.player.x,
+      state.player.y,
+      state.player.angle,
+      site.xRatio * state.player.length * 0.44,
+      site.yRatio * state.player.radius * 0.95
+    );
+  }
+
+  function triggerRuptureBurstEffect(model) {
+    if (state.collapseReleased) return;
+    state.collapseReleased = true;
+    state.shake = Math.max(state.shake, 22);
+
+    const fragmentPool = prefersReducedMotion ? 18 : 34;
+    const colorA = model?.palette?.membraneB || "#9af9ff";
+    const colorB = model?.palette?.membraneC || "#6ae7ee";
+
+    state.lysisRuptures.forEach((site) => {
+      const point = ruptureWorldPoint(site);
+
+      state.lysisShockwaves.push({
+        x: point.x,
+        y: point.y,
+        r: state.player.radius * 0.2,
+        maxR: state.player.radius * random(2.8, 4.2),
+        thickness: random(2.8, 4.2),
+        life: random(0.34, 0.56),
+        maxLife: random(0.34, 0.56)
+      });
+
+      addBurst(point.x, point.y, "#ff9fc9", 10);
+      addBurst(point.x, point.y, "#9af2ff", 8);
+
+      const fragCount = Math.max(3, Math.floor(fragmentPool / Math.max(1, state.lysisRuptures.length)));
+      for (let i = 0; i < fragCount; i += 1) {
+        const theta = Math.atan2(site.yRatio, site.xRatio) + state.player.angle + random(-0.75, 0.75);
+        const speed = random(70, 250);
+        state.lysisFragments.push({
+          x: point.x + random(-2.4, 2.4),
+          y: point.y + random(-2.4, 2.4),
+          vx: Math.cos(theta) * speed,
+          vy: Math.sin(theta) * speed,
+          angle: random(0, Math.PI * 2),
+          spin: random(-9.5, 9.5),
+          length: random(4.6, 10.2),
+          width: random(1.8, 3.6),
+          life: random(0.52, 1.2),
+          maxLife: random(0.52, 1.2),
+          color: Math.random() < 0.5 ? colorA : colorB
+        });
+      }
+    });
   }
 
   function triggerLysisSequence() {
     if (state.collapseActive) return;
 
+    const model = getModel(state.modelId);
     state.collapseActive = true;
     state.collapseTimer = 0;
+    state.collapseRuptureAt = prefersReducedMotion ? 0.28 : 0.38;
+    state.collapseReleased = false;
     state.running = false;
     state.paused = false;
     pauseButton.textContent = "Pause";
@@ -952,47 +1675,99 @@
     state.pulses = [];
     state.resources = [];
     state.trails = [];
+    state.lysisFragments = [];
+    state.lysisShockwaves = [];
+    state.lysisRuptures = buildLysisRuptures(model);
 
     const sourceX = state.player.x;
     const sourceY = state.player.y;
-    const releaseCount = prefersReducedMotion ? 22 : 46;
+    const releaseCount = prefersReducedMotion ? 28 : 68;
     state.lysisPhages = Array.from({ length: releaseCount }, () => {
-      const theta = random(0, Math.PI * 2);
-      const speed = random(58, 260);
+      const site = state.lysisRuptures[Math.floor(random(0, state.lysisRuptures.length))];
+      const localX = site.xRatio * state.player.length * 0.44 + random(-2.4, 2.4);
+      const localY = site.yRatio * state.player.radius * 0.95 + random(-2.4, 2.4);
+      const spawn = localToWorldPoint(sourceX, sourceY, state.player.angle, localX, localY);
+      const theta = Math.atan2(localY, localX) + state.player.angle + random(-0.6, 0.6);
+      const speed = random(52, 240);
       return {
-        x: sourceX + Math.cos(theta) * random(2, 11),
-        y: sourceY + Math.sin(theta) * random(2, 11),
+        x: spawn.x,
+        y: spawn.y,
         vx: Math.cos(theta) * speed,
         vy: Math.sin(theta) * speed,
-        r: random(3.8, 6.6),
+        r: random(2.6, 5.4),
         spin: random(-4, 4),
         rot: random(0, Math.PI * 2),
         wobble: random(0, Math.PI * 2),
-        wobbleAmp: random(0.8, 2.4),
-        life: random(1.35, 2.4),
-        maxLife: random(1.35, 2.4)
+        wobbleAmp: random(0.6, 2.2),
+        launch: random(0.1, 0.28),
+        delay: state.collapseRuptureAt + random(0.02, prefersReducedMotion ? 0.42 : 0.94),
+        released: false,
+        kind: Math.random() < 0.34 ? "darter" : "hunter",
+        life: random(1.8, 3.2),
+        maxLife: random(1.8, 3.2)
       };
     });
 
     addFloater(sourceX, sourceY - 34, "Cell lysis", "#ffafcb");
-    addBurst(sourceX, sourceY, "#ff8cb2", 46);
-    addBurst(sourceX, sourceY, "#9ef7ff", 34);
+    addBurst(sourceX, sourceY, "#ff8cb2", 26);
+    addBurst(sourceX, sourceY, "#9ef7ff", 22);
     updateHud();
   }
 
   function updateLysisSequence(dt) {
     state.collapseTimer += dt;
+    const model = getModel(state.modelId);
+
+    if (!state.collapseReleased && state.collapseTimer >= state.collapseRuptureAt) {
+      triggerRuptureBurstEffect(model);
+    }
 
     for (let i = state.lysisPhages.length - 1; i >= 0; i -= 1) {
       const phage = state.lysisPhages[i];
-      phage.life -= dt;
+      phage.delay -= dt;
       phage.rot += phage.spin * dt;
-      phage.wobble += dt * 8;
+      phage.wobble += dt * 9;
+
+      if (phage.delay > 0) {
+        phage.x += Math.cos(phage.wobble) * phage.wobbleAmp * 0.08;
+        phage.y += Math.sin(phage.wobble) * phage.wobbleAmp * 0.08;
+        continue;
+      }
+
+      if (!phage.released) {
+        phage.released = true;
+        if (Math.random() < 0.44) addBurst(phage.x, phage.y, "#ffd2e5", 4);
+      }
+
+      phage.life -= dt;
+      if (phage.launch > 0) {
+        phage.vx *= 1.028;
+        phage.vy *= 1.028;
+        phage.launch -= dt;
+      }
       phage.x += phage.vx * dt + Math.cos(phage.wobble) * phage.wobbleAmp;
       phage.y += phage.vy * dt + Math.sin(phage.wobble) * phage.wobbleAmp;
-      phage.vx *= 0.985;
-      phage.vy *= 0.985;
+      phage.vx *= 0.986;
+      phage.vy *= 0.986;
       if (phage.life <= 0) state.lysisPhages.splice(i, 1);
+    }
+
+    for (let i = state.lysisShockwaves.length - 1; i >= 0; i -= 1) {
+      const wave = state.lysisShockwaves[i];
+      wave.life -= dt;
+      wave.r += (wave.maxR / wave.maxLife) * dt;
+      if (wave.life <= 0 || wave.r >= wave.maxR) state.lysisShockwaves.splice(i, 1);
+    }
+
+    for (let i = state.lysisFragments.length - 1; i >= 0; i -= 1) {
+      const fragment = state.lysisFragments[i];
+      fragment.life -= dt;
+      fragment.x += fragment.vx * dt;
+      fragment.y += fragment.vy * dt;
+      fragment.vx *= 0.973;
+      fragment.vy *= 0.973;
+      fragment.angle += fragment.spin * dt;
+      if (fragment.life <= 0) state.lysisFragments.splice(i, 1);
     }
 
     for (let i = state.bursts.length - 1; i >= 0; i -= 1) {
@@ -1012,11 +1787,11 @@
       if (floater.life <= 0) state.floaters.splice(i, 1);
     }
 
-    if (state.collapseTimer > 0.24 && state.collapseTimer < 1.2) {
+    if (state.collapseReleased && state.collapseTimer > state.collapseRuptureAt && state.collapseTimer < 1.5) {
       if (Math.random() < dt * 11) {
         addBurst(
-          state.player.x + random(-14, 14),
-          state.player.y + random(-14, 14),
+          state.player.x + random(-18, 18),
+          state.player.y + random(-18, 18),
           Math.random() < 0.5 ? "#ff8cb2" : "#95f3ff",
           8
         );
@@ -1031,14 +1806,16 @@
 
   function applyDamage(amount, label) {
     if (state.collapseActive || state.invulnerable > 0) return;
+    const profile = getDifficultyProfile();
+    const scaledAmount = amount * profile.damageMul;
 
     if (state.shield > 0) {
-      const absorbed = Math.min(state.shield, amount * 1.2);
+      const absorbed = Math.min(state.shield, scaledAmount * 1.2);
       state.shield = Math.max(0, state.shield - absorbed);
       addFloater(state.player.x, state.player.y - 26, "Shield absorbed", "#7deaf2");
       addBurst(state.player.x, state.player.y, "#7deaf2", 10);
     } else {
-      state.integrity -= amount;
+      state.integrity -= scaledAmount;
       addFloater(state.player.x, state.player.y - 26, label, "#ff9db5");
       addBurst(state.player.x, state.player.y, "#ff7b9b", 12);
     }
@@ -1055,11 +1832,22 @@
       state.score += 190 + state.combo * 12;
       addFloater(resource.x, resource.y, "SigmaE shield", "#86f5ff");
       addBurst(resource.x, resource.y, "#86f5ff", 16);
+    } else if (resource.kind === "boost") {
+      state.boostTimer = clamp(state.boostTimer + 7.2, 0, 12);
+      state.score += 140 + state.combo * 14;
+      addFloater(resource.x, resource.y, "Catalytic boost", "#c3dcff");
+      addBurst(resource.x, resource.y, "#b9d5ff", 16);
     } else {
+      const precursor = resource.precursor || ENVELOPE_PRECURSORS.lipidII;
       state.integrity = clamp(state.integrity + 8, 0, 100);
       state.score += 100 + state.combo * 16;
-      addFloater(resource.x, resource.y, `+PG ${state.combo > 0 ? `x${state.combo + 1}` : ""}`.trim(), "#b2ffd6");
-      addBurst(resource.x, resource.y, "#89ffca", 12);
+      addFloater(
+        resource.x,
+        resource.y,
+        `+${precursor.shortLabel}${state.combo > 0 ? ` x${state.combo + 1}` : ""}`,
+        precursor.floaterColor || "#b2ffd6"
+      );
+      addBurst(resource.x, resource.y, precursor.burstColor || "#89ffca", 12);
     }
 
     state.combo = clamp(state.combo + 1, 0, 12);
@@ -1067,7 +1855,11 @@
   }
 
   function updatePlayer(dt) {
-    const moveSpeed = clamp(state.height * 0.68, 210, 360);
+    const moveSpeedBase = clamp(state.height * 0.68, 210, 360);
+    const boostFactor = state.boostTimer > 0 ? 1.32 : 1;
+    const moveSpeed = moveSpeedBase * boostFactor;
+    const flowX = Math.cos(state.flowAngle) * state.flowStrength;
+    const flowY = Math.sin(state.flowAngle) * state.flowStrength;
     let inputX = 0;
     let inputY = 0;
 
@@ -1093,8 +1885,8 @@
     state.player.vx += (desiredVx - state.player.vx) * 8.4 * dt;
     state.player.vy += (desiredVy - state.player.vy) * 8.4 * dt;
 
-    state.player.x += state.player.vx * dt;
-    state.player.y += state.player.vy * dt;
+    state.player.x += (state.player.vx + flowX * 0.72) * dt;
+    state.player.y += (state.player.vy + flowY * 0.72) * dt;
 
     state.player.x = clamp(state.player.x, state.player.radius, state.width - state.player.radius);
     state.player.y = clamp(state.player.y, state.player.radius, state.height - state.player.radius);
@@ -1106,12 +1898,17 @@
 
   function updateSimulation(dt) {
     state.elapsed += dt;
+    const profile = getDifficultyProfile();
+    maybeShowTutorialHints();
+    updateFlowField(dt, profile);
     const surgeStrength = state.surgeTimer > 0 ? 1.35 : 1;
-    state.score += dt * (16 + state.elapsed * 0.22 + state.combo * 0.8) * surgeStrength;
+    const boostScoreMul = state.boostTimer > 0 ? 1.22 : 1;
+    state.score += dt * (16 + state.elapsed * 0.22 + state.combo * 0.8) * surgeStrength * boostScoreMul;
 
     state.invulnerable = Math.max(0, state.invulnerable - dt);
     state.shake = Math.max(0, state.shake - dt * 22);
     state.shield = Math.max(0, state.shield - dt * 1.8);
+    state.boostTimer = Math.max(0, state.boostTimer - dt);
     state.nearMissCooldown = Math.max(0, state.nearMissCooldown - dt);
 
     state.surgeIn -= dt;
@@ -1122,8 +1919,9 @@
       state.surgeTimer = Math.max(0, state.surgeTimer - dt);
       state.surgePulseIn -= dt;
       if (state.surgePulseIn <= 0) {
-        spawnPhage(Math.random() < 0.6 ? "darter" : "hunter");
-        state.surgePulseIn = random(0.2, 0.45);
+        const surgeDarterChance = clamp(profile.darterChance + 0.16, 0.2, 0.72);
+        spawnPhage(Math.random() < surgeDarterChance ? "darter" : "hunter");
+        state.surgePulseIn = random(0.24, 0.42) / profile.surgeCadenceMul;
       }
     }
 
@@ -1143,28 +1941,29 @@
       if (trail.life <= 0) state.trails.splice(i, 1);
     }
 
-    const difficulty = 1 + state.elapsed / 52;
-    const pulsePressure = state.surgeTimer > 0 ? 0.72 : 1;
-    const phagePressure = state.surgeTimer > 0 ? 0.58 : 1;
+    const pulsePressure = state.surgeTimer > 0 ? 0.78 : 1;
+    const phagePressure = state.surgeTimer > 0 ? 0.66 : 1;
+    const flowX = Math.cos(state.flowAngle) * state.flowStrength;
+    const flowY = Math.sin(state.flowAngle) * state.flowStrength;
 
     state.phageSpawnIn -= dt;
     state.pulseSpawnIn -= dt;
     state.resourceSpawnIn -= dt;
 
     if (state.phageSpawnIn <= 0) {
-      const kind = Math.random() < 0.26 + Math.min(0.18, state.elapsed * 0.0042) ? "darter" : "hunter";
+      const kind = Math.random() < profile.darterChance ? "darter" : "hunter";
       spawnPhage(kind);
-      state.phageSpawnIn = clamp((random(0.66, 1.25) - difficulty * 0.06) * phagePressure, 0.24, 1.25);
+      state.phageSpawnIn = clamp((random(1.18, 2.15) / profile.phageSpawnMul) * phagePressure, 0.26, 2.4);
     }
 
     if (state.pulseSpawnIn <= 0) {
       spawnPulse();
-      state.pulseSpawnIn = clamp((random(2.2, 4.4) - difficulty * 0.08) * pulsePressure, 0.95, 4.4);
+      state.pulseSpawnIn = clamp((random(3.6, 6.2) / profile.pulseSpawnMul) * pulsePressure, 1.05, 6.6);
     }
 
     if (state.resourceSpawnIn <= 0) {
       spawnResource();
-      state.resourceSpawnIn = random(0.9, 1.6);
+      state.resourceSpawnIn = clamp(random(0.95, 1.65) / profile.resourceSpawnMul, 0.72, 1.95);
     }
 
     state.particles.forEach((particle) => {
@@ -1191,8 +1990,9 @@
       phage.vy = Math.sin(newAngle) * speed * accel;
       phage.wobble += dt * 6;
       phage.rot += phage.spin * dt;
-      phage.x += phage.vx * dt + Math.cos(phage.wobble) * phage.wobbleAmp * dt;
-      phage.y += phage.vy * dt + Math.sin(phage.wobble) * phage.wobbleAmp * dt;
+      const flowDrift = phage.kind === "darter" ? 0.2 : 0.28;
+      phage.x += phage.vx * dt + Math.cos(phage.wobble) * phage.wobbleAmp * dt + flowX * dt * flowDrift;
+      phage.y += phage.vy * dt + Math.sin(phage.wobble) * phage.wobbleAmp * dt + flowY * dt * flowDrift;
 
       if (phage.x < -90 || phage.x > state.width + 90 || phage.y < -90 || phage.y > state.height + 90) {
         state.phages.splice(i, 1);
@@ -1221,6 +2021,8 @@
       const pulse = state.pulses[i];
       pulse.r += pulse.speed * dt;
       pulse.hitLock = Math.max(0, pulse.hitLock - dt);
+      pulse.x = clamp(pulse.x + flowX * dt * 0.05, 24, state.width - 24);
+      pulse.y = clamp(pulse.y + flowY * dt * 0.05, 24, state.height - 24);
 
       const dist = Math.hypot(pulse.x - state.player.x, pulse.y - state.player.y);
       const ringGap = Math.abs(dist - pulse.r);
@@ -1246,6 +2048,7 @@
       resource.life += dt;
       resource.phase += dt * 2.8;
       resource.y += Math.sin(resource.phase) * 7 * dt;
+      resource.x = clamp(resource.x + flowX * dt * 0.08, 22, state.width - 22);
 
       if (resource.life > 15) {
         state.resources.splice(i, 1);
@@ -1349,6 +2152,44 @@
       ctx.stroke();
     }
     ctx.restore();
+
+    if (state.flowStrength > 1.5) {
+      const flowAlpha = clamp(state.flowStrength / 36, 0, 1) * 0.26;
+      const dx = Math.cos(state.flowAngle);
+      const dy = Math.sin(state.flowAngle);
+      ctx.save();
+      ctx.strokeStyle = `rgba(178, 240, 252, ${flowAlpha.toFixed(3)})`;
+      ctx.lineWidth = 1.2;
+      ctx.lineCap = "round";
+      for (let i = 0; i < 14; i += 1) {
+        const px = ((i * 97 + time * (0.015 + i * 0.00025) * state.flowStrength) % (state.width + 140)) - 70;
+        const py = ((i * 61 + time * (0.011 + i * 0.0002) * state.flowStrength) % (state.height + 140)) - 70;
+        const len = 16 + flowAlpha * 26 + (i % 4) * 3;
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(px + dx * len, py + dy * len);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    if (state.boostTimer > 0) {
+      const boostAlpha = clamp(state.boostTimer / 8, 0, 1) * (0.17 + Math.sin(time * 0.014) * 0.04);
+      const boostGlow = ctx.createRadialGradient(
+        state.player.x,
+        state.player.y,
+        state.player.radius * 0.4,
+        state.player.x,
+        state.player.y,
+        state.player.radius * 7.4
+      );
+      boostGlow.addColorStop(0, `rgba(185, 218, 255, ${(boostAlpha * 0.88).toFixed(3)})`);
+      boostGlow.addColorStop(1, "rgba(185, 218, 255, 0)");
+      ctx.fillStyle = boostGlow;
+      ctx.beginPath();
+      ctx.arc(state.player.x, state.player.y, state.player.radius * 7.4, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     state.particles.forEach((particle) => {
       const alpha = 0.12 + 0.16 * (0.5 + 0.5 * Math.sin(particle.twinkle));
@@ -1472,6 +2313,175 @@
     ctx.restore();
   }
 
+  function drawPrecursorCore(precursor, radius) {
+    if (precursor.coreShape === "disc") {
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * 0.92, 0, Math.PI * 2);
+      return;
+    }
+
+    if (precursor.coreShape === "rounded-rect") {
+      drawCapsule(0, 0, radius * 1.56, radius * 0.72);
+      return;
+    }
+
+    if (precursor.coreShape === "capsule") {
+      drawCapsule(0, 0, radius * 1.88, radius * 0.82);
+      return;
+    }
+
+    ctx.beginPath();
+    for (let i = 0; i < 6; i += 1) {
+      const a = (Math.PI / 3) * i;
+      const px = Math.cos(a) * radius;
+      const py = Math.sin(a) * radius;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+  }
+
+  function drawPrecursorGlyph(precursor, radius) {
+    ctx.strokeStyle = precursor.detailColor || "rgba(220, 255, 236, 0.62)";
+    ctx.fillStyle = precursor.detailColor || "rgba(220, 255, 236, 0.62)";
+    ctx.lineWidth = 1.2;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    switch (precursor.icon) {
+      case "lipid-ii": {
+        ctx.beginPath();
+        ctx.moveTo(-radius * 0.4, 0);
+        ctx.lineTo(radius * 0.4, 0);
+        ctx.moveTo(0, -radius * 0.36);
+        ctx.lineTo(0, radius * 0.22);
+        ctx.moveTo(-radius * 0.16, radius * 0.46);
+        ctx.lineTo(-radius * 0.16, radius * 0.78);
+        ctx.moveTo(radius * 0.16, radius * 0.42);
+        ctx.lineTo(radius * 0.16, radius * 0.74);
+        ctx.stroke();
+        break;
+      }
+      case "phospholipid": {
+        ctx.beginPath();
+        ctx.arc(0, -radius * 0.1, radius * 0.26, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(-radius * 0.18, radius * 0.05);
+        ctx.lineTo(-radius * 0.26, radius * 0.68);
+        ctx.moveTo(radius * 0.12, radius * 0.06);
+        ctx.lineTo(radius * 0.28, radius * 0.7);
+        ctx.stroke();
+        break;
+      }
+      case "lps": {
+        ctx.beginPath();
+        ctx.moveTo(0, -radius * 0.5);
+        ctx.lineTo(0, radius * 0.5);
+        ctx.moveTo(0, -radius * 0.2);
+        ctx.lineTo(-radius * 0.3, -radius * 0.42);
+        ctx.moveTo(0, -radius * 0.2);
+        ctx.lineTo(radius * 0.3, -radius * 0.42);
+        ctx.moveTo(0, 0.02 * radius);
+        ctx.lineTo(-radius * 0.34, -radius * 0.08);
+        ctx.moveTo(0, 0.02 * radius);
+        ctx.lineTo(radius * 0.34, -radius * 0.08);
+        ctx.stroke();
+        break;
+      }
+      case "los": {
+        ctx.beginPath();
+        ctx.moveTo(0, -radius * 0.42);
+        ctx.lineTo(0, radius * 0.42);
+        ctx.moveTo(0, -radius * 0.08);
+        ctx.lineTo(-radius * 0.24, -radius * 0.3);
+        ctx.moveTo(0, -radius * 0.08);
+        ctx.lineTo(radius * 0.24, -radius * 0.3);
+        ctx.stroke();
+        break;
+      }
+      case "capsule": {
+        ctx.beginPath();
+        drawCapsule(0, 0, radius * 1.18, radius * 0.48);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(-radius * 0.22, 0, radius * 0.08, 0, Math.PI * 2);
+        ctx.arc(radius * 0.22, 0, radius * 0.08, 0, Math.PI * 2);
+        ctx.fill();
+        break;
+      }
+      case "teichoic": {
+        ctx.beginPath();
+        ctx.moveTo(-radius * 0.26, -radius * 0.5);
+        ctx.lineTo(-radius * 0.26, radius * 0.5);
+        ctx.moveTo(radius * 0.24, -radius * 0.5);
+        ctx.lineTo(radius * 0.24, radius * 0.5);
+        for (let y = -0.35; y <= 0.35; y += 0.22) {
+          ctx.moveTo(-radius * 0.26, radius * y);
+          ctx.lineTo(radius * 0.24, radius * y);
+        }
+        ctx.stroke();
+        break;
+      }
+      case "teichoic-anchor": {
+        ctx.beginPath();
+        ctx.moveTo(-radius * 0.2, -radius * 0.48);
+        ctx.lineTo(-radius * 0.2, radius * 0.28);
+        ctx.moveTo(radius * 0.2, -radius * 0.48);
+        ctx.lineTo(radius * 0.2, radius * 0.28);
+        ctx.moveTo(-radius * 0.2, -radius * 0.18);
+        ctx.lineTo(radius * 0.2, -radius * 0.18);
+        ctx.moveTo(-radius * 0.2, 0.1 * radius);
+        ctx.lineTo(radius * 0.2, 0.1 * radius);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(-radius * 0.32, radius * 0.36);
+        ctx.lineTo(radius * 0.32, radius * 0.36);
+        ctx.moveTo(-radius * 0.2, radius * 0.36);
+        ctx.lineTo(-radius * 0.1, radius * 0.56);
+        ctx.moveTo(radius * 0.2, radius * 0.36);
+        ctx.lineTo(radius * 0.1, radius * 0.56);
+        ctx.stroke();
+        break;
+      }
+      case "mesh": {
+        ctx.beginPath();
+        for (let x = -0.28; x <= 0.28; x += 0.28) {
+          ctx.moveTo(radius * x, -radius * 0.42);
+          ctx.lineTo(radius * x, radius * 0.42);
+        }
+        for (let y = -0.3; y <= 0.3; y += 0.3) {
+          ctx.moveTo(-radius * 0.42, radius * y);
+          ctx.lineTo(radius * 0.42, radius * y);
+        }
+        ctx.stroke();
+        break;
+      }
+      case "mycolic": {
+        ctx.beginPath();
+        ctx.moveTo(-radius * 0.32, -radius * 0.4);
+        ctx.lineTo(-radius * 0.14, -radius * 0.1);
+        ctx.lineTo(-radius * 0.32, radius * 0.22);
+        ctx.lineTo(-radius * 0.12, radius * 0.5);
+        ctx.moveTo(radius * 0.12, -radius * 0.46);
+        ctx.lineTo(radius * 0.3, -radius * 0.18);
+        ctx.lineTo(radius * 0.12, radius * 0.16);
+        ctx.lineTo(radius * 0.32, radius * 0.46);
+        ctx.stroke();
+        break;
+      }
+      default: {
+        ctx.beginPath();
+        ctx.moveTo(-radius * 0.4, 0);
+        ctx.lineTo(radius * 0.4, 0);
+        ctx.moveTo(0, -radius * 0.4);
+        ctx.lineTo(0, radius * 0.4);
+        ctx.stroke();
+        break;
+      }
+    }
+  }
+
   function drawResource(resource, time) {
     ctx.save();
     ctx.translate(resource.x, resource.y);
@@ -1502,39 +2512,49 @@
       ctx.beginPath();
       ctx.arc(0, 0, resource.r * 0.58, 0, Math.PI * 2);
       ctx.stroke();
-    } else {
+    } else if (resource.kind === "boost") {
       const glow = ctx.createRadialGradient(0, 0, 1, 0, 0, resource.r * 2.2);
-      glow.addColorStop(0, "rgba(175, 255, 214, 0.86)");
+      glow.addColorStop(0, "rgba(188, 214, 255, 0.9)");
+      glow.addColorStop(1, "rgba(93, 110, 226, 0)");
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(0, 0, resource.r * 2.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "rgba(201, 221, 255, 0.92)";
+      ctx.beginPath();
+      ctx.moveTo(-resource.r * 0.55, resource.r * 0.14);
+      ctx.lineTo(-resource.r * 0.08, resource.r * 0.14);
+      ctx.lineTo(-resource.r * 0.22, resource.r * 0.7);
+      ctx.lineTo(resource.r * 0.56, -resource.r * 0.2);
+      ctx.lineTo(resource.r * 0.12, -resource.r * 0.2);
+      ctx.lineTo(resource.r * 0.26, -resource.r * 0.74);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.strokeStyle = "rgba(234, 242, 255, 0.84)";
+      ctx.lineWidth = 1.15;
+      ctx.stroke();
+    } else {
+      const precursor = resource.precursor || ENVELOPE_PRECURSORS.lipidII;
+      const glow = ctx.createRadialGradient(0, 0, 1, 0, 0, resource.r * 2.2);
+      glow.addColorStop(0, precursor.glowColor || "rgba(175, 255, 214, 0.86)");
       glow.addColorStop(1, "rgba(83, 199, 154, 0)");
       ctx.fillStyle = glow;
       ctx.beginPath();
       ctx.arc(0, 0, resource.r * 2.2, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = "rgba(167, 255, 213, 0.95)";
-      ctx.beginPath();
-      for (let i = 0; i < 6; i += 1) {
-        const a = (Math.PI / 3) * i;
-        const px = Math.cos(a) * resource.r;
-        const py = Math.sin(a) * resource.r;
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
+      ctx.fillStyle = precursor.fillColor || "rgba(167, 255, 213, 0.95)";
+      drawPrecursorCore(precursor, resource.r);
       ctx.fill();
 
-      ctx.strokeStyle = "rgba(34, 94, 81, 0.45)";
+      ctx.strokeStyle = precursor.strokeColor || "rgba(34, 94, 81, 0.45)";
       ctx.lineWidth = 1;
+      drawPrecursorCore(precursor, resource.r);
       ctx.stroke();
 
-      ctx.strokeStyle = "rgba(220, 255, 236, 0.62)";
-      ctx.lineWidth = 1.15;
-      ctx.beginPath();
-      ctx.moveTo(-resource.r * 0.4, 0);
-      ctx.lineTo(resource.r * 0.4, 0);
-      ctx.moveTo(0, -resource.r * 0.4);
-      ctx.lineTo(0, resource.r * 0.4);
-      ctx.stroke();
+      drawPrecursorGlyph(precursor, resource.r);
     }
 
     ctx.restore();
@@ -1547,8 +2567,20 @@
       ctx.closePath();
       return;
     }
+    if (model.shape === "diplococcus") {
+      drawDiplococcus(0, 0, length, radius);
+      return;
+    }
     if (model.shape === "coccobacillus") {
       drawCapsule(0, 0, length * 0.84, radius * 0.92);
+      return;
+    }
+    if (model.shape === "curved-rod") {
+      drawCurvedCapsule(0, 0, length * 0.94, radius * 0.94);
+      return;
+    }
+    if (model.shape === "coryneform") {
+      drawCoryneform(0, 0, length * 0.92, radius);
       return;
     }
     drawCapsule(0, 0, length, radius);
@@ -1573,7 +2605,55 @@
       return;
     }
 
+    if (model.shape === "diplococcus") {
+      ctx.globalAlpha = clamp(alpha * 0.9, 0, 1);
+      ctx.strokeStyle = "rgba(255, 226, 236, 0.86)";
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(0, -radius * 0.72);
+      ctx.lineTo(0, radius * 0.72);
+      ctx.stroke();
+
+      const lobeRadius = radius * 0.86;
+      const centerOffset = clamp(length * 0.2, radius * 0.3, radius * 0.55);
+      for (let i = -1; i <= 1; i += 2) {
+        ctx.beginPath();
+        ctx.arc(i * centerOffset, 0, lobeRadius * 0.45, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      return;
+    }
+
     ctx.globalAlpha = clamp(alpha * 0.82, 0, 1);
+    if (model.shape === "curved-rod") {
+      ctx.strokeStyle = "rgba(190, 255, 239, 0.8)";
+      ctx.lineWidth = 1.2;
+      for (let i = -2; i <= 2; i += 1) {
+        const offset = i * 5.4;
+        ctx.beginPath();
+        ctx.moveTo(-length * 0.26, offset - radius * 0.08);
+        ctx.quadraticCurveTo(0, offset - radius * 0.22, length * 0.26, offset + radius * 0.08);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      return;
+    }
+
+    if (model.shape === "coryneform") {
+      ctx.strokeStyle = "rgba(219, 229, 255, 0.82)";
+      ctx.lineWidth = 1.2;
+      for (let i = -1; i <= 2; i += 1) {
+        const x = -length * 0.23 + i * length * 0.16;
+        ctx.beginPath();
+        ctx.moveTo(x, -radius * 0.45 + i * radius * 0.03);
+        ctx.lineTo(x + length * 0.16, radius * 0.48 + i * radius * 0.03);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      return;
+    }
+
     ctx.strokeStyle = model.shape === "encapsulated-rod" ? "rgba(203, 255, 231, 0.76)" : "rgba(161, 245, 255, 0.8)";
     ctx.lineWidth = 1.2;
     for (let i = -2; i <= 2; i += 1) {
@@ -1603,7 +2683,12 @@
       ctx.save();
       ctx.translate(trail.x, trail.y);
       ctx.rotate(trail.angle);
-      const trailColor = model.shape === "coccus" ? "255, 224, 159" : "130, 228, 238";
+      const trailColor =
+        state.boostTimer > 0
+          ? "190, 217, 255"
+          : model.shape === "coccus"
+            ? "255, 224, 159"
+            : "130, 228, 238";
       ctx.fillStyle = `rgba(${trailColor}, ${alpha.toFixed(3)})`;
       drawMorphologyPath(model, state.player.length * 0.72 * widthScale, state.player.radius * 0.58 * widthScale);
       ctx.fill();
@@ -1656,6 +2741,15 @@
       ctx.stroke();
     }
 
+    if (state.boostTimer > 0) {
+      const burstAlpha = clamp(state.boostTimer / 10, 0, 1) * (0.42 + Math.sin(time * 0.03) * 0.15);
+      ctx.strokeStyle = `rgba(194, 220, 255, ${clamp(burstAlpha, 0.12, 0.56).toFixed(3)})`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(state.player.x, state.player.y, state.player.radius + 12 + Math.sin(time * 0.012) * 2.2, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
     if (state.invulnerable > 0) {
       const blink = Math.sin(time * 0.04) > 0;
       if (blink) {
@@ -1668,13 +2762,91 @@
     }
   }
 
+  function drawLysisShockwaves() {
+    state.lysisShockwaves.forEach((wave) => {
+      const alpha = clamp(wave.life / wave.maxLife, 0, 1);
+      ctx.strokeStyle = `rgba(255, 186, 221, ${(alpha * 0.44).toFixed(3)})`;
+      ctx.lineWidth = wave.thickness;
+      ctx.beginPath();
+      ctx.arc(wave.x, wave.y, wave.r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.strokeStyle = `rgba(161, 240, 255, ${(alpha * 0.34).toFixed(3)})`;
+      ctx.lineWidth = Math.max(1.2, wave.thickness * 0.44);
+      ctx.beginPath();
+      ctx.arc(wave.x, wave.y, wave.r * 0.84, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+  }
+
+  function drawLysisFragments() {
+    state.lysisFragments.forEach((fragment) => {
+      const alpha = clamp(fragment.life / fragment.maxLife, 0, 1);
+      ctx.save();
+      ctx.translate(fragment.x, fragment.y);
+      ctx.rotate(fragment.angle);
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = toRgba(fragment.color, alpha * 0.9);
+      ctx.beginPath();
+      ctx.moveTo(-fragment.length * 0.5, -fragment.width * 0.5);
+      ctx.lineTo(fragment.length * 0.44, -fragment.width * 0.72);
+      ctx.lineTo(fragment.length * 0.56, fragment.width * 0.42);
+      ctx.lineTo(-fragment.length * 0.42, fragment.width * 0.72);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+
   function drawLysisPhages() {
+    drawLysisShockwaves();
+    drawLysisFragments();
     state.lysisPhages.forEach((phage) => {
+      if (phage.delay > 0 || !phage.released) return;
       const fade = clamp(phage.life / phage.maxLife, 0, 1);
       ctx.save();
       ctx.globalAlpha = fade;
       drawPhage(phage);
       ctx.restore();
+    });
+  }
+
+  function drawCollapsingRuptures(outerLength, outerRadius, progress, membraneAlpha) {
+    if (!state.lysisRuptures.length) return;
+    const crackProgress = clamp((progress - 0.08) / 0.28, 0, 1);
+    const ruptureProgress = clamp((state.collapseTimer - state.collapseRuptureAt) / 0.26, 0, 1);
+    if (crackProgress <= 0 && ruptureProgress <= 0) return;
+
+    state.lysisRuptures.forEach((site) => {
+      const x = site.xRatio * outerLength * 0.44;
+      const y = site.yRatio * outerRadius * 0.95;
+      const holeRadius = site.size * (0.35 + ruptureProgress * 1.55);
+
+      if (crackProgress > 0) {
+        ctx.strokeStyle = `rgba(255, 216, 231, ${(membraneAlpha * 0.56 * crackProgress).toFixed(3)})`;
+        ctx.lineWidth = 1.25;
+        for (let i = 0; i < 3; i += 1) {
+          const branchAngle = site.crackAngle + (i - 1) * 0.8 + Math.sin(progress * 8 + i) * 0.1;
+          const len = site.size * (2.2 + crackProgress * 2.7) * (i === 1 ? 1.1 : 0.78);
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + Math.cos(branchAngle) * len, y + Math.sin(branchAngle) * len);
+          ctx.stroke();
+        }
+      }
+
+      if (ruptureProgress > 0) {
+        ctx.fillStyle = `rgba(10, 18, 35, ${(0.32 + ruptureProgress * 0.58).toFixed(3)})`;
+        ctx.beginPath();
+        ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = `rgba(255, 194, 220, ${(membraneAlpha * 0.52 * ruptureProgress).toFixed(3)})`;
+        ctx.lineWidth = 1.1;
+        ctx.beginPath();
+        ctx.arc(x, y, holeRadius * 1.08, 0, Math.PI * 2);
+        ctx.stroke();
+      }
     });
   }
 
@@ -1711,6 +2883,7 @@
     drawMorphologyPath(model, outerLength, outerRadius);
     ctx.stroke();
     drawMorphologyAccents(model, outerLength, outerRadius, membraneAlpha * 0.42);
+    drawCollapsingRuptures(outerLength, outerRadius, progress, membraneAlpha);
     ctx.restore();
 
     const flash = clamp(1 - Math.abs(progress - 0.22) / 0.22, 0, 1);
@@ -1758,6 +2931,42 @@
     ctx.closePath();
   }
 
+  function drawDiplococcus(x, y, length, radius) {
+    const lobeRadius = radius * 0.86;
+    const centerOffset = clamp(length * 0.2, radius * 0.3, radius * 0.55);
+    ctx.beginPath();
+    ctx.arc(x - centerOffset, y, lobeRadius, 0, Math.PI * 2);
+    ctx.arc(x + centerOffset, y, lobeRadius, 0, Math.PI * 2);
+    ctx.closePath();
+  }
+
+  function drawCurvedCapsule(x, y, length, radius) {
+    const half = length / 2;
+    const curve = radius * 0.55;
+    const leftY = y - curve * 0.32;
+    const rightY = y + curve * 0.32;
+    ctx.beginPath();
+    ctx.moveTo(x - half + radius, leftY - radius);
+    ctx.quadraticCurveTo(x, y - radius - curve, x + half - radius, rightY - radius);
+    ctx.arc(x + half - radius, rightY, radius, -Math.PI / 2, Math.PI / 2, false);
+    ctx.quadraticCurveTo(x, y + radius + curve, x - half + radius, leftY + radius);
+    ctx.arc(x - half + radius, leftY, radius, Math.PI / 2, -Math.PI / 2, false);
+    ctx.closePath();
+  }
+
+  function drawCoryneform(x, y, length, radius) {
+    const half = length / 2;
+    const narrowRadius = radius * 0.72;
+    const wideRadius = radius * 1.12;
+    ctx.beginPath();
+    ctx.moveTo(x - half + narrowRadius, y - narrowRadius);
+    ctx.quadraticCurveTo(x - length * 0.1, y - radius * 1.1, x + half - wideRadius, y - wideRadius);
+    ctx.arc(x + half - wideRadius, y, wideRadius, -Math.PI / 2, Math.PI / 2, false);
+    ctx.quadraticCurveTo(x - length * 0.14, y + radius * 1.08, x - half + narrowRadius, y + narrowRadius);
+    ctx.arc(x - half + narrowRadius, y, narrowRadius, Math.PI / 2, -Math.PI / 2, false);
+    ctx.closePath();
+  }
+
   function drawBursts() {
     state.bursts.forEach((burst) => {
       const alpha = clamp(burst.life / burst.maxLife, 0, 1);
@@ -1769,11 +2978,12 @@
   }
 
   function drawFloaters() {
+    if (!state.floaters.length) return;
+    ctx.font = "700 13px Manrope, sans-serif";
+    ctx.textAlign = "center";
     state.floaters.forEach((floater) => {
       const alpha = clamp(floater.life / floater.maxLife, 0, 1);
       ctx.fillStyle = toRgba(floater.color, alpha);
-      ctx.font = "700 13px Manrope, sans-serif";
-      ctx.textAlign = "center";
       ctx.fillText(floater.text, floater.x, floater.y);
     });
   }
@@ -1832,8 +3042,8 @@
     state.phages.forEach(drawPhage);
     drawTrails();
     if (state.collapseActive) {
-      drawLysisPhages();
       drawCollapsingCell(timestamp);
+      drawLysisPhages();
     } else {
       drawPlayer(timestamp);
     }
@@ -1886,8 +3096,20 @@
       resumeSimulation();
       return;
     }
-    startSimulation();
+    if (!capturePlayerNameForRun()) return;
+    if (overlayMode === "start") {
+      startSimulation("ranked");
+      return;
+    }
+    startSimulation(state.runMode);
   });
+
+  if (tutorialStartButton) {
+    tutorialStartButton.addEventListener("click", () => {
+      if (!capturePlayerNameForRun()) return;
+      startSimulation("tutorial");
+    });
+  }
 
   pauseButton.addEventListener("click", () => {
     if (!state.running) return;
@@ -1895,7 +3117,7 @@
     else pauseSimulation();
   });
 
-  restartButton.addEventListener("click", startSimulation);
+  restartButton.addEventListener("click", () => startSimulation(state.runMode));
 
   if (nameFormEl) {
     nameFormEl.addEventListener("submit", async (event) => {
@@ -1915,9 +3137,9 @@
       }
       hideNameForm();
       showOverlay(
-        "Score logged",
-        `${savedName} added with ${savedScore} points. Highest score: ${Math.floor(state.best)}.`,
-        "Run Again",
+        "Score saved",
+        `${savedName} saved with ${savedScore} points. Best score: ${Math.floor(state.best)}.`,
+        "Play Again",
         "restart"
       );
     });
@@ -1929,8 +3151,8 @@
       if (!state.running && !state.collapseActive) {
         showOverlay(
           "Envelope collapsed",
-          `Final score: ${Math.floor(state.score)}. Highest score: ${Math.floor(state.best)}.`,
-          "Run Again",
+          `Final score: ${Math.floor(state.score)}. Best score: ${Math.floor(state.best)}.`,
+          "Play Again",
           "restart"
         );
       }
@@ -1980,6 +3202,23 @@
     });
   }
 
+  if (playerNameInputEl) {
+    playerNameInputEl.addEventListener("input", () => {
+      setPlayerNameFeedback("");
+    });
+    playerNameInputEl.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter") return;
+      if (overlayMode === "resume") return;
+      event.preventDefault();
+      if (!capturePlayerNameForRun()) return;
+      if (overlayMode === "start") {
+        startSimulation("ranked");
+        return;
+      }
+      startSimulation(state.runMode);
+    });
+  }
+
   modal.addEventListener("cancel", (event) => {
     event.preventDefault();
     closeModal();
@@ -1999,9 +3238,25 @@
     onKeyChange(event, false);
   });
 
+  window.addEventListener("blur", () => {
+    resetInputState();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) return;
+    resetInputState();
+  });
+
   canvas.addEventListener("pointerdown", (event) => {
     pointer.active = true;
     pointerToWorld(event);
+    if (typeof canvas.setPointerCapture === "function") {
+      try {
+        canvas.setPointerCapture(event.pointerId);
+      } catch {
+        /* no-op */
+      }
+    }
   });
 
   canvas.addEventListener("pointermove", (event) => {
@@ -2010,6 +3265,10 @@
   });
 
   canvas.addEventListener("pointerup", () => {
+    pointer.active = false;
+  });
+
+  canvas.addEventListener("pointercancel", () => {
     pointer.active = false;
   });
 
