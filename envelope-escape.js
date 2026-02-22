@@ -51,10 +51,12 @@
 
   const STORAGE_KEY = "bernhardt-envelope-escape-best";
   const LEADERBOARD_KEY = "bernhardt-envelope-escape-leaderboard-v1";
+  const PENDING_LEADERBOARD_KEY = "bernhardt-envelope-escape-pending-v1";
   const MODEL_KEY = "bernhardt-envelope-escape-model";
   const PLAYER_NAME_KEY = "bernhardt-envelope-escape-player-name";
   const TUTORIAL_SEEN_KEY = "bernhardt-envelope-escape-tutorial-seen";
   const LEADERBOARD_SIZE = 25;
+  const PENDING_LEADERBOARD_LIMIT = 120;
   const LEADERBOARD_REQUEST_TIMEOUT_MS = 9000;
   const GLOBAL_LEADERBOARD_URL = String(window.ENVELOPE_LEADERBOARD_URL || "").trim();
   const ADMIN_SESSION_TOKEN_KEY = "bernhardt_admin_token";
@@ -389,6 +391,7 @@
     floaters: [],
     trails: [],
     leaderboard: readLeaderboard(),
+    pendingLeaderboard: readPendingLeaderboard(),
     leaderboardMode: GLOBAL_LEADERBOARD_URL ? "global" : "local",
     pendingScore: null,
     runMode: "ranked",
@@ -526,20 +529,23 @@
     return `${stamp.getFullYear()}-${pad(stamp.getMonth() + 1)}-${pad(stamp.getDate())} ${pad(stamp.getHours())}:${pad(stamp.getMinutes())}`;
   }
 
+  function normalizeLeaderboardEntry(entry) {
+    const cleanedName = sanitizeName(entry?.name) || "Anonymous";
+    const playedAt = Math.max(0, Number(entry?.playedAt ?? entry?.createdAt) || Date.now());
+    const score = Math.max(0, Math.floor(Number(entry?.score) || 0));
+    return {
+      name: isNameAllowed(cleanedName) ? cleanedName : "Anonymous",
+      score,
+      species: normalizeSpeciesId(entry?.species ?? entry?.speciesId ?? entry?.modelId),
+      playedAt,
+      createdAt: playedAt
+    };
+  }
+
   function normalizeLeaderboardEntries(entries) {
     if (!Array.isArray(entries)) return [];
     return entries
-      .map((entry) => {
-        const cleanedName = sanitizeName(entry?.name) || "Anonymous";
-        const playedAt = Math.max(0, Number(entry?.playedAt ?? entry?.createdAt) || Date.now());
-        return {
-          name: isNameAllowed(cleanedName) ? cleanedName : "Anonymous",
-          score: Math.max(0, Math.floor(Number(entry?.score) || 0)),
-          species: normalizeSpeciesId(entry?.species ?? entry?.speciesId ?? entry?.modelId),
-          playedAt,
-          createdAt: playedAt
-        };
-      })
+      .map((entry) => normalizeLeaderboardEntry(entry))
       .filter((entry) => entry.score > 0)
       .sort((a, b) => (b.score - a.score !== 0 ? b.score - a.score : a.createdAt - b.createdAt))
       .slice(0, LEADERBOARD_SIZE);
@@ -557,6 +563,27 @@
   function writeLeaderboard(entries) {
     try {
       window.localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(entries));
+    } catch {
+      /* no-op */
+    }
+  }
+
+  function readPendingLeaderboard() {
+    try {
+      const parsed = JSON.parse(window.localStorage.getItem(PENDING_LEADERBOARD_KEY) || "[]");
+      if (!Array.isArray(parsed)) return [];
+      return parsed
+        .map((entry) => normalizeLeaderboardEntry(entry))
+        .filter((entry) => entry.score > 0)
+        .slice(-PENDING_LEADERBOARD_LIMIT);
+    } catch {
+      return [];
+    }
+  }
+
+  function writePendingLeaderboard(entries) {
+    try {
+      window.localStorage.setItem(PENDING_LEADERBOARD_KEY, JSON.stringify(entries.slice(-PENDING_LEADERBOARD_LIMIT)));
     } catch {
       /* no-op */
     }
@@ -752,6 +779,49 @@
     }
   }
 
+  function enqueuePendingLeaderboardEntry(entry) {
+    const normalized = normalizeLeaderboardEntry(entry);
+    if (normalized.score <= 0) return;
+    state.pendingLeaderboard.push(normalized);
+    state.pendingLeaderboard = state.pendingLeaderboard.slice(-PENDING_LEADERBOARD_LIMIT);
+    writePendingLeaderboard(state.pendingLeaderboard);
+  }
+
+  async function flushPendingLeaderboard(maxAttempts = 25) {
+    if (!GLOBAL_LEADERBOARD_URL || !state.pendingLeaderboard.length) return 0;
+
+    const queue = [...state.pendingLeaderboard].sort((a, b) => a.playedAt - b.playedAt);
+    const remaining = [];
+    let sent = 0;
+    let attempts = 0;
+
+    for (let i = 0; i < queue.length; i += 1) {
+      const entry = queue[i];
+
+      if (attempts >= maxAttempts) {
+        remaining.push(...queue.slice(i));
+        break;
+      }
+
+      attempts += 1;
+
+      try {
+        await submitGlobalScore(entry.name, entry.score, entry.species, entry.playedAt);
+        sent += 1;
+      } catch (error) {
+        if (error && error.code === "invalid_name") {
+          continue;
+        }
+        remaining.push(entry, ...queue.slice(i + 1));
+        break;
+      }
+    }
+
+    state.pendingLeaderboard = remaining.slice(-PENDING_LEADERBOARD_LIMIT);
+    writePendingLeaderboard(state.pendingLeaderboard);
+    return sent;
+  }
+
   async function refreshLeaderboardFromSource() {
     if (!GLOBAL_LEADERBOARD_URL) {
       state.leaderboardMode = "local";
@@ -761,6 +831,7 @@
     }
 
     try {
+      await flushPendingLeaderboard(50);
       const remoteEntries = await fetchGlobalLeaderboard();
       state.leaderboard = remoteEntries || [];
       writeLeaderboard(state.leaderboard);
@@ -874,6 +945,7 @@
     if (GLOBAL_LEADERBOARD_URL) {
       try {
         await submitGlobalScore(entry.name, entry.score, entry.species, entry.playedAt);
+        await flushPendingLeaderboard(50);
         const remoteEntries = await fetchGlobalLeaderboard();
         state.leaderboard = remoteEntries || [];
         writeLeaderboard(state.leaderboard);
@@ -885,6 +957,7 @@
           setLeaderboardMeta("global");
           return false;
         }
+        enqueuePendingLeaderboardEntry(entry);
         state.leaderboard.push(entry);
         state.leaderboard = normalizeLeaderboardEntries(state.leaderboard);
         writeLeaderboard(state.leaderboard);

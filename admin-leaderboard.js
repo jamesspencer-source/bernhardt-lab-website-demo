@@ -15,6 +15,7 @@
 
   const SESSION_TOKEN_KEY = "bernhardt_admin_token";
   const SESSION_ENDPOINT_KEY = "bernhardt_admin_endpoint";
+  const PUBLIC_ENDPOINT_STORAGE_KEY = "bernhardt_global_leaderboard_url";
   const SPECIES_LABELS = {
     ecoli: "Escherichia coli",
     paeruginosa: "Pseudomonas aeruginosa",
@@ -75,6 +76,27 @@
     const raw = String(value || "").trim();
     if (!raw) return "";
     return normalizeAdminEndpoint(raw);
+  }
+
+  function normalizePublicEndpoint(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "";
+    try {
+      const url = new URL(raw);
+      const path = url.pathname.replace(/\/+$/, "");
+      if (/\/(api\/)?admin\/leaderboard$/i.test(path)) {
+        url.pathname = path.replace(/\/(api\/)?admin\/leaderboard$/i, "/leaderboard");
+      } else if (!/\/(api\/)?leaderboard$/i.test(path)) {
+        url.pathname = `${path}/leaderboard`.replace(/\/{2,}/g, "/");
+      } else {
+        url.pathname = path;
+      }
+      url.search = "";
+      url.hash = "";
+      return url.toString();
+    } catch {
+      return "";
+    }
   }
 
   function setStatus(message, tone = "") {
@@ -243,8 +265,16 @@
   function loadSessionState() {
     const savedEndpoint = sessionStorage.getItem(SESSION_ENDPOINT_KEY) || "";
     const savedToken = sessionStorage.getItem(SESSION_TOKEN_KEY) || "";
+    const savedPublic = (() => {
+      try {
+        return String(window.localStorage.getItem(PUBLIC_ENDPOINT_STORAGE_KEY) || "").trim();
+      } catch {
+        return "";
+      }
+    })();
 
     if (savedEndpoint) endpointInput.value = savedEndpoint;
+    else if (savedPublic) endpointInput.value = deriveFromPublicEndpoint(savedPublic);
     if (savedToken) {
       adminEndpoint = savedEndpoint;
       adminToken = savedToken;
@@ -257,6 +287,14 @@
   function saveSessionState() {
     sessionStorage.setItem(SESSION_ENDPOINT_KEY, adminEndpoint);
     sessionStorage.setItem(SESSION_TOKEN_KEY, adminToken);
+    const publicEndpoint = normalizePublicEndpoint(adminEndpoint);
+    if (publicEndpoint) {
+      try {
+        window.localStorage.setItem(PUBLIC_ENDPOINT_STORAGE_KEY, publicEndpoint);
+      } catch {
+        /* no-op */
+      }
+    }
   }
 
   function clearSessionState() {

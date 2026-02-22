@@ -31,8 +31,9 @@ const researchThemes = [
 
 const IS_FLAT_BUILD = !document.querySelector('link[href^="assets/styles.css"]');
 const RESEARCH_IN_MOTION_MANIFEST_URL = IS_FLAT_BUILD ? "research-in-motion.json" : "assets/data/research-in-motion.json";
+const RESEARCH_IN_MOTION_MIN_ROW_COUNT = 9;
 const RESEARCH_IN_MOTION_TARGET_COUNT = 12;
-const RESEARCH_IN_MOTION_CACHE_KEY = "bernhardt-rim-manifest-v2";
+const RESEARCH_IN_MOTION_CACHE_KEY = "bernhardt-rim-manifest-v3";
 const RESEARCH_IN_MOTION_CACHE_MAX_AGE_MS = 6 * 60 * 60 * 1000;
 const RESEARCH_IN_MOTION_FETCH_TIMEOUT_MS = 9000;
 
@@ -61,122 +62,6 @@ const bigQuestions = [
     title: "Which vulnerable nodes are most tractable for antibiotic strategy?",
     detail:
       "Connect molecular mechanism to experimentally actionable targets that can be exploited therapeutically."
-  }
-];
-
-const researchInMotionFallback = [
-  {
-    title: "Division-site architecture during constriction",
-    caption: "Fluorescence map of division geometry.",
-    image: "assets/images/highlights/nmicro2022-divisome-fluorescence.jpg",
-    sourceLabel: "Nature Microbiology · 2022",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/"
-  },
-  {
-    title: "Time-lapse envelope insertion series",
-    caption: "Dynamic envelope insertion over time.",
-    image: "assets/images/highlights/nmicro2022-timelapse-rods.jpg",
-    sourceLabel: "Nature Microbiology · 2022",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/",
-    format: "Movie"
-  },
-  {
-    title: "Cryo-ET and cryo-FIB envelope ultrastructure",
-    caption: "Cryo workflow and ultrastructure view.",
-    image: "assets/images/highlights/nmicro2022-cryo-tomography.jpg",
-    sourceLabel: "Nature Microbiology · 2022",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9519445/"
-  },
-  {
-    title: "FacZ and peptidoglycan spatial patterning",
-    caption: "S. aureus envelope patterning.",
-    image: "assets/images/highlights/mbio2023saur-facz-pg.jpg",
-    sourceLabel: "mBio · 2023",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
-  },
-  {
-    title: "S. aureus envelope architecture states",
-    caption: "Envelope architecture across stages.",
-    image: "assets/images/highlights/mbio2023saur-envelope-architecture.jpg",
-    sourceLabel: "mBio · 2023",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
-  },
-  {
-    title: "PcdA localization across division stages",
-    caption: "Localization across division states.",
-    image: "assets/images/highlights/mbio2023-pcda-localization.jpg",
-    sourceLabel: "mBio · 2023",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
-  },
-  {
-    title: "Divisome-associated localization maps",
-    caption: "Divisome localization maps.",
-    image: "assets/images/highlights/mbio2023-division-maps.jpg",
-    sourceLabel: "mBio · 2023",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
-  },
-  {
-    title: "Salt-stress genetic screen phenotype panel",
-    caption: "Envelope stress phenotypes from screen.",
-    image: "assets/images/highlights/ncomms2022-salt-stress-screen.jpg",
-    sourceLabel: "Nature Communications · 2022",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9308384/"
-  },
-  {
-    title: "FacZ-dependent membrane organization",
-    caption: "Membrane and PG patterning during division.",
-    image: "assets/images/publications/mbio2023saur-f2.jpg",
-    sourceLabel: "mBio · 2023",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
-  },
-  {
-    title: "FacZ peptidoglycan enrichment profiles",
-    caption: "Spatial enrichment across septal architecture.",
-    image: "assets/images/publications/mbio2023saur-f4.jpg",
-    sourceLabel: "mBio · 2023",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10168275/"
-  },
-  {
-    title: "PcdA recruitment during cytokinesis",
-    caption: "PcdA localization across division states.",
-    image: "assets/images/publications/mbio2023-f2.jpg",
-    sourceLabel: "mBio · 2023",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
-  },
-  {
-    title: "PcdA activity-state comparisons",
-    caption: "Functional states across membrane classes.",
-    image: "assets/images/publications/mbio2023-f4.jpg",
-    sourceLabel: "mBio · 2023",
-    articleUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10602043/"
-  },
-  {
-    title: "Lytic transglycosylase reaction model",
-    caption: "Schematic of glycan maturation steps.",
-    image: "assets/images/publications/pnas2004598117-fig1.jpg",
-    sourceLabel: "PNAS · 2020",
-    articleUrl: "https://www.pnas.org/doi/10.1073/pnas.2004598117"
-  },
-  {
-    title: "Peptidoglycan incorporation endpoint",
-    caption: "Completion state for mature cell wall strands.",
-    image: "assets/images/publications/pnas2004598117-fig2.jpg",
-    sourceLabel: "PNAS · 2020",
-    articleUrl: "https://www.pnas.org/doi/10.1073/pnas.2004598117"
-  },
-  {
-    title: "Envelope remodeling activity map",
-    caption: "Comparative reaction-state readout.",
-    image: "assets/images/publications/pnas2004598117-fig3.jpg",
-    sourceLabel: "PNAS · 2020",
-    articleUrl: "https://www.pnas.org/doi/10.1073/pnas.2004598117"
-  },
-  {
-    title: "Cell-wall maturation completion profile",
-    caption: "Late-stage remodeling reference panel.",
-    image: "assets/images/publications/pnas2004598117-fig4.jpg",
-    sourceLabel: "PNAS · 2020",
-    articleUrl: "https://www.pnas.org/doi/10.1073/pnas.2004598117"
   }
 ];
 
@@ -715,8 +600,8 @@ const state = {
   galleryIndex: 0,
   alumniIndex: 0,
   questionIndex: 0,
-  researchInMotion: [...researchInMotionFallback.slice(0, RESEARCH_IN_MOTION_TARGET_COUNT)],
-  researchInMotionSource: "Packaged fallback set"
+  researchInMotion: [],
+  researchInMotionSource: "Fetching verified Bernhardt lab paper highlights…"
 };
 
 const navToggle = document.querySelector(".nav-toggle");
@@ -760,7 +645,17 @@ function resolveImagePath(path) {
   return segments[segments.length - 1] || value;
 }
 
-function normalizeResearchInMotionItem(item, index = 0) {
+function isBlockedResearchArticleUrl(url) {
+  return /pubmed\.ncbi\.nlm\.nih\.gov|biorxiv\.org|medrxiv\.org/i.test(String(url || ""));
+}
+
+function getResearchIdentifier(item) {
+  const pmid = cleanText(item?.pmid || "");
+  const doi = cleanText(item?.doi || "").toLowerCase();
+  return doi ? `doi:${doi}` : pmid ? `pmid:${pmid}` : "";
+}
+
+function normalizeResearchInMotionItem(item) {
   const title = cleanText(item?.title || "").replace(/\.$/, "");
   const caption = cleanText(item?.caption || item?.text || title);
   const image = cleanText(item?.image || "");
@@ -769,13 +664,19 @@ function normalizeResearchInMotionItem(item, index = 0) {
   const year = cleanText(item?.year || "");
   const sourceLabel =
     cleanText(item?.sourceLabel || [journal, year].filter(Boolean).join(" · ")) || "Bernhardt Lab publication";
+  const correspondingVerified = item?.correspondingVerified === true;
+  const correspondingEvidence = cleanText(item?.correspondingEvidence || "");
+  const figureSource = cleanText(item?.figureSource || "");
+  const identifier = getResearchIdentifier(item);
 
-  if (!title || !image || !articleUrl) return null;
-  if (/pubmed\.ncbi\.nlm\.nih\.gov|biorxiv\.org|medrxiv\.org/i.test(articleUrl)) return null;
+  if (!title || !image || !articleUrl || !identifier) return null;
+  if (!correspondingVerified || !correspondingEvidence) return null;
+  if (isBlockedResearchArticleUrl(articleUrl)) return null;
 
   return {
     pmid: cleanText(item?.pmid || ""),
     doi: cleanText(item?.doi || ""),
+    id: identifier,
     title,
     caption,
     journal,
@@ -783,7 +684,9 @@ function normalizeResearchInMotionItem(item, index = 0) {
     sourceLabel,
     image,
     articleUrl,
-    format: cleanText(item?.format || (index === 0 ? "Featured figure" : "Figure"))
+    correspondingVerified: true,
+    correspondingEvidence,
+    figureSource
   };
 }
 
@@ -791,10 +694,31 @@ function normalizeResearchInMotionPayload(payload) {
   const rawItems = Array.isArray(payload) ? payload : payload?.items;
   if (!Array.isArray(rawItems)) return [];
 
-  return rawItems
-    .map((item, index) => normalizeResearchInMotionItem(item, index))
-    .filter(Boolean)
-    .slice(0, RESEARCH_IN_MOTION_TARGET_COUNT);
+  const seen = new Set();
+  const normalized = [];
+
+  rawItems.forEach((item) => {
+    const parsed = normalizeResearchInMotionItem(item);
+    if (!parsed) return;
+    if (seen.has(parsed.id)) return;
+    seen.add(parsed.id);
+    normalized.push(parsed);
+  });
+
+  return normalized.slice(0, RESEARCH_IN_MOTION_TARGET_COUNT);
+}
+
+function getResearchInMotionDisplayCount(totalCount) {
+  if (totalCount >= RESEARCH_IN_MOTION_TARGET_COUNT) return RESEARCH_IN_MOTION_TARGET_COUNT;
+  if (totalCount >= RESEARCH_IN_MOTION_MIN_ROW_COUNT) return RESEARCH_IN_MOTION_MIN_ROW_COUNT;
+  return totalCount;
+}
+
+function formatResearchInMotionSource(manifestPayload) {
+  const stamp = manifestPayload?.generatedAt ? new Date(manifestPayload.generatedAt) : null;
+  const prefix = "Auto-refreshed weekly • Verified Bernhardt corresponding-author papers";
+  if (!stamp || !Number.isFinite(stamp.getTime())) return prefix;
+  return `${prefix} • Updated ${stamp.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}`;
 }
 
 function readResearchInMotionCache() {
@@ -809,7 +733,7 @@ function readResearchInMotionCache() {
 
     const manifest = payload?.manifest || payload;
     const items = normalizeResearchInMotionPayload(manifest);
-    if (items.length < RESEARCH_IN_MOTION_TARGET_COUNT) return null;
+    if (!items.length) return null;
 
     return { items, manifest };
   } catch {
@@ -820,7 +744,7 @@ function readResearchInMotionCache() {
 function writeResearchInMotionCache(manifestPayload) {
   try {
     const items = normalizeResearchInMotionPayload(manifestPayload);
-    if (items.length < RESEARCH_IN_MOTION_TARGET_COUNT) return;
+    if (!items.length) return;
     window.localStorage.setItem(
       RESEARCH_IN_MOTION_CACHE_KEY,
       JSON.stringify({
@@ -848,31 +772,30 @@ function openLightbox(imageUrl, title) {
 function renderMedia() {
   if (!mediaGrid) return;
 
-  const items = (state.researchInMotion || [])
-    .map((item, index) => normalizeResearchInMotionItem(item, index))
-    .filter(Boolean)
-    .slice(0, RESEARCH_IN_MOTION_TARGET_COUNT);
+  const items = normalizeResearchInMotionPayload(state.researchInMotion || []);
+  const visibleCount = getResearchInMotionDisplayCount(items.length);
+  const displayItems = items.slice(0, visibleCount);
 
-  if (!items.length) {
+  if (!displayItems.length) {
     mediaGrid.innerHTML = `
       <article class="media-card reveal">
         <div class="media-card-body">
-          <h3>Research in Motion feed is updating</h3>
-          <p>Dynamic publication tiles are temporarily unavailable. Please check back shortly.</p>
+          <h3>Research in Motion is updating</h3>
+          <p>Verified Bernhardt corresponding-author paper tiles are refreshing. Please check back shortly.</p>
         </div>
       </article>
     `;
     observeRevealTargets(mediaGrid);
     if (researchMotionSourceNote) {
-      researchMotionSourceNote.textContent = "Research in Motion refresh is currently unavailable.";
+      researchMotionSourceNote.textContent = "Showing only verified tiles; update in progress.";
     }
     return;
   }
 
-  mediaGrid.innerHTML = items
+  mediaGrid.innerHTML = displayItems
     .map(
-      (item, index) => `
-      <article class="media-card reveal ${index === 0 ? "featured" : ""}">
+      (item) => `
+      <article class="media-card reveal">
         <img src="${escapeHtml(resolveImagePath(item.image))}" alt="${escapeHtml(item.title)}" loading="lazy" />
         <div class="media-card-body">
           <h3>${escapeHtml(item.title)}</h3>
@@ -887,7 +810,7 @@ function renderMedia() {
     )
     .join("");
   if (researchMotionSourceNote) {
-    researchMotionSourceNote.textContent = state.researchInMotionSource || "Packaged fallback set";
+    researchMotionSourceNote.textContent = state.researchInMotionSource || "Verified Bernhardt-lab paper tiles";
   }
   observeRevealTargets(mediaGrid);
 }
@@ -1094,28 +1017,15 @@ function renderBigQuestions() {
 }
 
 async function refreshResearchInMotion() {
-  const fallbackItems = researchInMotionFallback
-    .map((item, index) => normalizeResearchInMotionItem(item, index))
-    .filter(Boolean)
-    .slice(0, RESEARCH_IN_MOTION_TARGET_COUNT);
-
-  state.researchInMotion = fallbackItems;
-  state.researchInMotionSource = "Packaged fallback set";
-  renderMedia();
-
   const cached = readResearchInMotionCache();
   if (cached) {
-    const stamp = cached.manifest?.generatedAt ? new Date(cached.manifest.generatedAt) : null;
     state.researchInMotion = cached.items;
-    state.researchInMotionSource = stamp && Number.isFinite(stamp.getTime())
-      ? `Auto-refreshed weekly • Updated ${stamp.toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "short",
-          day: "numeric"
-        })}`
-      : "Auto-refreshed weekly from Bernhardt last-author open-access papers";
-    renderMedia();
+    state.researchInMotionSource = formatResearchInMotionSource(cached.manifest);
+  } else {
+    state.researchInMotion = [];
+    state.researchInMotionSource = "Fetching verified Bernhardt corresponding-author papers…";
   }
+  renderMedia();
 
   try {
     const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
@@ -1140,25 +1050,18 @@ async function refreshResearchInMotion() {
     const payload = await response.json();
     const normalized = normalizeResearchInMotionPayload(payload);
 
-    if (normalized.length < RESEARCH_IN_MOTION_TARGET_COUNT) {
-      throw new Error("Manifest did not provide 12 valid open-access Bernhardt entries.");
+    if (!normalized.length) {
+      throw new Error("Manifest did not provide any verified Research in Motion entries.");
     }
 
     writeResearchInMotionCache(payload);
     state.researchInMotion = normalized;
-    const stamp = payload?.generatedAt ? new Date(payload.generatedAt) : null;
-    state.researchInMotionSource = stamp && Number.isFinite(stamp.getTime())
-      ? `Auto-refreshed weekly • Updated ${stamp.toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "short",
-          day: "numeric"
-        })}`
-      : "Auto-refreshed weekly from Bernhardt last-author open-access papers";
+    state.researchInMotionSource = formatResearchInMotionSource(payload);
     renderMedia();
   } catch {
     if (!cached) {
-      state.researchInMotion = fallbackItems;
-      state.researchInMotionSource = "Packaged fallback set (dynamic refresh unavailable in this browser session)";
+      state.researchInMotion = [];
+      state.researchInMotionSource = "Verified paper feed temporarily unavailable; refresh in progress.";
       renderMedia();
     }
   }
