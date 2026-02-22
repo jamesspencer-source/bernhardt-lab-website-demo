@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="alumni.css" />
+    <link rel="stylesheet" href="alumni.css?v=20260222a" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -61,6 +61,13 @@
               <input id="alumni-search" type="search" placeholder="Search alumni" autocomplete="off" />
             </label>
             <div id="alumni-filters" class="alumni-filters" role="tablist" aria-label="Filter alumni"></div>
+            <label class="sort-wrap" for="alumni-sort">
+              <span>Sort by</span>
+              <select id="alumni-sort" name="alumni-sort">
+                <option value="recent" selected>Most recently left lab</option>
+                <option value="lastName">Last name (A-Z)</option>
+              </select>
+            </label>
             <p id="alumni-count" class="alumni-count" aria-live="polite"></p>
           </div>
         </div>
@@ -84,6 +91,6 @@
     </footer>
 
     <script src="alumni-data.js?v=20260221d"></script>
-    <script src="alumni.js?v=20260221ab"></script>
+    <script src="alumni.js?v=20260222a"></script>
   </body>
 </html>

@@ -697,13 +697,6 @@ function normalizePublicationPayload(payload) {
   return normalized.slice(0, RECENT_PUBLICATIONS_TARGET_COUNT);
 }
 
-function formatRecentPublicationsSource(payload) {
-  const stamp = payload?.generatedAt ? new Date(payload.generatedAt) : null;
-  const prefix = "Auto-refreshed weekly • Bernhardt TG last-author papers from PubMed";
-  if (!stamp || !Number.isFinite(stamp.getTime())) return prefix;
-  return `${prefix} • Updated ${stamp.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}`;
-}
-
 function openLightbox(imageUrl, title) {
   if (typeof lightbox.showModal !== "function") {
     window.open(imageUrl, "_blank", "noreferrer");
@@ -716,41 +709,46 @@ function openLightbox(imageUrl, title) {
   lightbox.showModal();
 }
 
-function renderRecentPublications(items, sourceNoteText) {
+function renderRecentPublications(items) {
   if (!recentPublicationsRoot) return;
 
   if (!items.length) {
     recentPublicationsRoot.innerHTML = `
-      <article class="publication-item reveal">
-        <h3>Recent publications are updating</h3>
-        <p>The latest PubMed results are temporarily unavailable. Please use the full bibliography link below.</p>
-      </article>
+      <ol class="publication-archive-list reveal">
+        <li class="publication-archive-item">
+          <p class="publication-archive-title">Recent publications are temporarily unavailable.</p>
+          <p class="publication-archive-citation">Please use the complete PubMed publication list below.</p>
+        </li>
+      </ol>
     `;
     if (publicationsSourceNote) {
-      publicationsSourceNote.textContent = "Publication feed unavailable. Please check back shortly.";
+      publicationsSourceNote.textContent = "";
     }
     observeRevealTargets(recentPublicationsRoot);
     return;
   }
 
-  recentPublicationsRoot.innerHTML = items
-    .map(
-      (item) => `
-      <article class="publication-item reveal">
-        <h3><a href="${escapeHtml(item.articleUrl)}" target="_blank" rel="noreferrer">${escapeHtml(item.title)}</a></h3>
-        <p>${escapeHtml(item.authorsShort || "Bernhardt Lab publication")}</p>
-        <div class="publication-meta">
-          <span>${escapeHtml(item.journal || item.sourceLabel)}</span>
-          ${item.year ? `<span>${escapeHtml(item.year)}</span>` : ""}
-          ${item.pmid ? `<span>PMID ${escapeHtml(item.pmid)}</span>` : ""}
-        </div>
-      </article>
-    `
-    )
-    .join("");
+  recentPublicationsRoot.innerHTML = `
+    <ol class="publication-archive-list reveal">
+      ${items
+        .map(
+          (item) => `
+        <li class="publication-archive-item">
+          <a class="publication-archive-title" href="${escapeHtml(item.articleUrl)}" target="_blank" rel="noreferrer">
+            ${escapeHtml(item.title)}
+          </a>
+          <p class="publication-archive-citation">
+            ${escapeHtml(item.authorsShort || "Bernhardt Lab publication")} • ${escapeHtml(item.journal || item.sourceLabel)}${item.year ? ` (${escapeHtml(item.year)})` : ""}${item.pmid ? ` • PMID ${escapeHtml(item.pmid)}` : ""}
+          </p>
+        </li>
+      `
+        )
+        .join("")}
+    </ol>
+  `;
 
   if (publicationsSourceNote) {
-    publicationsSourceNote.textContent = sourceNoteText || "Auto-refreshed weekly • Bernhardt TG last-author papers from PubMed";
+    publicationsSourceNote.textContent = "";
   }
   observeRevealTargets(recentPublicationsRoot);
 }
@@ -794,9 +792,9 @@ async function refreshRecentPublications() {
     const payload = await response.json();
     const publications = normalizePublicationPayload(payload);
     if (!publications.length) throw new Error("Publication feed is empty.");
-    renderRecentPublications(publications, formatRecentPublicationsSource(payload));
+    renderRecentPublications(publications);
   } catch {
-    renderRecentPublications([], "Publication feed unavailable. Please check back shortly.");
+    renderRecentPublications([]);
   }
 }
 
@@ -1531,20 +1529,25 @@ function setupCollaboratorCarousel() {
 
   let loopWidth = 0;
   let cardStep = 0;
+  let trackPosition = 0;
   let rafId = null;
   let isPaused = false;
   let lastTimestamp = 0;
   let resumeTimer = null;
-  const speedPxPerSecond = 26;
+  let nudgeTimer = null;
+  const speedPxPerSecond = 36;
 
-  const normalizeScroll = () => {
-    if (!loopWidth) return;
-    while (scroller.scrollLeft >= loopWidth) {
-      scroller.scrollLeft -= loopWidth;
+  const normalizeTrackPosition = () => {
+    if (!loopWidth) {
+      trackPosition = 0;
+      return;
     }
-    while (scroller.scrollLeft < 0) {
-      scroller.scrollLeft += loopWidth;
-    }
+    while (trackPosition >= loopWidth) trackPosition -= loopWidth;
+    while (trackPosition < 0) trackPosition += loopWidth;
+  };
+
+  const applyTrackPosition = () => {
+    scroller.style.transform = `translate3d(${-trackPosition}px, 0, 0)`;
   };
 
   const computeMetrics = () => {
@@ -1562,12 +1565,22 @@ function setupCollaboratorCarousel() {
       cardStep = Math.max(first.getBoundingClientRect().width, 220);
     }
 
-    normalizeScroll();
+    normalizeTrackPosition();
+    applyTrackPosition();
+  };
+
+  const clearNudgeTransition = () => {
+    if (nudgeTimer) {
+      window.clearTimeout(nudgeTimer);
+      nudgeTimer = null;
+    }
+    scroller.style.transition = "";
   };
 
   const stop = () => {
     isPaused = true;
     lastTimestamp = 0;
+    clearNudgeTransition();
     if (rafId !== null) {
       window.cancelAnimationFrame(rafId);
       rafId = null;
@@ -1592,11 +1605,9 @@ function setupCollaboratorCarousel() {
 
     const elapsed = Math.min((timestamp - lastTimestamp) / 1000, 0.06);
     lastTimestamp = timestamp;
-    scroller.scrollLeft += speedPxPerSecond * elapsed;
-
-    if (scroller.scrollLeft >= loopWidth) {
-      scroller.scrollLeft -= loopWidth;
-    }
+    trackPosition += speedPxPerSecond * elapsed;
+    normalizeTrackPosition();
+    applyTrackPosition();
 
     rafId = window.requestAnimationFrame(tick);
   };
@@ -1604,6 +1615,7 @@ function setupCollaboratorCarousel() {
   const start = () => {
     if (prefersReducedMotion) return;
     isPaused = false;
+    clearNudgeTransition();
     if (rafId === null) {
       lastTimestamp = 0;
       rafId = window.requestAnimationFrame(tick);
@@ -1624,12 +1636,14 @@ function setupCollaboratorCarousel() {
 
   const nudge = (direction) => {
     if (!cardStep) computeMetrics();
-    const target = scroller.scrollLeft + direction * cardStep;
-    scroller.scrollTo({
-      left: target,
-      behavior: prefersReducedMotion ? "auto" : "smooth"
-    });
-    window.setTimeout(normalizeScroll, prefersReducedMotion ? 0 : 360);
+    trackPosition += direction * cardStep;
+    normalizeTrackPosition();
+    scroller.style.transition = prefersReducedMotion ? "none" : "transform 420ms ease";
+    applyTrackPosition();
+    nudgeTimer = window.setTimeout(() => {
+      scroller.style.transition = "";
+      nudgeTimer = null;
+    }, prefersReducedMotion ? 0 : 430);
   };
 
   if (prevButton) {

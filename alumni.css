@@ -259,6 +259,30 @@ p {
   gap: 0.48rem;
 }
 
+.sort-wrap {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.84rem;
+  color: var(--midnight-soft);
+  font-weight: 700;
+  width: fit-content;
+}
+
+.sort-wrap select {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text);
+  font-size: 0.88rem;
+  padding: 0.48rem 2rem 0.48rem 0.88rem;
+  font-weight: 600;
+}
+
+.sort-wrap select:focus-visible {
+  outline: 2px solid rgba(14, 117, 125, 0.35);
+  border-color: var(--teal);
+}
+
 .alumni-filters button {
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -602,12 +626,14 @@ p {
 }
 
 .search-wrap,
-.search-wrap label {
+.search-wrap label,
+.sort-wrap {
   color: var(--text-mid);
 }
 
 .search-wrap input,
-.alumni-filters button {
+.alumni-filters button,
+.sort-wrap select {
   border-color: rgba(220, 224, 235, 0.22);
   background: rgba(31, 35, 44, 0.78);
   color: var(--text-high);
