@@ -29,7 +29,7 @@ const rawAlumni =
       "lab_dates": "2019-2025"
    },
    {
-      "current_role": "Lab director, Paulson Lab, Harvard Medical School",
+      "current_role": "Lab director, Seth Bordenstein Lab, Penn State University",
       "name": "Anastasiya Yakhnina",
       "role_in_lab": "postdoctoral fellow",
       "source": "Bernhardt Lab records",
@@ -438,6 +438,10 @@ const verifiedAlumniProfiles = {
   "Amelia McKitterick": {
     url: "https://www.umassmed.edu/mckitterick-lab/people/",
     source: "UMass Chan Medical School"
+  },
+  "Anastasiya Yakhnina": {
+    url: "https://bordensteinlab.com/people/",
+    source: "Bordenstein Lab, Penn State University"
   },
 
   "Andrea Vettiger": {
