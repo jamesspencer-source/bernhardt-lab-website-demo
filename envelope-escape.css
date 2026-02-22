@@ -10,6 +10,15 @@
   border: 0;
 }
 
+.species-name {
+  font-style: italic;
+}
+
+#envelope-model-select,
+#envelope-model-select option {
+  font-style: italic;
+}
+
 .footer-secret-trigger {
   appearance: none;
   border: 1px solid rgba(16, 32, 56, 0.08);

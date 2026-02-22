@@ -521,6 +521,40 @@
     return getModel(key).label;
   }
 
+  const SPECIES_INLINE_PATTERNS = [
+    /\bEscherichia\s+coli\b/gi,
+    /\bPseudomonas\s+aeruginosa\b/gi,
+    /\bStaphylococcus\s+aureus\b/gi,
+    /\bStreptococcus\s+pneumoniae\b/gi,
+    /\bCorynebacterium\s+glutamicum\b/gi,
+    /\bKlebsiella\s+pneumoniae\b/gi,
+    /\bAcinetobacter\s+baumannii\b/gi,
+    /\bE\.\s*coli\b/gi,
+    /\bP\.\s*aeruginosa\b/gi,
+    /\bS\.\s*aureus\b/gi,
+    /\bS\.\s*pneumoniae\b/gi,
+    /\bC\.\s*glutamicum\b/gi,
+    /\bK\.\s*pneumoniae\b/gi,
+    /\bA\.\s*baumannii\b/gi
+  ];
+
+  function escapeHtml(value = "") {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function formatSpeciesAwareHtml(value = "") {
+    const escaped = escapeHtml(value);
+    return SPECIES_INLINE_PATTERNS.reduce(
+      (result, pattern) => result.replace(pattern, (match) => `<em class="species-name">${match}</em>`),
+      escaped
+    );
+  }
+
   function formatLeaderboardTimestamp(ms) {
     const time = Number(ms) || Date.now();
     const stamp = new Date(time);
@@ -872,7 +906,7 @@
 
         const metaLine = document.createElement("span");
         metaLine.className = "envelope-leaderboard-meta-line";
-        metaLine.textContent = `${getSpeciesLabel(entry.species)} · ${formatLeaderboardTimestamp(entry.playedAt || entry.createdAt)}`;
+        metaLine.innerHTML = `${formatSpeciesAwareHtml(getSpeciesLabel(entry.species))} · ${escapeHtml(formatLeaderboardTimestamp(entry.playedAt || entry.createdAt))}`;
 
         li.append(mainLine, metaLine);
       } else {
@@ -1089,7 +1123,7 @@
       modelSelectEl.value = state.modelId;
     }
     if (modelNoteEl) {
-      modelNoteEl.textContent = `${model.label} · ${model.morphology} · Envelope inputs: ${getPrecursorLabels(state.modelId).join(", ")}`;
+      modelNoteEl.innerHTML = `${formatSpeciesAwareHtml(model.label)} · ${escapeHtml(model.morphology)} · Envelope inputs: ${escapeHtml(getPrecursorLabels(state.modelId).join(", "))}`;
     }
     renderPrecursorKey();
   }

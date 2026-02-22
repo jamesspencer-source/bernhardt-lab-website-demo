@@ -54,7 +54,7 @@ const rawAlumni =
       "name": "Angelika Grundling",
       "role_in_lab": "professor visiting on sabbatical",
       "source": "Bernhardt Lab records",
-      "lab_dates": "2000-2024"
+      "lab_dates": "Sep 2023 - Aug 2024"
    },
    {
       "current_role": "University of Copenhagen, Denmark",

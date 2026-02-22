@@ -127,6 +127,24 @@
     return SPECIES_LABELS[key] || SPECIES_LABELS.unknown;
   }
 
+  const SPECIES_INLINE_PATTERNS = [
+    /\bEscherichia\s+coli\b/gi,
+    /\bPseudomonas\s+aeruginosa\b/gi,
+    /\bStaphylococcus\s+aureus\b/gi,
+    /\bStreptococcus\s+pneumoniae\b/gi,
+    /\bCorynebacterium\s+glutamicum\b/gi,
+    /\bKlebsiella\s+pneumoniae\b/gi,
+    /\bAcinetobacter\s+baumannii\b/gi
+  ];
+
+  function formatSpeciesHtml(species) {
+    const escaped = escapeHtml(formatSpecies(species));
+    return SPECIES_INLINE_PATTERNS.reduce(
+      (result, pattern) => result.replace(pattern, (match) => `<em class="species-name">${match}</em>`),
+      escaped
+    );
+  }
+
   function escapeHtml(value) {
     return String(value)
       .replace(/&/g, "&amp;")
@@ -184,7 +202,7 @@
         <td>${entry.id}</td>
         <td>${escapeHtml(entry.name || "Anonymous")}</td>
         <td>${Number(entry.score || 0)}</td>
-        <td>${escapeHtml(formatSpecies(entry.species))}</td>
+        <td>${formatSpeciesHtml(entry.species)}</td>
         <td>${escapeHtml(formatDate(entry.playedAt || entry.createdAt))}</td>
         <td>
           <div class="admin-row-actions">

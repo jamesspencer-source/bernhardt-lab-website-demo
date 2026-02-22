@@ -51,6 +51,10 @@ body {
     linear-gradient(180deg, #101217 0%, #13161c 58%, #101216 100%);
 }
 
+.species-name {
+  font-style: italic;
+}
+
 body::before {
   content: "";
   position: fixed;

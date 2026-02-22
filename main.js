@@ -99,9 +99,8 @@ const galleryItems = [
       "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1609952792110-6JQKNG9HXJNVDNQFWZFL/virtual%2Bparty%2Bbernhardt%2Blab.jpg"
   },
   {
-    title: "Apple picking outing, fall 2023",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1698945008980-38CNHCWID1ZQWAR15BSO/WechatIMG583.jpg"
+    title: "Apple orchard group photo, fall 2025",
+    image: "assets/images/gallery/apple-orchard-group-2025.jpg"
   },
   {
     title: "Bernhardt lab beer hour, spring 2024",
@@ -628,6 +627,34 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
+const SPECIES_INLINE_PATTERNS = [
+  /\bEscherichia\s+coli\b/gi,
+  /\bPseudomonas\s+aeruginosa\b/gi,
+  /\bStaphylococcus\s+aureus\b/gi,
+  /\bStreptococcus\s+pneumoniae\b/gi,
+  /\bCorynebacterium\s+glutamicum\b/gi,
+  /\bKlebsiella\s+pneumoniae\b/gi,
+  /\bAcinetobacter\s+baumannii\b/gi,
+  /\bE\.\s*coli\b/gi,
+  /\bP\.\s*aeruginosa\b/gi,
+  /\bS\.\s*aureus\b/gi,
+  /\bS\.\s*pneumoniae\b/gi,
+  /\bC\.\s*glutamicum\b/gi,
+  /\bK\.\s*pneumoniae\b/gi,
+  /\bA\.\s*baumannii\b/gi
+];
+
+function applySpeciesItalicsToEscaped(escapedText = "") {
+  return SPECIES_INLINE_PATTERNS.reduce(
+    (result, pattern) => result.replace(pattern, (match) => `<em class="species-name">${match}</em>`),
+    escapedText
+  );
+}
+
+function formatSpeciesAwareText(value = "") {
+  return applySpeciesItalicsToEscaped(escapeHtml(value));
+}
+
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
@@ -735,10 +762,10 @@ function renderRecentPublications(items) {
           (item) => `
         <li class="publication-archive-item">
           <a class="publication-archive-title" href="${escapeHtml(item.articleUrl)}" target="_blank" rel="noreferrer">
-            ${escapeHtml(item.title)}
+            ${formatSpeciesAwareText(item.title)}
           </a>
           <p class="publication-archive-citation">
-            ${escapeHtml(item.authorsShort || "Bernhardt Lab publication")} • ${escapeHtml(item.journal || item.sourceLabel)}${item.year ? ` (${escapeHtml(item.year)})` : ""}${item.pmid ? ` • PMID ${escapeHtml(item.pmid)}` : ""}
+            ${formatSpeciesAwareText(item.authorsShort || "Bernhardt Lab publication")} • ${formatSpeciesAwareText(item.journal || item.sourceLabel)}${item.year ? ` (${escapeHtml(item.year)})` : ""}${item.pmid ? ` • PMID ${escapeHtml(item.pmid)}` : ""}
           </p>
         </li>
       `
@@ -809,7 +836,7 @@ function renderResearch() {
         <div class="research-card-body">
           <h3>${escapeHtml(theme.title)}</h3>
           <p>${escapeHtml(theme.text)}</p>
-          <div class="research-chip-row">${theme.chips.map((chip) => `<span>${escapeHtml(chip)}</span>`).join("")}</div>
+          <div class="research-chip-row">${theme.chips.map((chip) => `<span>${formatSpeciesAwareText(chip)}</span>`).join("")}</div>
         </div>
       </article>
     `
@@ -1055,7 +1082,7 @@ function renderPeople() {
         <div class="person-body">
           <p class="person-role">${escapeHtml(person.tileRole || person.role)}</p>
           <h3>${escapeHtml(person.name)}</h3>
-          <p class="person-bio">${escapeHtml(person.bio)}</p>
+          <p class="person-bio">${formatSpeciesAwareText(person.bio)}</p>
           <div class="person-links">
             ${person.profile ? `<a class="person-link" href="${escapeHtml(person.profile)}">Profile page</a>` : ""}
           </div>
