@@ -15,7 +15,7 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260221aj" />
+    <link rel="stylesheet" href="styles.css?v=20260222a" />
     <link rel="stylesheet" href="envelope-escape.css?v=20260221y" />
   </head>
   <body>
@@ -278,9 +278,28 @@
               <h3>Microscopy-first views of bacterial envelope biology.</h3>
             </div>
             <p class="section-intro reveal">
-              Video plus an auto-refreshed set of verified recent Bernhardt-lab papers (one figure per paper)
-              highlights envelope growth, division, and stress adaptation in real time.
+              Featured microscopy clips and video highlight envelope growth, division, and stress adaptation in real
+              time.
             </p>
+            <section class="microscopy-clips reveal" aria-label="Featured microscopy clips">
+              <article class="microscopy-clip-card">
+                <div class="microscopy-clip-media">
+                  <video
+                    controls
+                    preload="metadata"
+                    playsinline
+                    aria-label="Microscopy clip showing bacterial envelope dynamics"
+                  >
+                    <source src="bernhardt-moesm3-2022.m4v" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="microscopy-clip-copy">
+                  <p class="eyebrow">Microscopy Clip</p>
+                  <h4>Live-cell envelope dynamics</h4>
+                  <p>Representative microscopy from Bernhardt Lab work on division-site envelope remodeling.</p>
+                </div>
+              </article>
+            </section>
             <article class="research-video-feature reveal" aria-labelledby="lab-video-title">
               <div class="research-video-embed">
                 <iframe
@@ -317,8 +336,6 @@
               <span>Cryo-ET + EM</span>
               <span>Division-site dynamics</span>
             </div>
-            <div id="media-grid" class="media-grid"></div>
-            <p id="research-motion-source-note" class="publication-footnote research-motion-note reveal"></p>
           </div>
         </div>
       </section>
@@ -330,8 +347,10 @@
             <h2>Full Bernhardt Lab bibliography.</h2>
           </div>
           <p class="section-intro reveal">
-            Research in Motion above is refreshed weekly from recent open-access papers led by the Bernhardt Lab.
+            Five recent Bernhardt-last-author papers are shown below and refreshed weekly from PubMed.
           </p>
+          <div id="recent-publications" class="publication-list" aria-live="polite"></div>
+          <p id="publications-source-note" class="publication-footnote reveal"></p>
           <p class="publication-footnote reveal">
             Complete publication list:
             <a
@@ -650,7 +669,7 @@
     </dialog>
 
     <script src="alumni-data.js"></script>
-    <script src="main.js?v=20260221aj"></script>
+    <script src="main.js?v=20260222a"></script>
     <script src="envelope-escape-config.js?v=20260221af"></script>
     <script src="envelope-escape.js?v=20260221af"></script>
   </body>

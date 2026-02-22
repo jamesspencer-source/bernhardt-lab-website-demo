@@ -30,12 +30,10 @@ const researchThemes = [
 ];
 
 const IS_FLAT_BUILD = !document.querySelector('link[href^="assets/styles.css"]');
-const RESEARCH_IN_MOTION_MANIFEST_URL = IS_FLAT_BUILD ? "research-in-motion.json" : "assets/data/research-in-motion.json";
-const RESEARCH_IN_MOTION_MIN_ROW_COUNT = 9;
-const RESEARCH_IN_MOTION_TARGET_COUNT = 12;
-const RESEARCH_IN_MOTION_CACHE_KEY = "bernhardt-rim-manifest-v3";
-const RESEARCH_IN_MOTION_CACHE_MAX_AGE_MS = 6 * 60 * 60 * 1000;
-const RESEARCH_IN_MOTION_FETCH_TIMEOUT_MS = 9000;
+const RECENT_PUBLICATIONS_FEED_URL = IS_FLAT_BUILD ? "recent-publications.json" : "assets/data/recent-publications.json";
+const RECENT_PUBLICATIONS_TARGET_COUNT = 5;
+const RECENT_PUBLICATIONS_FETCH_TIMEOUT_MS = 9000;
+const RECENT_PUBLICATIONS_QUERY_URL = "https://pubmed.ncbi.nlm.nih.gov/?sort=date&term=Bernhardt%20TG%5BAuthor%5D";
 
 const bigQuestions = [
   {
@@ -599,15 +597,13 @@ const state = {
   query: "",
   galleryIndex: 0,
   alumniIndex: 0,
-  questionIndex: 0,
-  researchInMotion: [],
-  researchInMotionSource: "Fetching verified Bernhardt lab paper highlights…"
+  questionIndex: 0
 };
 
 const navToggle = document.querySelector(".nav-toggle");
 const nav = document.getElementById("site-nav");
 const searchInput = document.getElementById("people-search");
-const mediaGrid = document.getElementById("media-grid");
+const recentPublicationsRoot = document.getElementById("recent-publications");
 const peopleGrid = document.getElementById("people-grid");
 const roleFilters = document.getElementById("role-filters");
 const peopleCount = document.getElementById("people-count");
@@ -615,7 +611,7 @@ const galleryRoot = document.getElementById("gallery-grid");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const lightboxCaption = document.getElementById("lightbox-caption");
-const researchMotionSourceNote = document.getElementById("research-motion-source-note");
+const publicationsSourceNote = document.getElementById("publications-source-note");
 let galleryTimer = null;
 let alumniTimer = null;
 let revealObserver = null;
@@ -645,116 +641,67 @@ function resolveImagePath(path) {
   return segments[segments.length - 1] || value;
 }
 
-function isBlockedResearchArticleUrl(url) {
-  return /pubmed\.ncbi\.nlm\.nih\.gov|biorxiv\.org|medrxiv\.org/i.test(String(url || ""));
-}
-
-function getResearchIdentifier(item) {
+function getPublicationIdentifier(item) {
   const pmid = cleanText(item?.pmid || "");
   const doi = cleanText(item?.doi || "").toLowerCase();
-  return doi ? `doi:${doi}` : pmid ? `pmid:${pmid}` : "";
+  if (pmid) return `pmid:${pmid}`;
+  if (doi) return `doi:${doi}`;
+  return `title:${cleanText(item?.title || "").toLowerCase()}`;
 }
 
-function normalizeResearchInMotionItem(item) {
+function normalizePublicationRecord(item) {
+  const pmid = cleanText(item?.pmid || "");
+  const doi = cleanText(item?.doi || "");
   const title = cleanText(item?.title || "").replace(/\.$/, "");
-  const caption = cleanText(item?.caption || item?.text || title);
-  const image = cleanText(item?.image || "");
-  const articleUrl = cleanText(item?.articleUrl || item?.sourceUrl || "");
   const journal = cleanText(item?.journal || "");
   const year = cleanText(item?.year || "");
+  const pubDate = cleanText(item?.pubDate || "");
+  const authorsShort = cleanText(item?.authorsShort || "");
   const sourceLabel =
     cleanText(item?.sourceLabel || [journal, year].filter(Boolean).join(" · ")) || "Bernhardt Lab publication";
-  const correspondingVerified = item?.correspondingVerified === true;
-  const correspondingEvidence = cleanText(item?.correspondingEvidence || "");
-  const figureSource = cleanText(item?.figureSource || "");
-  const identifier = getResearchIdentifier(item);
+  const articleUrl =
+    cleanText(item?.articleUrl || "") ||
+    (doi ? `https://doi.org/${doi}` : pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/` : "");
+  const id = getPublicationIdentifier(item);
 
-  if (!title || !image || !articleUrl || !identifier) return null;
-  if (!correspondingVerified || !correspondingEvidence) return null;
-  if (isBlockedResearchArticleUrl(articleUrl)) return null;
+  if (!title || !articleUrl || !id) return null;
 
   return {
-    pmid: cleanText(item?.pmid || ""),
-    doi: cleanText(item?.doi || ""),
-    id: identifier,
+    id,
+    pmid,
+    doi,
     title,
-    caption,
     journal,
     year,
+    pubDate,
+    authorsShort,
     sourceLabel,
-    image,
-    articleUrl,
-    correspondingVerified: true,
-    correspondingEvidence,
-    figureSource
+    articleUrl
   };
 }
 
-function normalizeResearchInMotionPayload(payload) {
+function normalizePublicationPayload(payload) {
   const rawItems = Array.isArray(payload) ? payload : payload?.items;
   if (!Array.isArray(rawItems)) return [];
-
   const seen = new Set();
   const normalized = [];
 
   rawItems.forEach((item) => {
-    const parsed = normalizeResearchInMotionItem(item);
+    const parsed = normalizePublicationRecord(item);
     if (!parsed) return;
     if (seen.has(parsed.id)) return;
     seen.add(parsed.id);
     normalized.push(parsed);
   });
 
-  return normalized.slice(0, RESEARCH_IN_MOTION_TARGET_COUNT);
+  return normalized.slice(0, RECENT_PUBLICATIONS_TARGET_COUNT);
 }
 
-function getResearchInMotionDisplayCount(totalCount) {
-  if (totalCount >= RESEARCH_IN_MOTION_TARGET_COUNT) return RESEARCH_IN_MOTION_TARGET_COUNT;
-  if (totalCount >= RESEARCH_IN_MOTION_MIN_ROW_COUNT) return RESEARCH_IN_MOTION_MIN_ROW_COUNT;
-  return totalCount;
-}
-
-function formatResearchInMotionSource(manifestPayload) {
-  const stamp = manifestPayload?.generatedAt ? new Date(manifestPayload.generatedAt) : null;
-  const prefix = "Auto-refreshed weekly • Verified Bernhardt corresponding-author papers";
+function formatRecentPublicationsSource(payload) {
+  const stamp = payload?.generatedAt ? new Date(payload.generatedAt) : null;
+  const prefix = "Auto-refreshed weekly • Bernhardt TG last-author papers from PubMed";
   if (!stamp || !Number.isFinite(stamp.getTime())) return prefix;
   return `${prefix} • Updated ${stamp.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}`;
-}
-
-function readResearchInMotionCache() {
-  try {
-    const raw = window.localStorage.getItem(RESEARCH_IN_MOTION_CACHE_KEY);
-    if (!raw) return null;
-
-    const payload = JSON.parse(raw);
-    const cachedAt = Number(payload?.cachedAt) || 0;
-    const age = Date.now() - cachedAt;
-    if (!cachedAt || age < 0 || age > RESEARCH_IN_MOTION_CACHE_MAX_AGE_MS) return null;
-
-    const manifest = payload?.manifest || payload;
-    const items = normalizeResearchInMotionPayload(manifest);
-    if (!items.length) return null;
-
-    return { items, manifest };
-  } catch {
-    return null;
-  }
-}
-
-function writeResearchInMotionCache(manifestPayload) {
-  try {
-    const items = normalizeResearchInMotionPayload(manifestPayload);
-    if (!items.length) return;
-    window.localStorage.setItem(
-      RESEARCH_IN_MOTION_CACHE_KEY,
-      JSON.stringify({
-        cachedAt: Date.now(),
-        manifest: manifestPayload
-      })
-    );
-  } catch {
-    /* no-op */
-  }
 }
 
 function openLightbox(imageUrl, title) {
@@ -769,50 +716,88 @@ function openLightbox(imageUrl, title) {
   lightbox.showModal();
 }
 
-function renderMedia() {
-  if (!mediaGrid) return;
+function renderRecentPublications(items, sourceNoteText) {
+  if (!recentPublicationsRoot) return;
 
-  const items = normalizeResearchInMotionPayload(state.researchInMotion || []);
-  const visibleCount = getResearchInMotionDisplayCount(items.length);
-  const displayItems = items.slice(0, visibleCount);
-
-  if (!displayItems.length) {
-    mediaGrid.innerHTML = `
-      <article class="media-card reveal">
-        <div class="media-card-body">
-          <h3>Research in Motion is updating</h3>
-          <p>Verified Bernhardt corresponding-author paper tiles are refreshing. Please check back shortly.</p>
-        </div>
+  if (!items.length) {
+    recentPublicationsRoot.innerHTML = `
+      <article class="publication-item reveal">
+        <h3>Recent publications are updating</h3>
+        <p>The latest PubMed results are temporarily unavailable. Please use the full bibliography link below.</p>
       </article>
     `;
-    observeRevealTargets(mediaGrid);
-    if (researchMotionSourceNote) {
-      researchMotionSourceNote.textContent = "Showing only verified tiles; update in progress.";
+    if (publicationsSourceNote) {
+      publicationsSourceNote.textContent = "Publication feed unavailable. Please check back shortly.";
     }
+    observeRevealTargets(recentPublicationsRoot);
     return;
   }
 
-  mediaGrid.innerHTML = displayItems
+  recentPublicationsRoot.innerHTML = items
     .map(
       (item) => `
-      <article class="media-card reveal">
-        <img src="${escapeHtml(resolveImagePath(item.image))}" alt="${escapeHtml(item.title)}" loading="lazy" />
-        <div class="media-card-body">
-          <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(item.caption || item.title)}</p>
-          <div class="media-card-meta">
-            <span>${escapeHtml(item.sourceLabel)}</span>
-            <a class="media-source" href="${escapeHtml(item.articleUrl)}" target="_blank" rel="noreferrer">Read open-access article</a>
-          </div>
+      <article class="publication-item reveal">
+        <h3><a href="${escapeHtml(item.articleUrl)}" target="_blank" rel="noreferrer">${escapeHtml(item.title)}</a></h3>
+        <p>${escapeHtml(item.authorsShort || "Bernhardt Lab publication")}</p>
+        <div class="publication-meta">
+          <span>${escapeHtml(item.journal || item.sourceLabel)}</span>
+          ${item.year ? `<span>${escapeHtml(item.year)}</span>` : ""}
+          ${item.pmid ? `<span>PMID ${escapeHtml(item.pmid)}</span>` : ""}
         </div>
       </article>
     `
     )
     .join("");
-  if (researchMotionSourceNote) {
-    researchMotionSourceNote.textContent = state.researchInMotionSource || "Verified Bernhardt-lab paper tiles";
+
+  if (publicationsSourceNote) {
+    publicationsSourceNote.textContent = sourceNoteText || "Auto-refreshed weekly • Bernhardt TG last-author papers from PubMed";
   }
-  observeRevealTargets(mediaGrid);
+  observeRevealTargets(recentPublicationsRoot);
+}
+
+async function refreshRecentPublications() {
+  if (!recentPublicationsRoot) return;
+
+  const loadingState = [
+    {
+      title: "Loading recent publications…",
+      articleUrl: RECENT_PUBLICATIONS_QUERY_URL,
+      authorsShort: "Fetching Bernhardt TG last-author papers from PubMed.",
+      journal: "PubMed",
+      year: "",
+      pmid: ""
+    }
+  ];
+  renderRecentPublications(loadingState, "Loading latest PubMed entries…");
+
+  try {
+    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timeoutId = controller
+      ? window.setTimeout(() => {
+          controller.abort();
+        }, RECENT_PUBLICATIONS_FETCH_TIMEOUT_MS)
+      : null;
+
+    let response;
+    try {
+      response = await fetch(RECENT_PUBLICATIONS_FEED_URL, {
+        method: "GET",
+        headers: { Accept: "application/json" },
+        cache: "default",
+        signal: controller ? controller.signal : undefined
+      });
+    } finally {
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+    }
+
+    if (!response.ok) throw new Error(`Publication feed request failed (${response.status})`);
+    const payload = await response.json();
+    const publications = normalizePublicationPayload(payload);
+    if (!publications.length) throw new Error("Publication feed is empty.");
+    renderRecentPublications(publications, formatRecentPublicationsSource(payload));
+  } catch {
+    renderRecentPublications([], "Publication feed unavailable. Please check back shortly.");
+  }
 }
 
 function renderResearch() {
@@ -1014,57 +999,6 @@ function renderBigQuestions() {
   updateToggle();
   setQuestion(state.questionIndex);
   startRotation(false);
-}
-
-async function refreshResearchInMotion() {
-  const cached = readResearchInMotionCache();
-  if (cached) {
-    state.researchInMotion = cached.items;
-    state.researchInMotionSource = formatResearchInMotionSource(cached.manifest);
-  } else {
-    state.researchInMotion = [];
-    state.researchInMotionSource = "Fetching verified Bernhardt corresponding-author papers…";
-  }
-  renderMedia();
-
-  try {
-    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
-    const timeoutId = controller
-      ? window.setTimeout(() => {
-          controller.abort();
-        }, RESEARCH_IN_MOTION_FETCH_TIMEOUT_MS)
-      : null;
-
-    let response;
-    try {
-      response = await fetch(RESEARCH_IN_MOTION_MANIFEST_URL, {
-        method: "GET",
-        headers: { Accept: "application/json" },
-        cache: "default",
-        signal: controller ? controller.signal : undefined
-      });
-    } finally {
-      if (timeoutId !== null) window.clearTimeout(timeoutId);
-    }
-    if (!response.ok) throw new Error(`Manifest request failed (${response.status})`);
-    const payload = await response.json();
-    const normalized = normalizeResearchInMotionPayload(payload);
-
-    if (!normalized.length) {
-      throw new Error("Manifest did not provide any verified Research in Motion entries.");
-    }
-
-    writeResearchInMotionCache(payload);
-    state.researchInMotion = normalized;
-    state.researchInMotionSource = formatResearchInMotionSource(payload);
-    renderMedia();
-  } catch {
-    if (!cached) {
-      state.researchInMotion = [];
-      state.researchInMotionSource = "Verified paper feed temporarily unavailable; refresh in progress.";
-      renderMedia();
-    }
-  }
 }
 
 function renderRoleFilters() {
@@ -1885,7 +1819,7 @@ async function initializePage() {
   applyInitialScrollPosition();
   renderBigQuestions();
   renderResearch();
-  renderMedia();
+  await refreshRecentPublications();
   renderRoleFilters();
   renderPeople();
   renderGallery();
@@ -1897,7 +1831,6 @@ async function initializePage() {
   setupScrollDynamics();
   setupCollaboratorCarousel();
   setupHeroSlideshow();
-  await refreshResearchInMotion();
 }
 
 initializePage();
