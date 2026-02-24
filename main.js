@@ -100,7 +100,12 @@ const galleryItems = [
   },
   {
     title: "Apple orchard group photo, fall 2025",
-    image: "assets/images/gallery/apple-orchard-group-2025.jpg"
+    image: "assets/images/gallery/apple-orchard-group-2025-corrected.jpg",
+    displayFilter: "brightness(1.22) contrast(1.13) saturate(1.14)"
+  },
+  {
+    title: "Apple orchard wagon ride, fall 2025",
+    image: "assets/images/gallery/apple-orchard-wagon-2025.jpg"
   },
   {
     title: "Bernhardt lab beer hour, spring 2024",
@@ -724,7 +729,7 @@ function normalizePublicationPayload(payload) {
   return normalized.slice(0, RECENT_PUBLICATIONS_TARGET_COUNT);
 }
 
-function openLightbox(imageUrl, title) {
+function openLightbox(imageUrl, title, displayFilter = "none") {
   if (typeof lightbox.showModal !== "function") {
     window.open(imageUrl, "_blank", "noreferrer");
     return;
@@ -732,6 +737,7 @@ function openLightbox(imageUrl, title) {
 
   lightboxImage.src = imageUrl;
   lightboxImage.alt = title;
+  lightboxImage.style.filter = displayFilter || "none";
   lightboxCaption.textContent = title;
   lightbox.showModal();
 }
@@ -1143,9 +1149,11 @@ function renderGallery() {
 
     activeImage.src = resolvedImage;
     activeImage.alt = item.title;
+    activeImage.style.filter = item.displayFilter || "none";
     activeCaption.textContent = item.title;
     activeImage.dataset.image = resolvedImage;
     activeImage.dataset.title = item.title;
+    activeImage.dataset.displayFilter = item.displayFilter || "none";
     activeImage.setAttribute("aria-label", `Open ${item.title} in full view`);
 
     dots.querySelectorAll(".gallery-dot").forEach((dot, index) => {
@@ -1184,13 +1192,13 @@ function renderGallery() {
   });
 
   activeImage.addEventListener("click", () => {
-    openLightbox(activeImage.dataset.image, activeImage.dataset.title);
+    openLightbox(activeImage.dataset.image, activeImage.dataset.title, activeImage.dataset.displayFilter || "none");
   });
 
   activeImage.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      openLightbox(activeImage.dataset.image, activeImage.dataset.title);
+      openLightbox(activeImage.dataset.image, activeImage.dataset.title, activeImage.dataset.displayFilter || "none");
     }
   });
 
