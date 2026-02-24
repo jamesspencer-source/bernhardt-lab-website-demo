@@ -15,7 +15,7 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260223c" />
+    <link rel="stylesheet" href="styles.css?v=20260224a" />
     <link rel="stylesheet" href="envelope-escape.css?v=20260223a" />
   </head>
   <body>
@@ -194,6 +194,9 @@
             <p class="eyebrow">Team</p>
             <h2>Meet the team.</h2>
           </div>
+          <p class="team-directory-cta reveal">
+            <a class="button button-primary team-directory-button" href="people.html">Browse full team directory</a>
+          </p>
 
           <div class="directory-controls reveal">
             <label class="search-wrap" for="people-search">
@@ -204,9 +207,22 @@
                 type="search"
                 placeholder="Search team"
                 autocomplete="off"
+                aria-label="Search team members by name, role, or research interest"
               />
             </label>
             <div id="role-filters" class="role-filters" role="tablist" aria-label="Filter team members"></div>
+          </div>
+
+          <div id="team-fallback" class="team-fallback reveal">
+            <p class="team-fallback-label">Quick team links</p>
+            <ul class="team-fallback-list">
+              <li><a href="thomas-bernhardt.html">Thomas Bernhardt</a><span>Principal Investigator</span></li>
+              <li><a href="james.html">James Spencer</a><span>Laboratory Manager</span></li>
+              <li><a href="betsy-hart.html">Betsy Hart</a><span>Postdoctoral Fellow</span></li>
+              <li><a href="kathy-suarez.html">Kathy Suarez</a><span>BBS Graduate Student</span></li>
+              <li><a href="tien-nguyen.html">Tien Nguyen</a><span>Graduate Student</span></li>
+              <li><a href="ophelialee.html">Ophelia Lee</a><span>BBS Graduate Student</span></li>
+            </ul>
           </div>
 
           <div id="people-grid" class="people-grid" aria-live="polite"></div>
@@ -236,18 +252,7 @@
               <span>Antibiotic mechanism</span>
               <span>High-priority pathogens</span>
             </div>
-            <div class="research-marquee-track" aria-hidden="true">
-              <span>Microbial genetics</span>
-              <span>Division-site architecture</span>
-              <span>Peptidoglycan synthesis</span>
-              <span>Live-cell microscopy</span>
-              <span>Cryo-EM + Cryo-ET</span>
-              <span>Envelope stress signaling</span>
-              <span>Antibiotic mechanism</span>
-              <span>High-priority pathogens</span>
-            </div>
           </div>
-          <p class="research-marquee-note reveal">Informational topics (not filters).</p>
           <section class="question-shell reveal" aria-labelledby="question-shell-title">
             <div class="question-shell-head">
               <p class="eyebrow">Big Questions</p>
@@ -303,7 +308,7 @@
                   mechanisms matter for antimicrobial strategy.
                 </p>
                 <p class="video-access-note">
-                  Captions are enabled in the player. A transcript is available on the YouTube watch page.
+                  Captions are enabled in the player.
                 </p>
                 <a
                   class="media-source media-source-pill"
@@ -314,6 +319,26 @@
                 >
               </div>
             </article>
+            <details class="video-transcript reveal">
+              <summary>Read video transcript</summary>
+              <div class="video-transcript-body">
+                <p>
+                  The Bernhardt Lab investigates how bacteria build, maintain, and remodel their cell envelopes during
+                  growth and division. The video highlights live-cell microscopy and genetics approaches used to map
+                  where and when envelope machinery is active.
+                </p>
+                <p>
+                  It explains how coupling synthesis with regulated hydrolysis is essential for accurate cytokinesis,
+                  how stress-response pathways protect envelope integrity, and why these mechanisms create opportunities
+                  to identify vulnerable nodes for antibiotic development.
+                </p>
+                <p>
+                  The featured examples span model organisms and clinically important pathogens, connecting basic
+                  envelope biology to broader antimicrobial strategy and resistance-focused research.
+                </p>
+                <p class="video-transcript-meta">Transcript reviewed February 24, 2026.</p>
+              </div>
+            </details>
             <div class="media-tags reveal" aria-label="Imaging modes">
               <span>Live-cell dynamics</span>
               <span>Fluorescence architecture</span>
@@ -328,8 +353,11 @@
         <div class="container">
           <div class="section-head reveal">
             <p class="eyebrow">Publication Archive</p>
-            <h2>Full Bernhardt Lab bibliography.</h2>
+            <h2>Selected Bernhardt Lab Publications</h2>
           </div>
+          <p class="section-intro reveal">
+            A curated set of recent and representative studies with short plain-language context.
+          </p>
           <div id="recent-publications" class="publication-list" aria-live="polite"></div>
           <p class="publication-actions reveal">
             <a
@@ -363,7 +391,11 @@
             <a class="button button-primary" href="alumni.html">Browse Full Alumni Directory</a>
           </p>
           <p class="publication-footnote reveal">
-            Roles are based on publicly listed institutional profiles (updated February 19, 2026).
+            Roles are based on Bernhardt lab records and public institutional profiles (updated February 19, 2026).
+            <a
+              href="mailto:thomas_bernhardt@hms.harvard.edu?subject=Alumni%20directory%20update%20or%20removal%20request"
+              >Request an update or removal</a
+            >.
           </p>
         </div>
       </section>
@@ -378,7 +410,7 @@
               Harvard Medical School<br />
               Boston, MA 02115
             </p>
-            <p>Email: thomas_bernhardt@hms.harvard.edu</p>
+            <p>Email: thomas_bernhardt [at] hms.harvard.edu</p>
             <a class="button button-primary" href="mailto:thomas_bernhardt@hms.harvard.edu">Contact The Lab</a>
             <div class="map-wrap">
               <iframe
@@ -656,7 +688,7 @@
     </dialog>
 
     <script src="alumni-data.js"></script>
-    <script src="main.js?v=20260223c"></script>
+    <script src="main.js?v=20260224a"></script>
     <script src="envelope-escape-config.js?v=20260221af"></script>
     <script src="envelope-escape.js?v=20260223a"></script>
   </body>

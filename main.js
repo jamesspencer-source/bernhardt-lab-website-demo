@@ -30,10 +30,74 @@ const researchThemes = [
 ];
 
 const IS_FLAT_BUILD = !document.querySelector('link[href^="assets/styles.css"]');
-const RECENT_PUBLICATIONS_FEED_URL = IS_FLAT_BUILD ? "recent-publications.json" : "assets/data/recent-publications.json";
-const RECENT_PUBLICATIONS_TARGET_COUNT = 5;
-const RECENT_PUBLICATIONS_FETCH_TIMEOUT_MS = 9000;
-const RECENT_PUBLICATIONS_QUERY_URL = "https://pubmed.ncbi.nlm.nih.gov/?sort=date&term=Bernhardt%20TG%5BAuthor%5D";
+const curatedPublications = [
+  {
+    pmid: "39992125",
+    doi: "10.1128/mbio.03950-24",
+    title:
+      "Using fluorescently labeled wheat germ agglutinin to track lipopolysaccharide transport to the outer membrane in Escherichia coli",
+    journal: "mBio",
+    year: "2025",
+    why: "Introduces a direct live-cell readout for lipopolysaccharide trafficking into the outer membrane."
+  },
+  {
+    pmid: "39904311",
+    doi: "10.1016/j.cub.2024.11.002",
+    title: "The mycomembrane",
+    journal: "Current Biology",
+    year: "2025",
+    why: "Summarizes key architectural principles of the mycomembrane and where mechanism-level gaps remain."
+  },
+  {
+    pmid: "38829907",
+    doi: "10.1371/journal.pgen.1011127",
+    title: "The conserved σD envelope stress response monitors multiple aspects of envelope integrity in corynebacteria",
+    journal: "PLOS Genetics",
+    year: "2024",
+    why: "Shows how a conserved stress pathway surveils multiple envelope failure points in corynebacteria."
+  },
+  {
+    pmid: "38718542",
+    doi: "10.1016/j.mib.2024.102479",
+    title: "Co-ordinated assembly of the multilayered cell envelope of Gram-negative bacteria",
+    journal: "Current Opinion in Microbiology",
+    year: "2024",
+    why: "Frames envelope assembly as a coordinated multilayer process relevant to antibiotic vulnerability."
+  },
+  {
+    pmid: "38443581",
+    doi: "10.1038/s41564-024-01607-y",
+    title: "FacZ is a GpsB-interacting protein that prevents aberrant division-site placement in Staphylococcus aureus",
+    journal: "Nature Microbiology",
+    year: "2024",
+    why: "Identifies FacZ as a spatial regulator that prevents misplaced division events in Staphylococcus aureus."
+  },
+  {
+    pmid: "37886572",
+    doi: "10.1128/mbio.01847-23",
+    title: "PcdA recruitment during cytokinesis",
+    journal: "mBio",
+    year: "2023",
+    why: "Highlights division-stage localization behavior for the PcdA pathway during septal envelope remodeling."
+  },
+  {
+    pmid: "37162900",
+    doi: "10.1101/2023.04.24.538170",
+    title: "Identification of FacZ as a division site placement factor in Staphylococcus aureus",
+    journal: "bioRxiv",
+    year: "2023",
+    why: "Establishes FacZ as a new division-site placement factor and motivated subsequent mechanistic studies."
+  },
+  {
+    pmid: "36097171",
+    doi: "10.1038/s41564-022-01210-z",
+    title:
+      "Cell wall synthesis and remodelling dynamics determine division site architecture and cell shape in Escherichia coli",
+    journal: "Nature Microbiology",
+    year: "2022",
+    why: "Connects real-time synthesis and hydrolysis dynamics to division geometry and cell-shape control."
+  }
+];
 
 const bigQuestions = [
   {
@@ -611,11 +675,11 @@ const recentPublicationsRoot = document.getElementById("recent-publications");
 const peopleGrid = document.getElementById("people-grid");
 const roleFilters = document.getElementById("role-filters");
 const peopleCount = document.getElementById("people-count");
+const teamFallback = document.getElementById("team-fallback");
 const galleryRoot = document.getElementById("gallery-grid");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const lightboxCaption = document.getElementById("lightbox-caption");
-const publicationsSourceNote = document.getElementById("publications-source-note");
 let galleryTimer = null;
 let alumniTimer = null;
 let revealObserver = null;
@@ -673,62 +737,6 @@ function resolveImagePath(path) {
   return segments[segments.length - 1] || value;
 }
 
-function getPublicationIdentifier(item) {
-  const pmid = cleanText(item?.pmid || "");
-  const doi = cleanText(item?.doi || "").toLowerCase();
-  if (pmid) return `pmid:${pmid}`;
-  if (doi) return `doi:${doi}`;
-  return `title:${cleanText(item?.title || "").toLowerCase()}`;
-}
-
-function normalizePublicationRecord(item) {
-  const pmid = cleanText(item?.pmid || "");
-  const doi = cleanText(item?.doi || "");
-  const title = cleanText(item?.title || "").replace(/\.$/, "");
-  const journal = cleanText(item?.journal || "");
-  const year = cleanText(item?.year || "");
-  const pubDate = cleanText(item?.pubDate || "");
-  const authorsShort = cleanText(item?.authorsShort || "");
-  const sourceLabel =
-    cleanText(item?.sourceLabel || [journal, year].filter(Boolean).join(" · ")) || "Bernhardt Lab publication";
-  const articleUrl =
-    cleanText(item?.articleUrl || "") ||
-    (doi ? `https://doi.org/${doi}` : pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/` : "");
-  const id = getPublicationIdentifier(item);
-
-  if (!title || !articleUrl || !id) return null;
-
-  return {
-    id,
-    pmid,
-    doi,
-    title,
-    journal,
-    year,
-    pubDate,
-    authorsShort,
-    sourceLabel,
-    articleUrl
-  };
-}
-
-function normalizePublicationPayload(payload) {
-  const rawItems = Array.isArray(payload) ? payload : payload?.items;
-  if (!Array.isArray(rawItems)) return [];
-  const seen = new Set();
-  const normalized = [];
-
-  rawItems.forEach((item) => {
-    const parsed = normalizePublicationRecord(item);
-    if (!parsed) return;
-    if (seen.has(parsed.id)) return;
-    seen.add(parsed.id);
-    normalized.push(parsed);
-  });
-
-  return normalized.slice(0, RECENT_PUBLICATIONS_TARGET_COUNT);
-}
-
 function openLightbox(imageUrl, title, displayFilter = "none") {
   if (typeof lightbox.showModal !== "function") {
     window.open(imageUrl, "_blank", "noreferrer");
@@ -742,36 +750,21 @@ function openLightbox(imageUrl, title, displayFilter = "none") {
   lightbox.showModal();
 }
 
-function renderRecentPublications(items) {
+function renderRecentPublications() {
   if (!recentPublicationsRoot) return;
-
-  if (!items.length) {
-    recentPublicationsRoot.innerHTML = `
-      <ol class="publication-archive-list reveal">
-        <li class="publication-archive-item">
-          <p class="publication-archive-title">Recent publications are temporarily unavailable.</p>
-          <p class="publication-archive-citation">Please use the complete PubMed publication list below.</p>
-        </li>
-      </ol>
-    `;
-    if (publicationsSourceNote) {
-      publicationsSourceNote.textContent = "";
-    }
-    observeRevealTargets(recentPublicationsRoot);
-    return;
-  }
 
   recentPublicationsRoot.innerHTML = `
     <ol class="publication-archive-list reveal">
-      ${items
+      ${curatedPublications
         .map(
           (item) => `
         <li class="publication-archive-item">
-          <a class="publication-archive-title" href="${escapeHtml(item.articleUrl)}" target="_blank" rel="noreferrer">
+          <a class="publication-archive-title" href="${escapeHtml(item.doi ? `https://doi.org/${item.doi}` : `https://pubmed.ncbi.nlm.nih.gov/${item.pmid}/`)}" target="_blank" rel="noreferrer">
             ${formatSpeciesAwareText(item.title)}
           </a>
+          <p class="publication-archive-why">${formatSpeciesAwareText(item.why)}</p>
           <p class="publication-archive-citation">
-            ${formatSpeciesAwareText(item.authorsShort || "Bernhardt Lab publication")} • ${formatSpeciesAwareText(item.journal || item.sourceLabel)}${item.year ? ` (${escapeHtml(item.year)})` : ""}${item.pmid ? ` • PMID ${escapeHtml(item.pmid)}` : ""}
+            ${formatSpeciesAwareText(item.journal)}${item.year ? ` (${escapeHtml(item.year)})` : ""}
           </p>
         </li>
       `
@@ -779,56 +772,7 @@ function renderRecentPublications(items) {
         .join("")}
     </ol>
   `;
-
-  if (publicationsSourceNote) {
-    publicationsSourceNote.textContent = "";
-  }
   observeRevealTargets(recentPublicationsRoot);
-}
-
-async function refreshRecentPublications() {
-  if (!recentPublicationsRoot) return;
-
-  const loadingState = [
-    {
-      title: "Loading recent publications…",
-      articleUrl: RECENT_PUBLICATIONS_QUERY_URL,
-      authorsShort: "Fetching Bernhardt TG last-author papers from PubMed.",
-      journal: "PubMed",
-      year: "",
-      pmid: ""
-    }
-  ];
-  renderRecentPublications(loadingState, "Loading latest PubMed entries…");
-
-  try {
-    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
-    const timeoutId = controller
-      ? window.setTimeout(() => {
-          controller.abort();
-        }, RECENT_PUBLICATIONS_FETCH_TIMEOUT_MS)
-      : null;
-
-    let response;
-    try {
-      response = await fetch(RECENT_PUBLICATIONS_FEED_URL, {
-        method: "GET",
-        headers: { Accept: "application/json" },
-        cache: "default",
-        signal: controller ? controller.signal : undefined
-      });
-    } finally {
-      if (timeoutId !== null) window.clearTimeout(timeoutId);
-    }
-
-    if (!response.ok) throw new Error(`Publication feed request failed (${response.status})`);
-    const payload = await response.json();
-    const publications = normalizePublicationPayload(payload);
-    if (!publications.length) throw new Error("Publication feed is empty.");
-    renderRecentPublications(publications);
-  } catch {
-    renderRecentPublications([]);
-  }
 }
 
 function renderResearch() {
@@ -1070,6 +1014,9 @@ function filteredPeople() {
 
 function renderPeople() {
   if (!peopleGrid || !peopleCount) return;
+  if (teamFallback && !teamFallback.hasAttribute("hidden")) {
+    teamFallback.setAttribute("hidden", "");
+  }
   const matches = filteredPeople();
 
   if (matches.length === 0) {
@@ -1868,7 +1815,7 @@ async function initializePage() {
   applyInitialScrollPosition();
   renderBigQuestions();
   renderResearch();
-  await refreshRecentPublications();
+  renderRecentPublications();
   renderRoleFilters();
   renderPeople();
   renderGallery();

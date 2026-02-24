@@ -3134,3 +3134,152 @@ body.is-scrolled .site-header {
   min-height: 2.8rem;
   box-shadow: 0 14px 26px rgba(130, 28, 44, 0.38);
 }
+
+.team-directory-cta {
+  margin: 0 0 0.9rem;
+}
+
+.team-directory-button {
+  min-height: 2.85rem;
+  padding-inline: 1.3rem;
+}
+
+.team-fallback {
+  margin: 0 0 0.9rem;
+  border: 1px solid rgba(220, 224, 235, 0.24);
+  border-radius: var(--radius-md);
+  background: rgba(31, 35, 44, 0.7);
+  padding: 0.8rem 0.9rem;
+}
+
+.team-fallback[hidden] {
+  display: none;
+}
+
+.team-fallback-label {
+  margin: 0 0 0.45rem;
+  color: var(--text-mid);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.team-fallback-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.42rem;
+}
+
+.team-fallback-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.42rem;
+}
+
+.team-fallback-list a {
+  color: var(--text-high);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.team-fallback-list a:hover,
+.team-fallback-list a:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.16em;
+}
+
+.team-fallback-list span {
+  color: var(--text-low);
+  font-size: 0.84rem;
+}
+
+.research-marquee {
+  margin: 0 0 1rem;
+  display: block;
+  overflow: visible;
+  padding: 0;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.research-marquee-track {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.58rem;
+  animation: none;
+}
+
+.research-marquee-track span {
+  cursor: default;
+  pointer-events: none;
+}
+
+.video-transcript {
+  margin: 0.9rem 0 0;
+  border: 1px solid rgba(220, 224, 235, 0.26);
+  border-radius: 14px;
+  background: rgba(31, 35, 44, 0.72);
+}
+
+.video-transcript summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.64rem 0.82rem;
+  color: var(--text-high);
+  font-weight: 700;
+}
+
+.video-transcript summary::-webkit-details-marker {
+  display: none;
+}
+
+.video-transcript summary::after {
+  content: "+";
+  float: right;
+  color: var(--text-mid);
+}
+
+.video-transcript[open] summary::after {
+  content: "\2212";
+}
+
+.video-transcript-body {
+  border-top: 1px solid rgba(220, 224, 235, 0.18);
+  padding: 0.72rem 0.82rem 0.82rem;
+  display: grid;
+  gap: 0.56rem;
+}
+
+.video-transcript-body p {
+  margin: 0;
+  color: #dfe5ef;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.video-transcript-meta {
+  color: var(--text-low) !important;
+  font-size: 0.8rem !important;
+}
+
+.publication-archive-item {
+  display: grid;
+  gap: 0.38rem;
+}
+
+.publication-archive-why {
+  margin: 0;
+  color: #e5e9f2;
+  font-size: 0.9rem;
+  line-height: 1.46;
+}
+
+.publication-archive-button {
+  min-width: min(100%, 420px);
+  font-size: 1rem;
+  min-height: 2.95rem;
+  padding-inline: 1.35rem;
+}
