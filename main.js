@@ -1616,7 +1616,7 @@ function setupCollaboratorCarousel() {
 }
 
 
-function setupHeroSlideshow( {
+function setupHeroSlideshow() {
   const hero = document.querySelector(".hero");
   if (!hero) return;
 
