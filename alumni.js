@@ -124,7 +124,7 @@ const deduped = (() => {
       roleInLab: roleInLab || existing?.roleInLab || "",
       currentRole: currentRole || existing?.currentRole || "",
       labDates: labDates || existing?.labDates || "",
-      sourceLabel: clean(entry.source || "Bernhardt Lab records")
+      sourceLabel: (clean(entry.source || "Bernhardt lab records").toLowerCase() === "bernhardt lab records" ? "Bernhardt lab records" : clean(entry.source || "Bernhardt lab records"))
     };
 
     map.set(name, normalized);
@@ -237,7 +237,10 @@ function renderAlumniDirectory() {
         <p class="alumni-role"><strong>Role in lab:</strong> ${entry.roleInLab || "Former lab member"}</p>
         ${entry.labDates ? `<p class="alumni-role"><strong>Lab dates:</strong> ${entry.labDates}</p>` : ""}
         <p class="alumni-current"><strong>Current / latest role:</strong> ${entry.currentRole || "Role update pending"}</p>
-        <p class="alumni-source">${entry.verified ? `Source: ${entry.verifiedSource}` : `Source: ${entry.sourceLabel}`}</p>
+        <p class="alumni-source"><strong>Source:</strong> ${entry.sourceLabel || "Bernhardt lab records"}</p>
+        ${entry.profileUrl
+          ? `<p class="alumni-source"><strong>Verified by:</strong> <a class="alumni-inline-link" href="${entry.profileUrl}" target="_blank" rel="noreferrer">${entry.verifiedSource || "Institutional profile"}</a></p>`
+          : `<p class="alumni-source"><strong>External verification:</strong> not available</p>`}
         <div class="alumni-links">
           <a class="alumni-link" href="${entry.localProfileUrl}">Open alumni profile</a>
           ${entry.profileUrl ? `<a class="alumni-link" href="${entry.profileUrl}" target="_blank" rel="noreferrer">View current institutional profile</a>` : ""}

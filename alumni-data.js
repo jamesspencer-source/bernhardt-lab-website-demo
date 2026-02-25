@@ -4,427 +4,427 @@ const rawAlumni =
       "current_role": "",
       "name": "Alison Forchoh",
       "role_in_lab": "undergraduate research assistant",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2022-2023"
    },
    {
       "current_role": "PhD student, Collet Lab, Institut de Duve, UCLouvain, Belgium",
       "name": "Alix Dachsbeck",
       "role_in_lab": "visiting master's student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2022"
    },
    {
       "name": "Amanda Nazareth",
       "role_in_lab": "undergraduate lab assistant",
       "current_role": "Undergraduate student, Emmanuel College",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2023-2024"
    },
    {
       "current_role": "Principal Investigator, McKitterick Lab - UMass Chan Medical School",
       "name": "Amelia McKitterick",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2019-2025"
    },
    {
       "current_role": "Lab director, Seth Bordenstein Lab, Penn State University",
       "name": "Anastasiya Yakhnina",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2013-2019"
    },
    {
       "current_role": "Principal investigator, Vettiger Lab, Department of Fundamental Microbiology, University of Lausanne, Switzerland",
       "name": "Andrea Vettiger",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2019-2024"
    },
    {
       "current_role": "Lecturer, University of Sheffield",
       "name": "Andrew Fenton",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2013-2016"
    },
    {
       "current_role": "Professor of Molecular Microbiology, Imperial College London",
       "name": "Angelika Grundling",
       "role_in_lab": "professor visiting on sabbatical",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "Sep 2023 - Aug 2024"
    },
    {
       "current_role": "University of Copenhagen, Denmark",
       "name": "Camilla Jensen",
       "role_in_lab": "visiting postdoctoral researcher",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2022"
    },
    {
       "current_role": "Consultant, ClearView Healthcare Partners, Newton, MA",
       "name": "Caroline Midonet",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2017-2023"
    },
    {
       "current_role": "Assistant professor, University of Montreal",
       "name": "Catherine Paradis-Bleau",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2008-2015"
    },
    {
       "name": "Celeste Peterson",
       "role_in_lab": "professor visiting on sabbatical",
       "current_role": "Associate Professor, Suffolk University",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2022"
    },
    {
       "current_role": "Assistant Professor, National University of Singapore",
       "name": "Chris Lok-To Sham",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2012-2019"
    },
    {
       "name": "Clay Fuqua",
       "role_in_lab": "professor visiting on sabbatical",
       "current_role": "Professor, Indiana University Bloomington",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2018-2019"
    },
    {
       "current_role": "Group leader, University of Lausanne, Switzerland",
       "name": "Coralie Fumeaux",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2014-2019"
    },
    {
       "name": "Dae Gon Ha",
       "role_in_lab": "postdoctoral fellow",
       "current_role": "Director, Biotechnology Equity Research, Stifel Financial Corp",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2014-2015"
    },
    {
       "name": "Danaed Lazo",
       "role_in_lab": "undergraduate lab assistant",
       "current_role": "Undergraduate student, Northeastern University",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2023-2024"
    },
    {
       "current_role": "Lecturer in residence, Department of Biology, Emmanuel College",
       "name": "Derek Lau",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2012-2016"
    },
    {
       "current_role": "Postdoctoral fellow, Fred Hutchinson Cancer Center",
       "name": "Desiree Yang",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2005-2012"
    },
    {
       "current_role": "Postdoctoral research fellow, Massachusetts Institute of Technology, Cambridge, MA",
       "name": "Elayne Fivenson",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2018-2024"
    },
    {
       "current_role": "MD student",
       "name": "Evan Lyerly",
       "role_in_lab": "research technician",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2021-2023"
    },
    {
       "current_role": "Postdoctoral fellow, National University of Singapore",
       "name": "Ghee Chuan Lai",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2010-2016"
    },
    {
       "current_role": "Graduate student, University of California, Los Angeles",
       "name": "Grasiela Torres",
       "role_in_lab": "undergraduate research assistant",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2016-2021"
    },
    {
       "name": "Heather Rose McManus",
       "role_in_lab": "postdoctoral fellow",
       "current_role": "Director of Operations, Watertown Community Foundation",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2012-2013"
    },
    {
       "current_role": "Assistant professor, Department of Biological Sciences, Sungkyunkwan University, South Korea",
       "name": "Hongbaek Cho",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2010 (est.)-2018"
    },
    {
       "current_role": "Senior Scientist, Manifold Biotechnologies",
       "name": "Hoong Chuin Lim",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2014-2020"
    },
    {
       "current_role": "Scientist, New England Biolabs",
       "name": "Jackson Buss",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2014-2019"
    },
    {
       "current_role": "Medical student, Harvard Medical School",
       "name": "Jeanna Qiu",
       "role_in_lab": "undergraduate research assistant",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2017-2020"
    },
    {
       "current_role": "CPEP clinical microbiology fellow, University of Rochester",
       "name": "Jessica Borhunter",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2015-2019"
    },
    {
       "current_role": "Computational Scientist, TScan Therapeutics",
       "name": "Joel Sher",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2018-2021"
    },
    {
       "current_role": "Principal investigator, Flores-Kim Lab, UMass Chan Medical School",
       "name": "Josue Flores-Kim",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2017-2022"
    },
    {
       "current_role": "Principal investigator, Hummels Lab, University of Georgia, Athens, GA",
       "name": "Kate Hummels",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2019-2023"
    },
    {
       "name": "Kevin Scott Bonham",
       "role_in_lab": "Lecturer on Microbiology and Immunobiology",
       "current_role": "Assistant Professor, Tufts University School of Medicine",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2014-2017"
    },
    {
       "current_role": "Postdoctoral fellow, Pasteur Institute",
       "name": "Lamya El Mortaji",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2011-2012"
    },
    {
       "current_role": "",
       "name": "Laurent Dubois",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2018-2025"
    },
    {
       "current_role": "Principal investigator, McMaster University, Hamilton, Ontario",
       "name": "Lindsey Marmont",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2018-2025"
    },
    {
       "current_role": "Senior Scientist, Evolved By Nature",
       "name": "Marios Sardis",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2018-2021"
    },
    {
       "current_role": "Postdoctoral fellow, MIT",
       "name": "Mary-Jane Tsang",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2010-2016"
    },
    {
       "current_role": "Graduate student, Johns Hopkins University",
       "name": "Matt Siebel",
       "role_in_lab": "research technician",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2021-2023"
    },
    {
       "current_role": "Military, US Department of Defense",
       "name": "Melanie Justice",
       "role_in_lab": "undergraduate research assistant",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2022-2024"
    },
    {
       "current_role": "",
       "name": "Melissa Robinson",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": ""
    },
    {
       "current_role": "HST MD student, Harvard Medical School",
       "name": "Michael Tom",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2017-2018"
    },
    {
       "current_role": "Staff fellow, FDA",
       "name": "Monica Markovski",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2006-2012"
    },
    {
       "current_role": "Director of Medical Laboratory Science Undergraduate Program and Clinical Assistant Professor, University of Rhode Island",
       "name": "Neil Greene",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2015-2017"
    },
    {
       "current_role": "Associate Professor, Iowa State University",
       "name": "Nick Peters",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2010-2015"
    },
    {
       "current_role": "Graduate student, University of Minnesota",
       "name": "Nicole Marquez Reyes",
       "role_in_lab": "post-baccalaureate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2020-2021"
    },
    {
       "current_role": "Postdoctoral fellow, Baylor College of Medicine",
       "name": "Patty Rohs",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2015-2019"
    },
    {
       "current_role": "Principal investigator, Navarro Lab, Department of Fundamental Microbiology, University of Lausanne, Switzerland",
       "name": "Paula Navarro",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2023-2024"
    },
    {
       "current_role": "Technology specialist at Clark+Elbing LLP",
       "name": "Rachel Yunck",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2010-2016"
    },
    {
       "current_role": "Master's student in Public Health, Tulane University",
       "name": "Simosenkosi Nkomboni",
       "role_in_lab": "research technician",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2019-2020"
    },
    {
       "current_role": "",
       "name": "Su Yee Mon",
       "role_in_lab": "undergraduate lab assistant",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2022-2024"
    },
    {
       "current_role": "Graduate student, University of California, Berkeley",
       "name": "Sue Sim",
       "role_in_lab": "research associate",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2016-2018"
    },
    {
       "current_role": "CPEP Medical Microbiology and Public Health postdoctoral fellow, Children's Hospital Los Angeles / University of Southern California",
       "name": "Thao Truong",
       "role_in_lab": "graduate student",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2016-2020"
    },
    {
       "current_role": "Principal investigator, Bartlett Lab, Wadsworth Center, Albany, NY",
       "name": "Thomas Bartlett",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2017-2024"
    },
    {
       "current_role": "physician's assistant",
       "name": "Thuy Dinh",
       "role_in_lab": "technician",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": ""
    },
    {
       "name": "Timothy M Wannier",
       "role_in_lab": "research technician",
       "current_role": "Founder and CEO, Wild Microbes",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2022-2023"
    },
    {
       "current_role": "Senior member of technical staff, Draper Laboratory, Cambridge",
       "name": "Ting Pang",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2011-2018"
    },
    {
       "current_role": "Undergraduate student, Harvard University",
       "name": "Triet Doan",
       "role_in_lab": "undergraduate researcher",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2021-2022"
    },
    {
       "current_role": "Lab Head in Antibacterial Discovery, Novartis Institutes for Biomedical Research",
       "name": "Tsuyoshi Uehara",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2007-2011"
    },
    {
       "current_role": "",
       "name": "Zabari Bell",
       "role_in_lab": "post-baccalaureate fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2022-2024"
    },
    {
       "current_role": "Senior Scientist, Immunology, Tango Therapeutics, Boston, MA",
       "name": "Zhaoqi Li",
       "role_in_lab": "postdoctoral fellow",
-      "source": "Bernhardt Lab records",
+      "source": "Bernhardt lab records",
       "lab_dates": "2021-2022"
    }
 ]

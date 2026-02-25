@@ -293,8 +293,8 @@ const rawPeople = [
    {
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1553173916977-5MWVESOJ7KKQ89GK4ORT/James_spencer.jpg",
       "bio" : "Research operations lead for the Bernhardt and Abraham HHMI labs at HMS, overseeing finance, hiring, procurement, compliance, and lab infrastructure, and supporting HMS Community Phages.",
-      "role" : "Howard Hughes Medical Institute",
-      "profile" : "/james",
+      "role" : "Laboratory Manager, Thomas Bernhardt Lab",
+      "profile" : "/james-spencer",
       "name" : "James Spencer",
       "email" : "James_Spencer{at}hms.harvard.edu"
    },
@@ -318,7 +318,7 @@ const rawPeople = [
       "name" : "Johnathan Kepple",
       "email" : "johnathankepple{at}g.harvard.edu",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1630526847138-E1T99QXT1Q4VOQUWKO0I/IMG_0508.jpg",
-      "bio" : "The general aim of my research is to understand the regulation of cell wall synthesis in the gram negative bacteria pseudomonas aeruginosa.",
+      "bio" : "The general aim of my research is to understand the regulation of cell wall synthesis in the Gram-negative bacterium Pseudomonas aeruginosa.",
       "role" : "BPH Graduate Student | NIH F31 Fellow",
       "profile" : "/johnathan-kepple"
    },
@@ -326,7 +326,7 @@ const rawPeople = [
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1675970682144-0PYVM1YRSI7X2YIC934I/55E89D77-D21C-419F-9D17-4DA257564722.jpg",
       "role" : "Postdoctoral Fellow",
       "bio" : "I am interested in cell wall biogenesis in Corynebacterium glutamicum.",
-      "profile" : "/wanassa",
+      "profile" : "/wanassa-beroual",
       "name" : "Wanassa Beroual",
       "email" : "Wanassa_Beroual{at}hms.harvard.edu"
    },
@@ -341,7 +341,7 @@ const rawPeople = [
    {
       "profile" : "/tanner-dehart",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1661806098784-ZTUDXNCLO016KTO190CT/Screen+Shot+2022-08-29+at+4.32.58+PM.png",
-      "bio" : "I am interested in the biosynthesis of membrane lipids as well as characterizing proteases potentially involved in the regulation of E. coli cell wall synthesis",
+      "bio" : "I am interested in the biosynthesis of membrane lipids as well as characterizing proteases potentially involved in the regulation of E. coli cell wall synthesis.",
       "role" : "BBS Graduate Student",
       "name" : "Tanner DeHart",
       "email" : "tdehart{at}g.harvard.edu"
@@ -356,8 +356,8 @@ const rawPeople = [
    },
    {
       "profile" : "/nilanjan-som",
-      "role" : "Postdoctoral fellow",
-      "bio" : "I am interested in understanding the regulatory mechanisms that drives Gram-negative bacterial cell envelope expansion.",
+      "role" : "Postdoctoral Fellow",
+      "bio" : "I am interested in understanding the regulatory mechanisms that drive Gram-negative bacterial cell envelope expansion.",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1694117450898-RG5K9AE1D78HLCU02FY2/Screenshot+2023-09-07+at+3.46.10+PM.png",
       "name" : "Nilanjan Som",
       "email" : "nilanjan_som{at}hms.harvard.edu"
@@ -368,7 +368,7 @@ const rawPeople = [
       "profile" : "/tien-nguyen",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1694187388124-T15GTLGXMGLBKI3L31HZ/IMG_6820.jpg",
       "role" : "MCO Graduate Student",
-      "bio" : "I am interested in elucidating the regulatory mechanisms of PG hydrolyses required for separation in Eschericia coli. My larger goals are to better understand the spatiotemporal coordination of the bacterial cell envelope for cell division"
+      "bio" : "I am interested in studying the regulation of peptidoglycan hydrolysis during cell division in Escherichia coli, with a focus on mechanisms that control hydrolases and their activators for proper PG cleavage."
    },
    {
       "email" : "dburgin{at}g.harvard.edu",
@@ -390,14 +390,14 @@ const rawPeople = [
       "role" : "Postdoctoral Research Fellow | Funded by the Swiss National Science Foundation",
       "bio" : "I work at the intersection of quantitative and fundamental microbiology. In that context, I'm currently implementing CRISPR interference techniques to study cell envelope biogenesis in Corynebacterium glutamicum.",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1739559732012-M2UO3CUH7CN7UEWSG9ED/20250214_lab2.jpeg",
-      "profile" : "/vincentdebakker",
+      "profile" : "/vincent-de-bakker",
       "name" : "Vincent de Bakker",
       "email" : "vincent_debakker{at}hms.harvard.edu"
    },
    {
       "name" : "Nazgul Sakenova",
       "email" : "nazgul_sakenova{at}hms.harvard.edu",
-      "profile" : "/nazgulsakenova",
+      "profile" : "/nazgul-sakenova",
       "bio" : "I am interested in special protein localization and factors that determine it in Escherichia coli.",
       "role" : "Postdoctoral Fellow | HHWF Fellow",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1739559794418-P4JOP8A7Y1DMWJK4G658/IMG_3956.jpeg"
@@ -413,7 +413,7 @@ const rawPeople = [
    {
       "name" : "Eleanor Rand",
       "email" : "eleanor_rand{at}fas.harvard.edu",
-      "profile" : "/eleanorrand",
+      "profile" : "/eleanor-rand",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1753710971082-GHTM0Q8G52VT1QVSP95Q/EllieHeadShot.JPG",
       "bio" : "I am interested in using phages to learn more about their bacterial hosts. I also lead the Community Phages program (phages.hms.harvard.edu)!",
       "role" : "Postdoctoral Research Fellow | Community Phages Internship Lead Instructor"
@@ -422,12 +422,12 @@ const rawPeople = [
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1753711015525-A3BB6YM2L2XPTQZ31MH4/IMG_2325.jpg",
       "role" : "BBS Graduate Student",
       "bio" : "I am interested in mycolic acid transport and regulation in Corynebacterium glutamicum.",
-      "profile" : "/ophelialee",
+      "profile" : "/ophelia-lee",
       "email" : "ophelia_lee{at}fas.harvard.edu",
       "name" : "Ophelia Lee"
    },
    {
-      "profile" : "/jameswarner",
+      "profile" : "/james-warner",
       "bio" : "I want to understand how the pathogen Staphylococcus aureus coordinates the synthesis of its cell envelope to escape antibiotic killing.",
       "role" : "Postdoctoral Research Fellow",
       "image" : "https://images.squarespace-cdn.com/content/v1/569e68a1e0327c41cdab78de/1753711049360-LPZZ20HWBRAJ2NRJY5RP/Warner_2025.jpg",
@@ -488,9 +488,12 @@ function slugifyName(name = "") {
 }
 
 function profileSlug(url = "", name = "") {
+  const canonicalSlug = slugifyName(name);
+  if (canonicalSlug) return canonicalSlug;
+
   const candidate = toAbsoluteProfile(url).replace(/^https?:\/\/[^/]+/, "");
   const slug = cleanText(candidate).replace(/^\/+|\/+$/g, "");
-  return slug || slugifyName(name) || "member";
+  return slug || "member";
 }
 
 function alumniProfilePath(slug) {
@@ -581,7 +584,7 @@ function prettifyRole(role, name) {
     return "Principal Investigator | Professor, Department of Microbiology, Harvard Medical School | Howard Hughes Medical Institute";
   }
   if (name === "James Spencer") {
-    return "Laboratory Manager | Howard Hughes Medical Institute";
+    return "Laboratory Manager, Thomas Bernhardt Lab";
   }
   return role;
 }
@@ -591,7 +594,7 @@ function landingTileRole(name, group, role) {
     return "Professor, Department of Microbiology | Howard Hughes Medical Institute";
   }
   if (name === "James Spencer") {
-    return "Laboratory Manager | Howard Hughes Medical Institute";
+    return "Laboratory Manager, Thomas Bernhardt Lab";
   }
   if (group === "Postdoctoral Fellows") return "Postdoctoral Fellow";
   if (group === "Graduate Students") return cleanText(String(role || "").split("|")[0] || "Graduate Student");
@@ -1490,15 +1493,7 @@ function setupCollaboratorCarousel() {
 
   const scroller = carousel.querySelector(".collab-showcase");
   const baseCards = scroller ? Array.from(scroller.querySelectorAll(".collab-card")) : [];
-  const prevButton = carousel.querySelector("[data-collab-prev]");
-  const nextButton = carousel.querySelector("[data-collab-next]");
-  const dotsRoot = carousel.querySelector("[data-collab-dots]");
   if (!scroller || baseCards.length < 2) return;
-
-  if (dotsRoot) {
-    dotsRoot.innerHTML = "";
-    dotsRoot.hidden = true;
-  }
 
   const clones = baseCards.map((card) => {
     const clone = card.cloneNode(true);
@@ -1510,13 +1505,11 @@ function setupCollaboratorCarousel() {
   });
 
   let loopWidth = 0;
-  let cardStep = 0;
   let trackPosition = 0;
   let rafId = null;
   let isPaused = false;
   let lastTimestamp = 0;
   let resumeTimer = null;
-  let nudgeTimer = null;
   const speedPxPerSecond = 36;
 
   const normalizeTrackPosition = () => {
@@ -1533,36 +1526,18 @@ function setupCollaboratorCarousel() {
   };
 
   const computeMetrics = () => {
-    if (!baseCards.length) return;
     const first = baseCards[0];
     const firstClone = clones[0];
+    if (!first || !firstClone) return;
 
-    if (first && firstClone) {
-      loopWidth = Math.max(firstClone.offsetLeft - first.offsetLeft, 1);
-    }
-
-    if (baseCards.length > 1) {
-      cardStep = Math.max(baseCards[1].offsetLeft - baseCards[0].offsetLeft, 180);
-    } else {
-      cardStep = Math.max(first.getBoundingClientRect().width, 220);
-    }
-
+    loopWidth = Math.max(firstClone.offsetLeft - first.offsetLeft, 1);
     normalizeTrackPosition();
     applyTrackPosition();
-  };
-
-  const clearNudgeTransition = () => {
-    if (nudgeTimer) {
-      window.clearTimeout(nudgeTimer);
-      nudgeTimer = null;
-    }
-    scroller.style.transition = "";
   };
 
   const stop = () => {
     isPaused = true;
     lastTimestamp = 0;
-    clearNudgeTransition();
     if (rafId !== null) {
       window.cancelAnimationFrame(rafId);
       rafId = null;
@@ -1581,12 +1556,10 @@ function setupCollaboratorCarousel() {
       return;
     }
 
-    if (!lastTimestamp) {
-      lastTimestamp = timestamp;
-    }
-
+    if (!lastTimestamp) lastTimestamp = timestamp;
     const elapsed = Math.min((timestamp - lastTimestamp) / 1000, 0.06);
     lastTimestamp = timestamp;
+
     trackPosition += speedPxPerSecond * elapsed;
     normalizeTrackPosition();
     applyTrackPosition();
@@ -1597,7 +1570,6 @@ function setupCollaboratorCarousel() {
   const start = () => {
     if (prefersReducedMotion) return;
     isPaused = false;
-    clearNudgeTransition();
     if (rafId === null) {
       lastTimestamp = 0;
       rafId = window.requestAnimationFrame(tick);
@@ -1605,9 +1577,7 @@ function setupCollaboratorCarousel() {
   };
 
   const queueResume = (delay = 1200) => {
-    if (resumeTimer) {
-      window.clearTimeout(resumeTimer);
-    }
+    if (resumeTimer) window.clearTimeout(resumeTimer);
     resumeTimer = window.setTimeout(() => {
       const activeInside = carousel.contains(document.activeElement);
       if (!document.hidden && !activeInside && !carousel.matches(":hover")) {
@@ -1615,48 +1585,6 @@ function setupCollaboratorCarousel() {
       }
     }, delay);
   };
-
-  const nudge = (direction) => {
-    if (!cardStep) computeMetrics();
-    trackPosition += direction * cardStep;
-    normalizeTrackPosition();
-    scroller.style.transition = prefersReducedMotion ? "none" : "transform 420ms ease";
-    applyTrackPosition();
-    nudgeTimer = window.setTimeout(() => {
-      scroller.style.transition = "";
-      nudgeTimer = null;
-    }, prefersReducedMotion ? 0 : 430);
-  };
-
-  if (prevButton) {
-    prevButton.addEventListener("click", () => {
-      stop();
-      nudge(-1);
-      queueResume(900);
-    });
-  }
-
-  if (nextButton) {
-    nextButton.addEventListener("click", () => {
-      stop();
-      nudge(1);
-      queueResume(900);
-    });
-  }
-
-  scroller.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      stop();
-      nudge(1);
-      queueResume(1200);
-    } else if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      stop();
-      nudge(-1);
-      queueResume(1200);
-    }
-  });
 
   scroller.addEventListener("pointerdown", stop, { passive: true });
   scroller.addEventListener("pointerup", () => queueResume(), { passive: true });
@@ -1688,7 +1616,7 @@ function setupCollaboratorCarousel() {
 }
 
 
-function setupHeroSlideshow() {
+function setupHeroSlideshow( {
   const hero = document.querySelector(".hero");
   if (!hero) return;
 

@@ -1766,81 +1766,14 @@ body.is-scrolled .site-header {
   border-radius: 10px;
 }
 
-.collab-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.72rem;
-}
 
-.collab-nav-button {
-  flex: 0 0 auto;
-  width: 2.35rem;
-  height: 2.35rem;
-  border-radius: 999px;
-  border: 1px solid rgba(31, 56, 93, 0.24);
-  background: rgba(255, 255, 255, 0.82);
-  color: #1c3957;
-  display: grid;
-  place-items: center;
-  font-size: 1.05rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition:
-    transform 160ms ease,
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
-}
 
-.collab-nav-button:hover,
-.collab-nav-button:focus-visible {
-  transform: translateY(-1px);
-  border-color: rgba(14, 117, 125, 0.5);
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 10px 20px rgba(12, 24, 43, 0.14);
-}
 
-.collab-nav-button:focus-visible {
-  outline: 3px solid rgba(14, 117, 125, 0.32);
-  outline-offset: 2px;
-}
 
-.collab-dots {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.36rem;
-  flex: 1;
-  flex-wrap: wrap;
-}
 
-.collab-dot {
-  width: 0.58rem;
-  height: 0.58rem;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(24, 52, 82, 0.3);
-  cursor: pointer;
-  transition:
-    transform 140ms ease,
-    background 140ms ease,
-    opacity 140ms ease;
-}
 
-.collab-dot:hover,
-.collab-dot:focus-visible {
-  transform: scale(1.14);
-}
 
-.collab-dot:focus-visible {
-  outline: 2px solid rgba(14, 117, 125, 0.52);
-  outline-offset: 2px;
-}
 
-.collab-dot.active {
-  background: var(--teal);
-}
 
 .collab-card {
   display: grid;
@@ -1863,11 +1796,6 @@ body.is-scrolled .site-header {
     box-shadow 180ms ease,
     border-color 180ms ease,
     background 180ms ease;
-}
-
-.collab-card.is-active {
-  border-color: rgba(14, 117, 125, 0.42);
-  box-shadow: 0 16px 28px rgba(12, 24, 43, 0.16);
 }
 
 .collab-card:hover {
@@ -2382,17 +2310,6 @@ body.is-scrolled .site-header {
     flex-basis: calc(100% - 0.14rem);
   }
 
-  .collab-controls {
-    justify-content: flex-end;
-    flex-wrap: wrap;
-  }
-
-  .collab-dots {
-    order: 3;
-    flex-basis: 100%;
-    justify-content: flex-start;
-  }
-
   .footer-inner {
     flex-direction: column;
     align-items: flex-start;
@@ -2862,11 +2779,6 @@ body.is-scrolled .site-header {
 .role-filters button,
 .alumni-nav,
 .gallery-nav,
-.collab-nav-button {
-  border-color: rgba(220, 224, 235, 0.22);
-  background: rgba(31, 35, 44, 0.78);
-  color: var(--text-high);
-}
 
 .role-filters button:hover,
 .role-filters button:focus-visible,
@@ -2874,18 +2786,10 @@ body.is-scrolled .site-header {
 .alumni-nav:focus-visible,
 .gallery-nav:hover,
 .gallery-nav:focus-visible,
-.collab-nav-button:hover,
-.collab-nav-button:focus-visible {
-  border-color: rgba(177, 42, 61, 0.54);
-}
 
 .role-filters button.active,
 .alumni-dot.active,
 .gallery-dot.active,
-.collab-dot.active {
-  background: var(--accent-primary);
-  color: #fff;
-}
 
 .gallery-stage {
   background: rgba(18, 21, 28, 0.8);
@@ -2929,13 +2833,7 @@ body.is-scrolled .site-header {
   overflow: visible;
 }
 
-.collab-controls {
-  justify-content: flex-end;
-}
 
-.collab-dots {
-  display: none;
-}
 
 .collab-card {
   border-color: rgba(220, 224, 235, 0.22);

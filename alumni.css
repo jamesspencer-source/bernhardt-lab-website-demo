@@ -400,6 +400,24 @@ p {
   border-color: rgba(165, 28, 48, 0.56);
 }
 
+.alumni-inline-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+  font-weight: 600;
+}
+
+.alumni-inline-link:hover,
+.alumni-inline-link:focus-visible {
+  color: var(--teal);
+}
+
+.alumni-noscript {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
 .alumni-empty {
   border: 1px dashed var(--line);
   border-radius: var(--radius-md);
