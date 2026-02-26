@@ -343,12 +343,18 @@ p {
   gap: 0.5rem;
 }
 
-.alumni-bucket {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--teal);
-  font-weight: 800;
+.alumni-bucket,
+.alumni-role-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.2rem 0.56rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  color: #dbe4f2;
+  border: 1px solid rgba(168, 188, 214, 0.32);
+  background: rgba(23, 29, 40, 0.72);
+  font-weight: 700;
 }
 
 .alumni-verified {
@@ -688,6 +694,7 @@ p {
 }
 
 .alumni-bucket,
+.alumni-role-tag,
 .alumni-verified {
   color: #d6c4c8;
   border-color: rgba(177, 42, 61, 0.34);

@@ -2795,6 +2795,26 @@ body.is-scrolled .site-header {
   background: rgba(18, 21, 28, 0.8);
 }
 
+.role-filters button {
+  color: #eef4ff !important;
+  border-color: rgba(168, 188, 214, 0.4);
+  background: rgba(17, 24, 36, 0.9);
+}
+
+.role-filters button:hover,
+.role-filters button:focus-visible {
+  color: #ffffff !important;
+  border-color: rgba(242, 167, 179, 0.72);
+  background: rgba(28, 36, 49, 0.96);
+}
+
+.role-filters button.active {
+  color: #ffffff !important;
+  border-color: transparent;
+  background: linear-gradient(135deg, #b12a3d 0%, #8b1e30 100%);
+  box-shadow: 0 10px 18px rgba(6, 7, 11, 0.36);
+}
+
 .gallery-caption {
   background: linear-gradient(180deg, transparent, rgba(14, 16, 22, 0.94));
 }
@@ -2802,6 +2822,7 @@ body.is-scrolled .site-header {
 .alumni-item .alumni-role,
 .person-role,
 .alumni-bucket,
+.alumni-role-tag,
 .alumni-verified {
   color: #d6c4c8;
   border-color: rgba(177, 42, 61, 0.34);

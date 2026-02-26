@@ -15,7 +15,7 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260225a" />
+    <link rel="stylesheet" href="styles.css?v=20260226a" />
     <link rel="stylesheet" href="envelope-escape.css?v=20260223a" />
   </head>
   <body>
@@ -34,7 +34,6 @@
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
 
         <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-          <a href="#about">About</a>
           <a href="#team">Team</a>
           <a href="#research">Research</a>
           <a href="#publications">Publications</a>
@@ -278,7 +277,22 @@
                 </button>
               </div>
             </div>
-            <div id="question-grid" class="question-grid" aria-live="polite"></div>
+            <div id="question-grid" class="question-grid" aria-live="polite">
+              <article class="question-spotlight question-fallback" aria-live="polite">
+                <p class="question-kicker" id="question-kicker-static">Question 01</p>
+                <h4 id="question-title-static">How is septal cell wall synthesis precisely turned on and off?</h4>
+                <p id="question-detail-static">
+                  Define the timing logic that couples divisome activation to local peptidoglycan insertion and remodeling.
+                </p>
+              </article>
+            </div>
+            <noscript>
+              <style>
+                .question-controls {
+                  display: none !important;
+                }
+              </style>
+            </noscript>
           </section>
           <div id="research-grid" class="research-grid" aria-live="polite"></div>
           <div class="research-media-block">
@@ -355,9 +369,6 @@
             <p class="eyebrow">Publication Archive</p>
             <h2>Selected Bernhardt Lab Publications</h2>
           </div>
-          <p class="section-intro reveal">
-            A curated set of recent and representative studies with short plain-language context.
-          </p>
           <div id="recent-publications" class="publication-list" aria-live="polite"></div>
           <p class="publication-actions reveal">
             <a
@@ -393,9 +404,9 @@
           <p class="publication-footnote reveal">
             Roles are based on Bernhardt lab records and public institutional profiles (updated February 19, 2026).
             <a
-              href="mailto:thomas_bernhardt@hms.harvard.edu?subject=Alumni%20directory%20update%20or%20removal%20request"
+              href="mailto:james_spencer@hms.harvard.edu?subject=Alumni%20directory%20update%20or%20removal%20request&body=Name:%0AEntry%20URL:%0ARequested%20correction%20or%20removal:%0A"
               >Request an update or removal</a
-            >.
+            >. Include your name, entry URL, and requested correction/removal.
           </p>
         </div>
       </section>
@@ -631,25 +642,10 @@
               <h3 id="envelope-leaderboard-title">Top 25 Scores</h3>
               <div class="envelope-leaderboard-meta-wrap">
                 <p id="envelope-leaderboard-meta">Local leaderboard</p>
-                <button id="envelope-admin-toggle" class="envelope-admin-toggle" type="button">Admin</button>
-              </div>
+</div>
             </div>
             <ol id="envelope-leaderboard-list" class="envelope-leaderboard-list"></ol>
-            <form id="envelope-admin-form" class="envelope-admin-form" hidden>
-              <label for="envelope-admin-code">Access code</label>
-              <div class="envelope-admin-row">
-                <input
-                  id="envelope-admin-code"
-                  name="envelope-admin-code"
-                  type="password"
-                  autocomplete="off"
-                  placeholder="Enter code"
-                />
-                <button type="submit" class="envelope-secondary">Open</button>
-              </div>
-              <p id="envelope-admin-feedback" hidden></p>
-            </form>
-            <form id="envelope-name-form" class="envelope-name-form" hidden>
+<form id="envelope-name-form" class="envelope-name-form" hidden>
               <label for="envelope-name-input" id="envelope-name-label">New high score: enter your name</label>
               <p id="envelope-name-feedback" class="envelope-name-feedback" hidden></p>
               <div class="envelope-name-row">
@@ -679,8 +675,8 @@
     </dialog>
 
     <script src="alumni-data.js"></script>
-    <script src="main.js?v=20260225b"></script>
+    <script src="main.js?v=20260226a"></script>
     <script src="envelope-escape-config.js?v=20260221af"></script>
-    <script src="envelope-escape.js?v=20260223a"></script>
+    <script src="envelope-escape.js?v=20260226a"></script>
   </body>
 </html>
