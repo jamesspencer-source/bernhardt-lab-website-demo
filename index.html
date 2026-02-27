@@ -8,6 +8,7 @@
       name="description"
       content="The Thomas Bernhardt Lab at Harvard Medical School and the Howard Hughes Medical Institute studies bacterial growth and cell wall biogenesis to inform next-generation antibiotic discovery."
     />
+    <meta name="youtube-data-api-key" content="" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,7 +16,7 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260226a" />
+    <link rel="stylesheet" href="styles.css?v=20260227g" />
     <link rel="stylesheet" href="envelope-escape.css?v=20260223a" />
   </head>
   <body>
@@ -23,7 +24,7 @@
     <div class="scroll-meter" aria-hidden="true"></div>
     <header class="site-header" id="top">
       <div class="container header-inner">
-        <a href="#home" class="brand" aria-label="Thomas Bernhardt Lab home">
+        <a href="index.html" class="brand" aria-label="Thomas Bernhardt Lab home">
           <span class="brand-lockup" aria-hidden="true"></span>
           <span class="brand-text">
             <strong>Thomas Bernhardt Lab</strong>
@@ -34,13 +35,14 @@
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
 
         <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-          <a href="#team">Team</a>
-          <a href="#research">Research</a>
-          <a href="#publications">Publications</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#alumni">Alumni</a>
-          <a href="#contact">Contact</a>
-        </nav>
+            <a href="index.html#about">About</a>
+            <a href="people.html">Team</a>
+            <a href="index.html#research">Research</a>
+            <a href="index.html#publications">Publications</a>
+            <a href="index.html#gallery">Gallery</a>
+            <a href="alumni.html">Alumni</a>
+            <a href="index.html#contact">Contact</a>
+          </nav>
       </div>
     </header>
 
@@ -196,6 +198,9 @@
           <p class="team-directory-cta reveal">
             <a class="button button-primary team-directory-button" href="people.html">Browse full team directory</a>
           </p>
+          <p class="team-opportunities-link reveal">
+            Interested in joining or collaborating? <a href="#opportunities">See Opportunities</a>.
+          </p>
 
           <div class="directory-controls reveal">
             <label class="search-wrap" for="people-search">
@@ -292,6 +297,14 @@
                   display: none !important;
                 }
               </style>
+              <ul class="question-noscript-list">
+                <li>How is septal cell wall synthesis precisely turned on and off?</li>
+                <li>Which hydrolases sculpt new envelope material without compromising integrity?</li>
+                <li>How do envelope stress pathways coordinate repair with ongoing growth?</li>
+                <li>How are divisome and elongasome activities balanced across bacterial species?</li>
+                <li>How do pathogens rewire envelope programs during infection or antibiotic exposure?</li>
+                <li>Which vulnerable envelope nodes are most tractable for antibiotic strategy?</li>
+              </ul>
             </noscript>
           </section>
           <div id="research-grid" class="research-grid" aria-live="polite"></div>
@@ -324,6 +337,7 @@
                 <p class="video-access-note">
                   Captions are enabled in the player.
                 </p>
+                <p id="lab-video-view-count" class="video-view-counter" hidden aria-live="polite"></p>
                 <a
                   class="media-source media-source-pill"
                   href="https://www.youtube.com/watch?v=RxHTaTmPlwQ"
@@ -388,6 +402,22 @@
             <h2>Life in the lab.</h2>
           </div>
           <div id="gallery-grid" class="gallery-grid"></div>
+          <noscript>
+            <div class="gallery-noscript-grid" aria-label="Lab gallery fallback">
+              <figure>
+                <img src="community-phages-tom-2023-049.jpg" alt="Tom Bernhardt mentoring during HMS Community Phages" loading="lazy" />
+                <figcaption>Tom Bernhardt mentoring during HMS Community Phages</figcaption>
+              </figure>
+              <figure>
+                <img src="apple-orchard-group-2025-corrected.jpg" alt="Apple orchard group photo, fall 2025" loading="lazy" />
+                <figcaption>Apple orchard group photo, fall 2025</figcaption>
+              </figure>
+              <figure>
+                <img src="apple-orchard-wagon-2025.jpg" alt="Apple orchard wagon ride, fall 2025" loading="lazy" />
+                <figcaption>Apple orchard wagon ride, fall 2025</figcaption>
+              </figure>
+            </div>
+          </noscript>
         </div>
       </section>
 
@@ -404,10 +434,58 @@
           <p class="publication-footnote reveal">
             Roles are based on Bernhardt lab records and public institutional profiles (updated February 19, 2026).
             <a
-              href="mailto:james_spencer@hms.harvard.edu?subject=Alumni%20directory%20update%20or%20removal%20request&body=Name:%0AEntry%20URL:%0ARequested%20correction%20or%20removal:%0A"
+              href="mailto:James_Spencer@hms.harvard.edu?subject=Bernhardt%20Lab%20website%20update%2Fremoval%20request&body=Page%20URL%3A%20%0D%0AName%20(or%20entry)%3A%20%0D%0ARequested%20change%20(removal%2Fupdate)%3A%20%0D%0AProposed%20replacement%20text%20(if%20any)%3A%20%0D%0ASupporting%20link%20(if%20any)%3A%20%0D%0A"
               >Request an update or removal</a
             >. Include your name, entry URL, and requested correction/removal.
           </p>
+        </div>
+      </section>
+
+      <section id="opportunities" class="section section-light">
+        <div class="container reveal">
+          <div class="section-head">
+            <p class="eyebrow">Opportunities</p>
+            <h2>Working with the Bernhardt Lab.</h2>
+          </div>
+          <p class="section-intro">
+            The lab connects with prospective trainees and collaborators through formal HMS pathways and targeted
+            inquiries. We review messages that demonstrate clear scientific fit with the lab’s envelope biology
+            research program.
+          </p>
+
+          <div class="opportunities-grid">
+            <article class="program-card">
+              <h3>Postdoctoral researchers</h3>
+              <ul>
+                <li>Include a CV and 3–5 sentences describing fit with envelope biology, division, or stress response work.</li>
+                <li>Mention one Bernhardt Lab paper or research topic you are most excited about.</li>
+                <li>Include earliest possible start date and fellowship status (if applicable).</li>
+              </ul>
+            </article>
+            <article class="program-card">
+              <h3>Graduate students (HMS programs)</h3>
+              <ul>
+                <li>Apply through the appropriate HMS program (for example BBS, BPH, MCO, or ChemBio).</li>
+                <li>After admission or during rotations, reach out to discuss timing and project fit.</li>
+                <li>For cold outreach before admission, please note we may not be able to respond.</li>
+              </ul>
+            </article>
+            <article class="program-card">
+              <h3>Undergraduates / research assistants</h3>
+              <ul>
+                <li>Availability (hours per week, start date, duration) is the most important information to include.</li>
+                <li>Share a short resume and any relevant lab or course experience.</li>
+                <li>Community Phages can be a strong entry point for training and lab readiness.</li>
+              </ul>
+              <a class="button button-secondary" href="https://phages.hms.harvard.edu" target="_blank" rel="noreferrer">Explore Community Phages</a>
+            </article>
+            <article class="program-card">
+              <h3>Visiting scientists / collaborators</h3>
+              <ul>
+                <li>Best initial email: one concise paragraph describing the collaboration idea and why it fits the lab.</li>
+              </ul>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -675,8 +753,8 @@
     </dialog>
 
     <script src="alumni-data.js"></script>
-    <script src="main.js?v=20260226a"></script>
+    <script src="main.js?v=20260227h"></script>
     <script src="envelope-escape-config.js?v=20260221af"></script>
-    <script src="envelope-escape.js?v=20260226a"></script>
+    <script src="envelope-escape.js?v=20260226c"></script>
   </body>
 </html>

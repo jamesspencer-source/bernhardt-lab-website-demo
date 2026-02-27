@@ -2770,49 +2770,56 @@ body.is-scrolled .site-header {
   text-decoration: none;
 }
 
+.video-view-counter {
+  margin: 0.4rem 0 0.2rem;
+  font-size: 0.82rem;
+  color: #c8d1df;
+  letter-spacing: 0.01em;
+}
+
+
 .directory-controls .search-wrap,
 .search-wrap {
   color: var(--text-mid);
 }
 
 .search-wrap input,
-.role-filters button,
 .alumni-nav,
 .gallery-nav,
-
-.role-filters button:hover,
-.role-filters button:focus-visible,
-.alumni-nav:hover,
-.alumni-nav:focus-visible,
-.gallery-nav:hover,
-.gallery-nav:focus-visible,
-
-.role-filters button.active,
-.alumni-dot.active,
-.gallery-dot.active,
-
 .gallery-stage {
   background: rgba(18, 21, 28, 0.8);
 }
 
+.alumni-nav:hover,
+.alumni-nav:focus-visible,
+.gallery-nav:hover,
+.gallery-nav:focus-visible {
+  background: rgba(26, 31, 41, 0.9);
+}
+
 .role-filters button {
-  color: #eef4ff !important;
-  border-color: rgba(168, 188, 214, 0.4);
-  background: rgba(17, 24, 36, 0.9);
+  color: #eef4ff;
+  border-color: rgba(168, 188, 214, 0.44);
+  background: rgba(17, 24, 36, 0.92);
 }
 
 .role-filters button:hover,
 .role-filters button:focus-visible {
-  color: #ffffff !important;
-  border-color: rgba(242, 167, 179, 0.72);
-  background: rgba(28, 36, 49, 0.96);
+  color: #ffffff;
+  border-color: rgba(242, 167, 179, 0.74);
+  background: rgba(31, 40, 55, 0.98);
 }
 
 .role-filters button.active {
-  color: #ffffff !important;
+  color: #ffffff;
   border-color: transparent;
   background: linear-gradient(135deg, #b12a3d 0%, #8b1e30 100%);
   box-shadow: 0 10px 18px rgba(6, 7, 11, 0.36);
+}
+
+.alumni-dot.active,
+.gallery-dot.active {
+  background: rgba(18, 21, 28, 0.9);
 }
 
 .gallery-caption {

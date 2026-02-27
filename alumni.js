@@ -229,10 +229,7 @@ function renderAlumniDirectory() {
     .map(
       (entry) => `
       <article class="alumni-card">
-        <div class="alumni-top">
-          <span class="alumni-role-tag">${entry.bucket}</span>
-          ${entry.verified ? `<span class="alumni-verified">Verified profile</span>` : ""}
-        </div>
+        <div class="alumni-top">${entry.verified ? `<span class="alumni-verified">Verified profile</span>` : ""}</div>
         <h3>${entry.name}</h3>
         <p class="alumni-role"><strong>Role in lab:</strong> ${entry.roleInLab || "Former lab member"}</p>
         ${entry.labDates ? `<p class="alumni-role"><strong>Lab dates:</strong> ${entry.labDates}</p>` : ""}

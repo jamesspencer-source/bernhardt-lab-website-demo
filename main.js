@@ -30,6 +30,8 @@ const researchThemes = [
 ];
 
 const IS_FLAT_BUILD = !document.querySelector('link[href^="assets/styles.css"]');
+const YOUTUBE_VIDEO_ID = "RxHTaTmPlwQ";
+const YOUTUBE_VIEW_REFRESH_MS = 10 * 60 * 1000;
 const curatedPublications = [
   {
     pmid: "39992125",
@@ -285,7 +287,7 @@ const rawPeople = [
    {
       "profile" : "/thomas-bernhardt",
       "bio" : "The Bernhardt lab studies molecular mechanisms of bacterial growth and cell wall assembly to inform antibiotic discovery.",
-      "role" : "Professor, Department of Microbiology | Investigator, Howard Hughes Medical Institute",
+      "role" : "Professor, Department of Microbiology | Howard Hughes Medical Institute",
       "image" : "thomas-bernhardt-hhmi-2025.png",
       "email" : "",
       "name" : "Thomas Bernhardt"
@@ -1739,6 +1741,93 @@ function setupHeroSlideshow() {
   startAuto();
 }
 
+async function fetchYouTubeViewCount(videoId) {
+  if (!videoId) return null;
+
+  const parseViewCount = (rawCount) => {
+    if (rawCount === null || rawCount === undefined) return null;
+    const normalized = Number(String(rawCount).replace(/,/g, ""));
+    if (!Number.isFinite(normalized) || normalized < 0) return null;
+    return Math.floor(normalized);
+  };
+
+  const requestJson = async (url) => {
+    const controller = typeof AbortController === "function" ? new AbortController() : null;
+    const timeoutId = controller ? window.setTimeout(() => controller.abort(), 6000) : null;
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: { Accept: "application/json" },
+        cache: "no-store",
+        signal: controller ? controller.signal : undefined
+      });
+      if (!response.ok) return null;
+      return await response.json();
+    } catch {
+      return null;
+    } finally {
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+    }
+  };
+
+  const metaApiKey =
+    document.querySelector('meta[name="youtube-data-api-key"]')?.getAttribute("content") || "";
+  const apiKey = String(window.YOUTUBE_DATA_API_KEY || metaApiKey || "").trim();
+
+  if (apiKey) {
+    const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${encodeURIComponent(videoId)}&key=${encodeURIComponent(apiKey)}`;
+    const payload = await requestJson(endpoint);
+    const count = parseViewCount(payload?.items?.[0]?.statistics?.viewCount);
+    if (count !== null) return count;
+  }
+
+  const noKeyEndpoints = [
+    {
+      url: `https://yt.lemnoslife.com/noKey/videos?part=statistics&id=${encodeURIComponent(videoId)}`,
+      parse: (payload) => payload?.items?.[0]?.statistics?.viewCount
+    },
+    {
+      url: `https://returnyoutubedislikeapi.com/votes?videoId=${encodeURIComponent(videoId)}`,
+      parse: (payload) => payload?.viewCount
+    }
+  ];
+
+  for (const endpoint of noKeyEndpoints) {
+    const payload = await requestJson(endpoint.url);
+    const count = parseViewCount(endpoint.parse(payload));
+    if (count !== null) return count;
+  }
+
+  return null;
+}
+
+function setupYouTubeViewCounter() {
+  const counter = document.getElementById("lab-video-view-count");
+  if (!counter) return;
+
+  const updateCounter = async () => {
+    const views = await fetchYouTubeViewCount(YOUTUBE_VIDEO_ID);
+    if (!Number.isFinite(views)) {
+      counter.hidden = true;
+      return;
+    }
+
+    const viewsText = new Intl.NumberFormat("en-US").format(views);
+    const updatedText = new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
+      minute: "2-digit"
+    }).format(new Date());
+    counter.textContent = `${viewsText} views · updated ${updatedText}`;
+    counter.hidden = false;
+  };
+
+  updateCounter();
+  window.setInterval(updateCounter, YOUTUBE_VIEW_REFRESH_MS);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) updateCounter();
+  });
+}
+
 async function initializePage() {
   applyInitialScrollPosition();
   renderBigQuestions();
@@ -1755,6 +1844,7 @@ async function initializePage() {
   setupScrollDynamics();
   setupCollaboratorCarousel();
   setupHeroSlideshow();
+  setupYouTubeViewCounter();
 }
 
 initializePage();
