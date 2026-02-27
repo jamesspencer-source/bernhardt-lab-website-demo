@@ -32,6 +32,9 @@ const researchThemes = [
 const IS_FLAT_BUILD = !document.querySelector('link[href^="assets/styles.css"]');
 const YOUTUBE_VIDEO_ID = "RxHTaTmPlwQ";
 const YOUTUBE_VIEW_REFRESH_MS = 10 * 60 * 1000;
+const YOUTUBE_VIEW_STATS_PATH = IS_FLAT_BUILD
+  ? "youtube-video-stats.json"
+  : "assets/data/youtube-video-stats.json";
 const curatedPublications = [
   {
     pmid: "39992125",
@@ -1741,64 +1744,61 @@ function setupHeroSlideshow() {
   startAuto();
 }
 
-async function fetchYouTubeViewCount(videoId) {
+function parseViewCount(rawCount) {
+  if (rawCount === null || rawCount === undefined) return null;
+  const normalized = Number(String(rawCount).replace(/,/g, ""));
+  if (!Number.isFinite(normalized) || normalized < 0) return null;
+  return Math.floor(normalized);
+}
+
+async function requestJson(url, timeoutMs = 6000) {
+  const controller = typeof AbortController === "function" ? new AbortController() : null;
+  const timeoutId = controller ? window.setTimeout(() => controller.abort(), timeoutMs) : null;
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+      signal: controller ? controller.signal : undefined
+    });
+    if (!response.ok) return null;
+    return await response.json();
+  } catch {
+    return null;
+  } finally {
+    if (timeoutId !== null) window.clearTimeout(timeoutId);
+  }
+}
+
+async function fetchYouTubeViewMetrics(videoId) {
   if (!videoId) return null;
 
-  const parseViewCount = (rawCount) => {
-    if (rawCount === null || rawCount === undefined) return null;
-    const normalized = Number(String(rawCount).replace(/,/g, ""));
-    if (!Number.isFinite(normalized) || normalized < 0) return null;
-    return Math.floor(normalized);
-  };
-
-  const requestJson = async (url) => {
-    const controller = typeof AbortController === "function" ? new AbortController() : null;
-    const timeoutId = controller ? window.setTimeout(() => controller.abort(), 6000) : null;
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: { Accept: "application/json" },
-        cache: "no-store",
-        signal: controller ? controller.signal : undefined
-      });
-      if (!response.ok) return null;
-      return await response.json();
-    } catch {
-      return null;
-    } finally {
-      if (timeoutId !== null) window.clearTimeout(timeoutId);
-    }
-  };
+  const statsPayload = await requestJson(`${YOUTUBE_VIEW_STATS_PATH}?t=${Date.now()}`);
+  const statsCount = parseViewCount(statsPayload?.viewCount);
+  if (
+    statsCount !== null &&
+    (!statsPayload?.videoId || String(statsPayload.videoId).trim() === String(videoId).trim())
+  ) {
+    return {
+      views: statsCount,
+      updatedAt: statsPayload?.generatedAt || statsPayload?.updatedAt || null
+    };
+  }
 
   const metaApiKey =
     document.querySelector('meta[name="youtube-data-api-key"]')?.getAttribute("content") || "";
   const apiKey = String(window.YOUTUBE_DATA_API_KEY || metaApiKey || "").trim();
+  if (!apiKey) return null;
 
-  if (apiKey) {
-    const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${encodeURIComponent(videoId)}&key=${encodeURIComponent(apiKey)}`;
-    const payload = await requestJson(endpoint);
-    const count = parseViewCount(payload?.items?.[0]?.statistics?.viewCount);
-    if (count !== null) return count;
-  }
+  const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${encodeURIComponent(videoId)}&key=${encodeURIComponent(apiKey)}`;
+  const payload = await requestJson(endpoint);
+  const apiCount = parseViewCount(payload?.items?.[0]?.statistics?.viewCount);
+  if (apiCount === null) return null;
 
-  const noKeyEndpoints = [
-    {
-      url: `https://yt.lemnoslife.com/noKey/videos?part=statistics&id=${encodeURIComponent(videoId)}`,
-      parse: (payload) => payload?.items?.[0]?.statistics?.viewCount
-    },
-    {
-      url: `https://returnyoutubedislikeapi.com/votes?videoId=${encodeURIComponent(videoId)}`,
-      parse: (payload) => payload?.viewCount
-    }
-  ];
-
-  for (const endpoint of noKeyEndpoints) {
-    const payload = await requestJson(endpoint.url);
-    const count = parseViewCount(endpoint.parse(payload));
-    if (count !== null) return count;
-  }
-
-  return null;
+  return {
+    views: apiCount,
+    updatedAt: new Date().toISOString()
+  };
 }
 
 function setupYouTubeViewCounter() {
@@ -1806,17 +1806,24 @@ function setupYouTubeViewCounter() {
   if (!counter) return;
 
   const updateCounter = async () => {
-    const views = await fetchYouTubeViewCount(YOUTUBE_VIDEO_ID);
-    if (!Number.isFinite(views)) {
+    const metrics = await fetchYouTubeViewMetrics(YOUTUBE_VIDEO_ID);
+    if (!metrics || !Number.isFinite(metrics.views)) {
       counter.hidden = true;
       return;
     }
 
-    const viewsText = new Intl.NumberFormat("en-US").format(views);
+    const viewsText = new Intl.NumberFormat("en-US").format(metrics.views);
+    const updatedDate = metrics.updatedAt ? new Date(metrics.updatedAt) : new Date();
+    const validUpdatedDate =
+      Number.isNaN(updatedDate.getTime()) || !Number.isFinite(updatedDate.getTime())
+        ? new Date()
+        : updatedDate;
     const updatedText = new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
       hour: "numeric",
       minute: "2-digit"
-    }).format(new Date());
+    }).format(validUpdatedDate);
     counter.textContent = `${viewsText} views · updated ${updatedText}`;
     counter.hidden = false;
   };

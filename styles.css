@@ -2798,16 +2798,17 @@ body.is-scrolled .site-header {
 }
 
 .role-filters button {
-  color: #eef4ff;
-  border-color: rgba(168, 188, 214, 0.44);
-  background: rgba(17, 24, 36, 0.92);
+  color: #f7fbff;
+  border-color: rgba(186, 203, 228, 0.62);
+  background: rgba(22, 31, 46, 0.97);
+  text-shadow: 0 1px 0 rgba(2, 4, 8, 0.55);
 }
 
 .role-filters button:hover,
 .role-filters button:focus-visible {
   color: #ffffff;
-  border-color: rgba(242, 167, 179, 0.74);
-  background: rgba(31, 40, 55, 0.98);
+  border-color: rgba(247, 191, 201, 0.82);
+  background: rgba(39, 50, 69, 0.99);
 }
 
 .role-filters button.active {
