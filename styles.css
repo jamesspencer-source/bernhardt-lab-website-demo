@@ -1855,6 +1855,10 @@ body.is-scrolled .site-header {
   align-content: start;
 }
 
+#contact .contact-card > a.button.button-secondary[href*="google.com/maps"] {
+  display: none !important;
+}
+
 .contact-visual-wrap {
   margin: 0;
   border: 1px solid var(--line);
