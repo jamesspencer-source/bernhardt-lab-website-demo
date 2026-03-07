@@ -1983,12 +1983,17 @@ body.is-scrolled .site-header {
 }
 
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.js .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 620ms ease, transform 620ms ease;
 }
 
-.reveal.is-visible {
+.js .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -2961,8 +2966,19 @@ body.is-scrolled .site-header {
 }
 
 .reveal {
-  transform: translateY(10px);
-  transition: opacity 500ms ease, transform 500ms ease;
+  opacity: 1;
+  transform: none;
+}
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 620ms ease, transform 620ms ease;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .scroll-meter {
@@ -3213,4 +3229,17 @@ body.is-scrolled .site-header {
   font-size: 1rem;
   min-height: 2.95rem;
   padding-inline: 1.35rem;
+}
+
+
+.alumni-fallback-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 760px) {
+  .alumni-fallback-grid {
+    grid-template-columns: 1fr;
+  }
 }
